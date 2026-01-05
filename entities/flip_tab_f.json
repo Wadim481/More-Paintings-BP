@@ -1,0 +1,138 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "hp4_paint:flip_tab_f",
+			"is_spawnable": false,
+			"is_summonable": true,
+			"is_experimental": false,
+			"animations": {
+				"fix_direction": "controller.animation.hp4_paint.fix_direction"
+			}
+		},
+		"component_groups": {
+			"despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:type_family": {
+				"family": [
+					"book_flip"
+				]
+			},
+			"minecraft:physics": {
+				"has_gravity": false,
+				"has_collision": false
+			},
+			"minecraft:custom_hit_test": {
+				"hitboxes": [
+					{
+						"width": 0.1,
+						"height": 1,
+						"pivot": [
+							0,
+							0.5,
+							0
+						]
+					}
+				]
+			},
+			"minecraft:scale": {
+				"value": 0.15
+			},
+			"minecraft:pushable": {
+				"is_pushable": false
+			},
+			"minecraft:push_through": {
+				"value": 1
+			},
+			"minecraft:knockback_resistance": {
+				"value": 1,
+				"max": 1
+			},
+			"minecraft:health": {
+				"value": 4,
+				"max": 4
+			},
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_damage",
+										"subject": "self",
+										"operator": "!=",
+										"value": "void"
+									}
+								]
+							}
+						},
+						"deals_damage": false
+					},
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_damage",
+										"subject": "self",
+										"operator": "==",
+										"value": "void"
+									}
+								]
+							},
+							"event": "minecraft:death"
+						},
+						"deals_damage": false
+					}
+				]
+			},
+			"minecraft:on_death": {
+				"event": "despawn"
+			},
+			"minecraft:interact": {
+				"interactions": [
+					{
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "is_family",
+										"subject": "other",
+										"value": "player"
+									}
+								]
+							},
+							"event": "flip_page_b"
+						},
+						"interact_text": "Flip forwards"
+					}
+				]
+			}
+		},
+		"events": {
+			"flip_page_b": {
+				"queue_command": {
+					"command": "event entity @e[r=3] move_page_f"
+				}
+			},
+			"page_moved": {
+				"remove": {
+					"component_groups": [
+						"move_page"
+					]
+				}
+			},
+			"despawn": {
+				"add": {
+					"component_groups": [
+						"despawn"
+					]
+				}
+			}
+		}
+	}
+}

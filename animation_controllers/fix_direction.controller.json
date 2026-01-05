@@ -1,0 +1,21 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.hp4_paint.fix_direction": {
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"to_north": "1"
+						}
+					]
+				},
+				"to_north": {
+					"on_entry": [
+						"/tp ~ ~+0.1 ~ 180 ~"
+					]
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,270 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "hp4_paint:hitboxes",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "is_experimental": false,
+            "properties": {
+                "hp4_paint:is_glow": {
+                    "client_sync": false,
+                    "type": "bool",
+                    "default": false
+                }
+            }
+        },
+        "components": {
+            "minecraft:interact": {
+                "interactions": [{
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [{
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "value": "glow_ink_sac"
+                                    },
+                                    {
+                                        "test": "bool_property",
+                                        "domain": "hp4_paint:is_glow",
+                                        "value": false,
+                                        "subject": "self"
+                                    }
+                                ]
+                            },
+                            "event": "glow"
+                        },
+                        "interact_text": "Make it glow",
+                        "use_item": true
+                    },
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [{
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "value": "shears"
+                                    }
+                                ]
+                            }
+                        },
+                        "interact_text": "Remove glow",
+                        "hurt_item": 1
+                    },
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [{
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "minecraft:shears"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "minecraft:glow_ink_sac"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:black_modern.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:burning.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:decgold.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:deciron.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:diamond.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:enchanted.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:foliage.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:glass.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:glitter.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:medieval.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:pink.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:white_modern.frame"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "operator": "!=",
+                                        "value": "hp4_paint:wooden.frame"
+                                    }
+                                ]
+                            },
+                            "event": "change_image"
+                        },
+                        "interact_text": "Change Image"
+                    },
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [{
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    }
+                                ]
+                            }
+                        },
+                        "interact_text": "Interact"
+                    }
+                ]
+            },
+            "minecraft:knockback_resistance": {
+                "value": 1000
+            },
+            "minecraft:collision_box": {
+                "height": 0.1,
+                "width": 0.1
+            },
+            "minecraft:health": {
+                "value": 1,
+                "max": 1
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [{
+                    "deals_damage": false
+                }]
+            },
+            "minecraft:custom_hit_test": {
+                "hitboxes": [{
+                    "height": 1,
+                    "width": 1,
+                    "pivot": [
+                        0,
+                        0.5,
+                        0
+                    ]
+                }]
+            }
+        },
+        "component_groups": {
+            "death": {
+                "minecraft:instant_despawn": {}
+            }
+        },
+        "events": {
+            "death": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:hitbox_hit"
+                }
+            },
+            "death_noloot": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:hitbox_hit_noloot"
+                }
+            },
+            "glow": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:hitbox_glow"
+                }
+            },
+            "remove_glow": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:hitbox_remove_glow"
+                }
+            },
+            "remove_glow_noloot": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:hitbox_remove_glow_noloot"
+                }
+            },
+            "change_image": {
+                "queue_command": {
+                    "command": "scriptevent hp4_paint:change_image"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.hp4_paint.fix_direction_tab": {
+			"initial_state": "default",
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"to_north": "1"
+						}
+					]
+				},
+				"to_north": {
+					"transitions": [
+						{
+							"default": "1"
+						}
+					],
+					"on_entry": [
+						"/tp @s ~ ~ ~ facing @p[r=9]",
+						"/tp @e[type=hp4_paint:flip_tab_f,r=2] ^0.6 ^0.5^0.2",
+						"/tp @e[type=hp4_paint:flip_tab_b,r=2] ^-0.6 ^0.5^0.2",
+						"/tp @e[type=hp4_paint:flip_tab_cat_f,r=2] ^0.2 ^1.3 ^0.2",
+						"/tp @e[type=hp4_paint:flip_tab_cat_b,r=2] ^-0.2 ^1.3 ^0.2"
+					]
+				}
+			}
+		}
+	}
+}

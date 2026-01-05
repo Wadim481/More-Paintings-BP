@@ -1,0 +1,1366 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "hp4_paint:horror_painting",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "is_experimental": false,
+            "properties": {
+                "hp4_paint:visible": {
+                    "client_sync": true,
+                    "default": false,
+                    "type": "bool"
+                },
+                "hp4_paint:furniture_color": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        -99999,
+                        99999
+                    ]
+                },
+                "hp4_paint:furniture_model": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        -99999,
+                        99999
+                    ]
+                },
+                "hp4_paint:frame_type": {
+                    "client_sync": true,
+                    "default": "none",
+                    "type": "enum",
+                    "values": [
+                        "none",
+                        "black_modern",
+                        "burning",
+                        "decgold",
+                        "deciron",
+                        "diamond",
+                        "enchanted",
+                        "foliage",
+                        "glass",
+                        "glitter",
+                        "medieval",
+                        "pink",
+                        "white_modern",
+                        "wooden"
+                    ]
+                },
+                "hp4_paint:displayer_active": {
+                    "client_sync": true,
+                    "type": "bool",
+                    "default": false
+                },
+                "hp4_paint:displayer": {
+                    "client_sync": true,
+                    "default": "none",
+                    "type": "enum",
+                    "values": [
+                        "none",
+                        "easel_stand",
+                        "display_case",
+                        "display_case_wide",
+                        "display_case_huge",
+                        "display_case_tall",
+                        "display_case_wide2",
+                        "display_case_big"
+                    ]
+                },
+                "hp4_paint:paint_colors": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        0,
+                        49
+                    ]
+                },
+                "hp4_paint:paint_models": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        0,
+                        8
+                    ]
+                },
+                "hp4_paint:paint_materials": {
+                    "client_sync": true,
+                    "type": "bool",
+                    "default": false
+                },
+                "hp4_paint:outline": {
+                    "client_sync": true,
+                    "default": false,
+                    "type": "bool"
+                }
+            }
+        },
+        "components": {
+            "minecraft:knockback_resistance": {
+                "value": 1000
+            },
+            "minecraft:collision_box": {
+                "height": 0.1,
+                "width": 0.1
+            },
+            "minecraft:health": {
+                "value": 1,
+                "max": 1
+            },
+            "minecraft:loot": {
+                "table": "loot_tables/heropixels/more_paintings/horror.json"
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [
+                    {
+                        "on_damage": {
+                            "event": "death"
+                        },
+                        "cause": "entity_attack",
+                        "deals_damage": false
+                    },
+                    {
+                        "cause": "suffocation",
+                        "deals_damage": false
+                    }
+                ]
+            },
+            "minecraft:interact": {
+                "interactions": [
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "value": "glow_ink_sac"
+                                    }
+                                ]
+                            },
+                            "event": "glow"
+                        },
+                        "interact_text": "Make it glow",
+                        "use_item": true
+                    },
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "value": "shears"
+                                    }
+                                ]
+                            },
+                            "event": "remove_glow"
+                        },
+                        "interact_text": "Make it glow",
+                        "hurt_item": 1
+                    }
+                ]
+            }
+        },
+        "component_groups": {
+            "death": {
+                "minecraft:instant_despawn": {}
+            }
+        },
+        "events": {
+            "glow": {
+                "set_property": {
+                    "hp4_paint:paint_materials": true
+                }
+            },
+            "remove_glow": {
+                "set_property": {
+                    "hp4_paint:paint_materials": false
+                }
+            },
+            "death": {
+                "sequence": [
+                    {
+                        "queue_command": {
+                            "command": "particle hp4_paint:destroy_particle ~ ~ ~"
+                        }
+                    },
+                    {
+                        "queue_command": {
+                            "command": "playsound dig.wood @a[r=10]"
+                        }
+                    },
+                    {
+                        "add": {
+                            "component_groups": [
+                                "death"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "minecraft:entity_spawned": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 0,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 1,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 2,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 3,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 4,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 5,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 6,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 7,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 8,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 9,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 10,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 11,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 12,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 13,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 14,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 15,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 16,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 17,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 18,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 19,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 20,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 21,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 22,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 23,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 24,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 25,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 26,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 27,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 28,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 29,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 30,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 31,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 32,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 33,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 34,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 35,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 36,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 37,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 38,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 39,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 40,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 41,
+                            "hp4_paint:paint_models": 6
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 42,
+                            "hp4_paint:paint_models": 6
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 43,
+                            "hp4_paint:paint_models": 7
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 44,
+                            "hp4_paint:paint_models": 7
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 45,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 46,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 47,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 48,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 49,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model0": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 0,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 1,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 2,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 3,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 4,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 5,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 6,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 7,
+                            "hp4_paint:paint_models": 0
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model1": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 8,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 9,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 10,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 11,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 12,
+                            "hp4_paint:paint_models": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:1x2"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model2": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 13,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 14,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 15,
+                            "hp4_paint:paint_models": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x1"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model3": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 16,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 17,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 18,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 19,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 20,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 21,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 22,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 23,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 24,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 25,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 26,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 27,
+                            "hp4_paint:paint_models": 3
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x2"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model4": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 28,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 29,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 30,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 31,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 32,
+                            "hp4_paint:paint_models": 4
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:2x4"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model5": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 33,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 34,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 35,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 36,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 37,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 38,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 39,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 40,
+                            "hp4_paint:paint_models": 5
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x3"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model6": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 41,
+                            "hp4_paint:paint_models": 6
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 42,
+                            "hp4_paint:paint_models": 6
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:3x4"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model7": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 43,
+                            "hp4_paint:paint_models": 7
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x3"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 44,
+                            "hp4_paint:paint_models": 7
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x3"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "model8": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 45,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 46,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 47,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 48,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 49,
+                            "hp4_paint:paint_models": 8
+                        },
+                        "add": {
+                            "component_groups": [
+                                "hp4_paint:4x4"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

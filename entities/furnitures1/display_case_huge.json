@@ -1,0 +1,161 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "hp4_paint:display_case_huge",
+            "is_spawnable": false,
+            "is_summonable": true,
+            "is_experimental": false,
+            "properties": {
+                "hp4_paint:furniture_model": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        0,
+                        1
+                    ]
+                },
+                "hp4_paint:furniture_color": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        -99999,
+                        99999
+                    ]
+                },
+                "hp4_paint:paint_installed": {
+                    "client_sync": true,
+                    "default": false,
+                    "type": "bool"
+                },
+                "hp4_paint:is_glowing": {
+                    "client_sync": true,
+                    "default": false,
+                    "type": "bool"
+                },
+                "hp4_paint:paint_colors": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        -99999,
+                        99999
+                    ]
+                },
+                "hp4_paint:painting_type": {
+                    "client_sync": true,
+                    "default": 0,
+                    "type": "int",
+                    "range": [
+                        -99999,
+                        99999
+                    ]
+                },
+                "hp4_paint:paint_size": {
+                    "client_sync": true,
+                    "type": "enum",
+                    "default": "null",
+                    "values": [
+                        "null",
+                        "size_16x16",
+                        "size_16x32",
+                        "size_32x16",
+                        "size_32x32",
+                        "size_32x64",
+                        "size_48x48",
+                        "size_48x64",
+                        "size_64x48",
+                        "size_64x64"
+                    ]
+                },
+                "hp4_paint:outline": {
+                    "client_sync": true,
+                    "default": false,
+                    "type": "bool"
+                }
+            }
+        },
+        "components": {
+            "minecraft:knockback_resistance": {
+                "value": 1000
+            },
+            "minecraft:collision_box": {
+                "height": -0.1,
+                "width": -0.1
+            },
+            "minecraft:custom_hit_test": {
+                "hitboxes": [
+                    {
+                        "width": 1.9,
+                        "height": 4,
+                        "pivot": [
+                            0,
+                            1,
+                            0
+                        ]
+                    }
+                ]
+            },
+            "minecraft:health": {
+                "value": 1,
+                "max": 1
+            },
+            "minecraft:loot": {
+                "table": "loot_tables/heropixels/more_paintings/8bit.json"
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [
+                    {
+                        "on_damage": {
+                            "event": "death"
+                        },
+                        "cause": "entity_attack",
+                        "deals_damage": false
+                    },
+                    {
+                        "cause": "suffocation",
+                        "deals_damage": false
+                    }
+                ]
+            },
+            "minecraft:interact": {
+                "interactions": [
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    }
+                                ]
+                            }
+                        },
+                        "interact_text": "Put Painting",
+                        "hurt_item": 1
+                    }
+                ]
+            }
+        },
+        "events": {
+            "glow": {
+                "set_property": {
+                    "hp4_paint:paint_materials": true
+                }
+            },
+            "remove_glow": {
+                "set_property": {
+                    "hp4_paint:paint_materials": false
+                }
+            },
+            "death": {}
+        }
+    }
+}
