@@ -1,0 +1,10 @@
+Buat mekanik ganti model dengan menggunakan Furniture Wand
+dan mekanik ganti warna dengan menggunakan Paint Brush
+
+
+
+
+untuk easel stand dan kawan2 menggunakan mekanisme serupa (variable model limit, dsb)
+untuk furniture dan kawan2 menggunakan mekanisme lebih ringan (entity server limit property)
+
+PROTOTYPING EASEL STAND DONE

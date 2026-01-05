@@ -1,0 +1,58 @@
+unfinished_wooden_block
+stencil
+spray_can
+soft_pastel_box
+sculpture_stand
+pencil_set
+painting_brush
+paint_tubes
+marker_set
+eraser_sharpener
+drawing_tube
+drafting_tools
+color_swatch
+brush_holder_cup
+brush_cleaner_cup
+artist_box
+art_knives
+jewellery_components
+powderjar
+sewing_kit
+
+art_chair
+bucket
+canvas
+color splash
+display
+easel stand
+paint bottle
+planter
+stool
+
+
+Variated Entity Models
+- Art Bench d
+- Easel Stand d 
+- Brush Cleaner Jar d
+- Brushes Set d
+- Painting Brush d
+- Spatula d 
+- Tube Paint d
+- Drafting Tool d
+- Drawing Tube d
+- Paint Tubes d
+- Spray Can d
+- Stencils d
+- Art Chair d
+- Brush on Shelf d
+- Bucket d
+- Canvas d
+- Color Splash d
+- Display Case d
+- Easel Stand d
+- Lying Bottle Color d
+- Variant Paint Bottle d
+- Planters d
+
+FINISH VARIANTS  DONEEE ASSHOLEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ADD OUTLINER

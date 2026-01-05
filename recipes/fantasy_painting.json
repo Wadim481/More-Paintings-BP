@@ -1,0 +1,23 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "hp4_paint:fantasy_painting_crafting"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "minecraft:painting"
+			},
+			{
+				"item": "minecraft:wooden_sword"
+			}
+		],
+		"result": {
+			"item": "hp4_paint:fantasy_painting",
+			"count": 1
+		}
+	}
+}

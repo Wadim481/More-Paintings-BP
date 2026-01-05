@@ -1,0 +1,44 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"product_type": "addon",
+		"generated_with": {
+			"blockbench_item_wizard": ["1.2.4"]
+		}
+	},
+	"header": {
+		"name": "pack.name",
+		"description": "pack.description",
+		"min_engine_version": [1, 21, 70],
+		"uuid": "e0842488-86c1-47fa-be07-bf13d1f715b8",
+		"version": [1, 0, 0]
+	},
+	"modules": [
+		{
+			"type": "data",
+			"uuid": "9675ad0e-aeee-41f2-9949-5dc275de0670",
+			"version": [1, 0, 0]
+		},
+		{
+			"type": "script",
+			"language": "javascript",
+			"uuid": "3977a041-da41-4159-a781-031889ab4b49",
+			"entry": "scripts/hp4_paint_index.js",
+			"version": [1, 0, 0]
+		}
+	],
+	"dependencies": [
+		{
+			"module_name": "@minecraft/server",
+			"version": "1.11.0"
+		},
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "1.1.0"
+		},
+		{
+			"uuid": "a804623c-c5ef-4584-9b27-ce0c7cfc6177",
+			"version": [1, 0, 0]
+		}
+	]
+}

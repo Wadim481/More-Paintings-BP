@@ -1,0 +1,23 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "hp4_paint:dino_dragons_painting_crafting"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "hp4_paint:dino_painting"
+			},
+			{
+				"item": "hp4_paint:dragon_painting"
+			}
+		],
+		"result": {
+			"item": "hp4_paint:dino_dragons_painting",
+			"count": 1
+		}
+	}
+}

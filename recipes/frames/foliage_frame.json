@@ -1,0 +1,27 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:foliage.frame"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "aaa",
+            "a a",
+            "aaa"
+        ],
+        "key": {
+            "a": {
+                "item": "minecraft:leaves"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:foliage.frame"
+        }
+    }
+}

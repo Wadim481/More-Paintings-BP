@@ -1,0 +1,23 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "hp4_paint:pirates_painting_crafting"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "minecraft:painting"
+			},
+			{
+				"item": "minecraft:hay_block"
+			}
+		],
+		"result": {
+			"item": "hp4_paint:pirates_painting",
+			"count": 1
+		}
+	}
+}

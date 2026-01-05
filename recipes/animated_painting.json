@@ -1,0 +1,23 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "hp4_paint:animated_painting_crafting"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "minecraft:painting"
+			},
+			{
+				"item": "minecraft:soul_sand"
+			}
+		],
+		"result": {
+			"item": "hp4_paint:animated_painting",
+			"count": 1
+		}
+	}
+}

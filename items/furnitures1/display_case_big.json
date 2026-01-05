@@ -1,0 +1,25 @@
+{
+  "format_version": "1.21.10",
+  "minecraft:item": {
+    "description": {
+      "identifier": "hp4_paint:display_case_big",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:can_destroy_in_creative": {
+        "value": true
+      },
+      "minecraft:max_stack_size": 64,
+      "minecraft:icon": {
+        "textures": {
+          "default": "hp4_paint:display_case_big"
+        }
+      },
+      "minecraft:entity_placer": {
+        "entity": "hp4_paint:display_case_big"
+      }
+    }
+  }
+}

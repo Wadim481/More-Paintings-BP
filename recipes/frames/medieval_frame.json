@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:medieval.frame"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "aba",
+            "b b",
+            "aba"
+        ],
+        "key": {
+            "a": {
+                "item": "minecraft:planks"
+            },
+            "b": {
+                "item": "minecraft:stone"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:medieval.frame"
+        }
+    }
+}

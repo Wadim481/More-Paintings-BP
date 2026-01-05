@@ -1,0 +1,24 @@
+{
+	"format_version": "1.12",
+	"minecraft:recipe_shapeless": {
+		"description": {
+			"identifier": "hp4_paint:ocean_painting_crafting"
+		},
+		"tags": [
+			"crafting_table"
+		],
+		"ingredients": [
+			{
+				"item": "minecraft:painting"
+			},
+			{
+				"item": "minecraft:potion",
+				"data": 0
+			}
+		],
+		"result": {
+			"item": "hp4_paint:ocean_painting",
+			"count": 1
+		}
+	}
+}

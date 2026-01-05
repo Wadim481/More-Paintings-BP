@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:display_case_big"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "aa ",
+            "ii "
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:planks"
+            },
+            "a": {
+                "item": "minecraft:glass"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:display_case_big"
+        }
+    }
+}
