@@ -350,6 +350,22 @@
                         }
                     }
                 ]
+            },
+            "model6": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 11,
+                            "hp4_paint:paint_models": 6
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 12,
+                            "hp4_paint:paint_models": 6
+                        }
+                    }
+                ]
             }
         }
     }

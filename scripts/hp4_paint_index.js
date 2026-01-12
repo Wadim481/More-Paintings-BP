@@ -7,7 +7,9 @@ import './settings'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []
-    modelAvailable.forEach(model=>{
+    modelAvailable.sort((a,b)=>{
+        return (models[a].width + models[a].height) - (models[b].width + models[b].height)
+    }).forEach(model=>{
         const button = {
             text: `(${models[model].height}x${models[model].width})`,
             image: ``,
@@ -185,7 +187,10 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
         }
         entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
             inisiasi && player.getDynamicProperty(`hp4_paint:paintingSizeUI`) ? chooseSize(player, modelAvailable, models, entity) : 
-            inisiasi && !player.getDynamicProperty(`hp4_paint:paintingSizeUI`) ? paintSpawned(entity, false, true, modelAvailable[Math.max(availableModelLength-1)]) : null
+            inisiasi && !player.getDynamicProperty(`hp4_paint:paintingSizeUI`) ? paintSpawned(entity, false, true, 
+                modelAvailable.sort((a,b)=>{
+                    return (models[b].width + models[b].height) - (models[a].width + models[a].height)
+                })[0]) : null
         })
         {
             if(inisiasi) return
@@ -540,6 +545,11 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 1 ? entity.runCommand(`tp @s ${horizontalOffsetControl(1,newRotation,model)}`) :
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[choosenModel], newRotation)
+                }
+                if(choosenModel == 6) {
+                    model = 6
+                    entity.triggerEvent('model6')
+                    hitBoxManager(entity, models[model], newRotation)
                 }
                 //kontol.warn(`model: ${model}`)
                 //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
@@ -1628,7 +1638,8 @@ export function paintingTypeChoose(entity) {
                 { id: 2, width: 2, height: 4 },
                 { id: 3, width: 4, height: 2 },
                 { id: 4, width: 4, height: 3 },
-                { id: 5, width: 4, height: 4 }
+                { id: 5, width: 4, height: 4 },
+                { id: 6, width: 1, height: 1 }
             ];
             jenis = 6
         }
