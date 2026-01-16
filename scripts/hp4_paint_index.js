@@ -59,7 +59,7 @@ export function instanceMenu(player, title, body, buttons, cancelation) {
 
 system.runInterval(()=>{
     world.getAllPlayers().forEach(p=>{
-        if(!p.getDynamicProperty('hp4_paint:particlesOutlines')) return
+        if(!p.getDynamicProperty('hp4_paint:particles')) return
         const heldItem = p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex)
         p.dimension.getEntities({maxDistance: 10, location: p.location}).forEach(e=>{
             if(e == p) return
@@ -546,9 +546,15 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[choosenModel], newRotation)
                 }
-                if(choosenModel == 6) {
+                if (choosenModel == 6) {
                     model = 6
                     entity.triggerEvent('model6')
+                    hitBoxManager(entity, models[model], newRotation)
+                }
+                if (choosenModel == 7) {
+                    model = 7
+                    entity.triggerEvent('model7')
+                    upOffset == 0 ? entity.runCommand(`tp @s ~~-1~`) : null
                     hitBoxManager(entity, models[model], newRotation)
                 }
                 //kontol.warn(`model: ${model}`)
@@ -1639,7 +1645,8 @@ export function paintingTypeChoose(entity) {
                 { id: 3, width: 4, height: 2 },
                 { id: 4, width: 4, height: 3 },
                 { id: 5, width: 4, height: 4 },
-                { id: 6, width: 1, height: 1 }
+                { id: 6, width: 1, height: 1 },
+                { id: 7, width: 1, height: 2 }
             ];
             jenis = 6
         }
@@ -1672,7 +1679,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
         paint.dimension.getEntities({type:'hp4_paint:hitboxes'}).forEach(entity => {
             if(entity == paint) return
             if (entity.getDynamicProperty("hp4_paint:owner") == paint.getDynamicProperty("hp4_paint:owner")) {
-                if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                if(player.getDynamicProperty(`hp4_paint:particles`)) {
                     paint.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                     paint.runCommand(`function hp/more_paintings/destroy_wood`)
                 }

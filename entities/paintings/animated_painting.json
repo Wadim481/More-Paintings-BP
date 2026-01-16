@@ -268,6 +268,12 @@
                             "hp4_paint:paint_colors": 0,
                             "hp4_paint:paint_models": 0
                         }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 1,
+                            "hp4_paint:paint_models": 0
+                        }
                     }
                 ]
             },
@@ -275,7 +281,13 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 1,
+                            "hp4_paint:paint_colors": 2,
+                            "hp4_paint:paint_models": 1
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 3,
                             "hp4_paint:paint_models": 1
                         }
                     }
@@ -285,13 +297,13 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 2,
+                            "hp4_paint:paint_colors": 4,
                             "hp4_paint:paint_models": 2
                         }
                     },
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 3,
+                            "hp4_paint:paint_colors": 5,
                             "hp4_paint:paint_models": 2
                         }
                     }
@@ -301,19 +313,19 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 4,
-                            "hp4_paint:paint_models": 3
-                        }
-                    },
-                    {
-                        "set_property": {
-                            "hp4_paint:paint_colors": 5,
-                            "hp4_paint:paint_models": 3
-                        }
-                    },
-                    {
-                        "set_property": {
                             "hp4_paint:paint_colors": 6,
+                            "hp4_paint:paint_models": 3
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 7,
+                            "hp4_paint:paint_models": 3
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 8,
                             "hp4_paint:paint_models": 3
                         }
                     }
@@ -323,13 +335,13 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 7,
+                            "hp4_paint:paint_colors": 9,
                             "hp4_paint:paint_models": 4
                         }
                     },
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 8,
+                            "hp4_paint:paint_colors": 10,
                             "hp4_paint:paint_models": 4
                         }
                     }
@@ -339,13 +351,13 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 9,
+                            "hp4_paint:paint_colors": 11,
                             "hp4_paint:paint_models": 5
                         }
                     },
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 10,
+                            "hp4_paint:paint_colors": 12,
                             "hp4_paint:paint_models": 5
                         }
                     }
@@ -355,14 +367,30 @@
                 "randomize": [
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 11,
+                            "hp4_paint:paint_colors": 13,
                             "hp4_paint:paint_models": 6
                         }
                     },
                     {
                         "set_property": {
-                            "hp4_paint:paint_colors": 12,
+                            "hp4_paint:paint_colors": 14,
                             "hp4_paint:paint_models": 6
+                        }
+                    }
+                ]
+            },
+            "model7": {
+                "randomize": [
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 15,
+                            "hp4_paint:paint_models": 7
+                        }
+                    },
+                    {
+                        "set_property": {
+                            "hp4_paint:paint_colors": 16,
+                            "hp4_paint:paint_models": 7
                         }
                     }
                 ]

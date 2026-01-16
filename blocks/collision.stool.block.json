@@ -1,0 +1,87 @@
+{
+	"format_version": "1.21.60",
+	"minecraft:block": {
+		"description": {
+			"identifier": "hp4_paint:collision.stool",
+			"menu_category": {
+				"category": "none"
+			},
+			"traits": {
+				"minecraft:placement_direction": {
+					"enabled_states": ["minecraft:cardinal_direction"]
+				}
+			}
+		},
+		"components": {
+			"minecraft:collision_box": {
+				"origin": [-6, 0, -6],
+				"size": [12, 9, 12]
+			},
+			"minecraft:selection_box": {
+				"origin": [-6, 0, -6],
+				"size": [12, 9, 12]
+			},
+			"minecraft:destructible_by_mining": {
+				"seconds_to_destroy": 6000
+			},
+			"minecraft:destructible_by_explosion": {
+				"explosion_resistance": 100
+			},
+			"minecraft:flammable": {
+				"destroy_chance_modifier": 20,
+				"catch_chance_modifier": 5
+			},
+			"minecraft:geometry": "geometry.hp4_paint.blank",
+			"minecraft:material_instances": {
+				"*": {
+					"texture": "hp4_paint.blank",
+					"render_method": "alpha_test"
+				}
+			},
+			"minecraft:map_color": "#ffffff",
+			"minecraft:liquid_detection": {
+				"detection_rules": [
+					{
+						"liquid_type": "water",
+						"can_contain_liquid": true,
+						"on_liquid_touches": "no_reaction"
+					}
+				]
+			}
+		},
+		"permutations": [
+			{
+				"condition": "q.block_state('minecraft:cardinal_direction') == 'north' ",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [0, 180, 0]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:cardinal_direction') == 'south' ",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [0, 0, 0]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:cardinal_direction') == 'east' ",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [0, 90, 0]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('minecraft:cardinal_direction') == 'west' ",
+				"components": {
+					"minecraft:transformation": {
+						"rotation": [0, 270, 0]
+					}
+				}
+			}
+		]
+	}
+}

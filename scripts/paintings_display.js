@@ -122,198 +122,15 @@ const flowers = [
 	"wildflowers",
 	"pink_petals"
 ]
-world.afterEvents.entitySpawn.subscribe(arg=>{
-    if(displays.includes(arg.entity.typeId)) {
-        let newRotation = arg.entity.getRotation().y+(-arg.entity.getRotation().y+(Math.round(arg.entity.getRotation().y/90)*90))
-        //contol.warn(newRotation)
-        system.runTimeout(() => {
-            switch (arg.entity.typeId) {
-                case `hp4_paint:easel_stand`:
-                    blockDetect(arg.entity, newRotation, {radius: 1, height: 2})
-                    break;
-                case `hp4_paint:display_case`:
-                    blockDetect(arg.entity, newRotation, {radius: 1, height: 3})
-                    break;
-                case `hp4_paint:display_case_wide`:
-                    blockDetect(arg.entity, newRotation, {radius: 3, height: 2})
-                    break;
-                case `hp4_paint:display_case_big`:
-                    blockDetect(arg.entity, newRotation, {radius: 3, height: 4})
-                    break;
-                case `hp4_paint:display_case_tall`:
-                    blockDetect(arg.entity, newRotation, {radius: 3, height: 6})
-                    break;
-                case `hp4_paint:display_case_huge`:
-                    blockDetect(arg.entity, newRotation, {radius: 5, height: 6})
-                    break;
-                case `hp4_paint:display_case_wide2`:
-                    blockDetect(arg.entity, newRotation, {radius: 5, height: 4})
-                    break;
-                default:
-                    break;
-            }
-        },1)
-    }
-    if(furnitures.includes(arg.entity.typeId)) {
+world.afterEvents.entitySpawn.subscribe(arg=>{//
+    if(furnitures.includes(arg.entity.typeId) || displays.includes(arg.entity.typeId)) {
         const spawner = arg.entity.dimension.getPlayers({closest:1, location: arg.entity.location}).filter(p=>(p.getDynamicProperty(`hp4_paint:additionalFurniture`) && p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex).typeId == arg.entity.typeId))
         if(spawner.length >= 1) {
-            let newRotation = arg.entity.getRotation().y+(-arg.entity.getRotation().y+(Math.round(arg.entity.getRotation().y/90)*90))
             system.runTimeout(() => {
-                switch (arg.entity.typeId) {
-                    case `hp4_paint:brush_on_shelf`:
-                        blockDetect(arg.entity, newRotation, {radius: 2, height: 1})
-                        break;
-                    case `hp4_paint:jewellery_components`:
-                    case `hp4_paint:variant_paint_bottle`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:canvas`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 2})
-                        break;
-                    case `hp4_paint:powderjar`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:sewing_kit`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:unfinished_wooden_block`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:stencil`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:spray_can`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:soft_pastel_box`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:sculpture_stand`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:pencil_set`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:painting_brush`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:paint_tubes`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:marker_set`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:eraser_sharpener`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:drawing_tube`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:drafting_tools`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_swatch`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:brush_holder_cup`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:brush_cleaner_cup`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:artist_box`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:art_knives`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-
-                    case `hp4_paint:brush_cleaner_jar`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:tube_paint`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:brushes_set`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:art_bench`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_black`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_blue`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_brown`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_cyan`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_gray`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_green`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_light_blue`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_light_gray`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_lime`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_magenta`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_orange`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_pink`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_purple`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_red`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_white`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:color_bucket_yellow`:
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:large_planter`:
-                        arg.entity.setDynamicProperty('hp4_paint:slot', 4)
-                        blockDetect(arg.entity, newRotation, {radius: 3, height: 1}, true)
-                        break;
-                    case `hp4_paint:round_planter`:
-                        arg.entity.setDynamicProperty('hp4_paint:slot', 0)
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:thin_planter`:
-                        arg.entity.setDynamicProperty('hp4_paint:slot', 2)
-                        blockDetect(arg.entity, newRotation, {radius: 3, height: 1})
-                        break;
-                    case `hp4_paint:vase`:
-                        arg.entity.setDynamicProperty('hp4_paint:slot', 0)
-                        blockDetect(arg.entity, newRotation, {radius: 1, height: 1})
-                        break;
-                    case `hp4_paint:wide_planter`:
-                        arg.entity.setDynamicProperty('hp4_paint:slot', 2)
-                        blockDetect(arg.entity, newRotation, {radius: 3, height: 1})
-                        break;
-                    default:
-                        break;
-                }
+                getEntitySize(arg.entity)
             },1)
         } else if (spawner.length == 0) {
-            console.warn('anjay')
+            //kontol.warn('anjay')
             arg.entity.runCommand(`title @p actionbar Activate Additional Furnitures in settings\nto put this furniture`)
             arg.entity.dimension.getPlayers({closest:1, location:arg.entity.location}).forEach(p=>{
                 p.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${p.location.x} ${p.location.y} ${p.location.z}  loot "heropixels/more_paintings/${arg.entity.typeId.replace('hp4_paint:', '')}"`) : null;
@@ -342,7 +159,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                     {
                                         target.setDynamicProperty(`hp4_paint:babu`, null)
                                         target.setProperty(`hp4_paint:paint_installed`, false)
-                                        //console.warn('remove')
+                                        //kontol.warn('remove')
                                         player.getGameMode() != 'creative' ? entity.triggerEvent('death') : entity.remove();
                                     }
                                 }
@@ -356,7 +173,9 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 typeId: `hp4_paint:${jenis}_painting`
                             }
                             let maxSize
-                            main.paintingTypeChoose(gambar).models.forEach(model=>{
+                            main.paintingTypeChoose(gambar).models.sort((a,b)=>{
+                                return (a.width + a.height) - (b.width + b.height)
+                            }).forEach(model=>{
                                 const width = model.width
                                 const height = model.height
                                 switch (target.typeId) {
@@ -411,7 +230,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                     command: () => {
                                         const delay = 1.5
                                         const painting = target.dimension.spawnEntity(`hp4_paint:${jenis}_painting`, target.location);
-                                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                                             painting.runCommand(`playsound hp4_paint:display.painting_install @a ~~~`)
                                             painting.runCommand(`function hp/more_paintings/place_painting_start`)
                                             system.runTimeout(()=>{painting.runCommand(`function hp/more_paintings/place_painting_finish`)},1*20)
@@ -534,7 +353,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             command: () => {
                                 const delay = 1.5
                                 const painting = target.dimension.spawnEntity(`hp4_paint:vanilla_pack`, target.location);
-                                if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                                if(player.getDynamicProperty(`hp4_paint:particles`)) {
                                     painting.runCommand(`playsound hp4_paint:display.painting_install @a ~~~`)
                                     painting.runCommand(`function hp/more_paintings/place_painting_start`)
                                     system.runTimeout(()=>{painting.runCommand(`function hp/more_paintings/place_painting_finish`)},1*20)
@@ -600,7 +419,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             }
             if(item.typeId === 'hp4_paint:special_tool') {
                 try {
-                    if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -621,7 +440,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     })
                 } catch (error) {
                     try {
-                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -650,7 +469,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 // target.runCommand(`particle hp4_paint:dust ~~1~`)
                 // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                 try {
-                    if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -667,7 +486,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     })
                 } catch (error) {
                     try {
-                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -727,7 +546,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 flowers.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = flowers.indexOf(flower);
-                        //console.warn(itemNumber)
+                        //kontol.warn(itemNumber)
                         target.runCommand(`playsound use.grass @a ~~~`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'flower', height, player, item)
@@ -749,7 +568,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 doublePlants.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = doublePlants.indexOf(flower);
-                        //console.warn(itemNumber)
+                        //kontol.warn(itemNumber)
                         target.runCommand(`playsound use.grass @a ~~~`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'double_plant', height, player, item)
@@ -771,7 +590,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 customPlants.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = customPlants.indexOf(flower);
-                        //console.warn(itemNumber)
+                        //kontol.warn(itemNumber)
                         target.runCommand(`playsound use.grass @a ~~~`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'custom_plant', height, player, item)
@@ -797,21 +616,36 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         if(target.typeId == furniture) {
             if(item.typeId == 'hp4_paint:special_tool') {
                 try {
-                    if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, target.location)
                         object.setProperty(`hp4_paint:model`, 0)
-                        system.runTimeout(()=>{object.remove()},5*20)
+                        system.runTimeout(()=>{
+                            try {
+                                object.remove()
+                            } catch (error) {
+                            }
+                        },5*20
+                        )
                         target.runCommand(`function hp/more_paintings/hammer_start`)
-                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},1*20)
+                        system.runTimeout(()=>{
+                            try {
+                                target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                            } catch (error) {
+                                
+                            }
+                        },1*20)
                     }
                     target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
+
+                    //Place Collision
+                    getEntitySize(target, true)
                 } catch (error) {
                     try {
-                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -823,6 +657,9 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},1*20)
                         }
                         target.setProperty(`hp4_paint:furniture_model`, 0)
+
+                        //Place Collision
+                        getEntitySize(target, true)
                     } catch (error) {
                         
                     }
@@ -830,7 +667,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             }
             if(item.typeId == 'hp4_paint:brush') {
                 try {
-                    if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -842,7 +679,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
                 } catch (error) {
                     try {
-                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -859,7 +696,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             }
             if(item.typeId == 'hp4_paint:chisel') {
                 try {
-                    if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -875,7 +712,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     target.setProperty(`hp4_paint:statue_pose`, target.getProperty(`hp4_paint:statue_pose`) + 1)
                 } catch (error) {
                     try {
-                        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -898,7 +735,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
 
         //OLD FURNITURE VARIANT MANAGER
         // if(item && target.typeId == furniture && (furniture == 'hp4_paint:art_bench' || furniture.includes('color_bucket') || furniture == 'hp4_paint:spatula' || furniture == 'hp4_paint:brush_cleaner_jar' || furniture == 'hp4_paint:brushes_set' || furniture == 'hp4_paint:tube_paint')) {
-        //     console.warn('script masuk')
+        ////     console.warn('script masuk')
         //     if(item.typeId === 'hp4_paint:special_tool') {
         //         try {
         //             let maxModel
@@ -956,7 +793,7 @@ function plantsHolderAddProperty(entity, itemNumber, slot, type, height, player,
     const plantsHolder = entity.dimension.spawnEntity(`hp4_paint:plants_holder`, loc)
     entity.setDynamicProperty(`hp4_paint:slot${slot}`, plantsHolder.id)
     plantsHolder.setProperty('hp4_paint:height', height)
-    //console.warn(`slot${slot} id: ${entity.getDynamicProperty(`hp4_paint:slot${slot}`)}`)
+    //kontol.warn(`slot${slot} id: ${entity.getDynamicProperty(`hp4_paint:slot${slot}`)}`)
     try {plantsHolder.setProperty(`hp4_paint:${type}`, itemNumber);} catch (error) {}
     player.getGameMode() != 'creative' ? player.runCommand(`clear @s ${item.typeId} 0 1`) : null;
 }
@@ -1092,28 +929,28 @@ function getSlotLocations(entity, slot) {
 function getXZfromRotation(entity, xz, direction, offset = 0) {
     let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
     if(newRotation == 0) {
-        //console.warn(newRotation)
+        //kontol.warn(newRotation)
         if(xz == 'x') {
             return direction == 'left' ? -1 : direction == 'right' ? 1 : 0;
         } else if(xz == 'z') {
             return offset;
         }
     } else if(newRotation == 180 || newRotation == -180) {
-        //console.warn(newRotation)
+        //kontol.warn(newRotation)
         if(xz == 'x') {
             return direction == 'left' ? 1 : direction == 'right' ? -1 : 0;
         } else if(xz == 'z') {
             return Math.abs(offset);
         }
     } else if(newRotation == 90) {
-        //console.warn(newRotation)
+        //kontol.warn(newRotation)
         if(xz == 'x') {
             return Math.abs(offset);
         } else if(xz == 'z') {
             return direction == 'left' ? -1 : direction == 'right' ? 1 : 0;
         }
     } else if(newRotation == -90) {
-        //console.warn(newRotation)
+        //kontol.warn(newRotation)
         if(xz == 'x') {
             return offset;
         } else if(xz == 'z') {
@@ -1122,34 +959,6 @@ function getXZfromRotation(entity, xz, direction, offset = 0) {
     }
     return 0;
 }
-// world.afterEvents.dataDrivenEntityTrigger.subscribe((arg)=>{
-//     const entity = arg.entity
-//     const event = arg.eventId
-//     if(displays.includes(entity.typeId)) {
-//         if(event == 'death') {
-//             let hasPainting = false
-//             entity.runCommand(`playsound dig.wood @a ~~~`)
-//             entity.dimension.getEntities().forEach(paint=>{
-//                 if(paint.id==entity.getDynamicProperty(`hp4_paint:babu`)) {
-//                     hasPainting = true
-//                     if(paint.getProperty('hp4_paint:frame_type')=='none') {
-//                         paint.triggerEvent('death');
-//                         entity.setProperty(`hp4_paint:paint_installed`, false)
-//                     } else {
-//                         paint.runCommand(`loot spawn ^^^1 loot "heropixels/more_paintings/frames/${paint.getProperty('hp4_paint:frame_type')}"`)
-//                         paint.setProperty('hp4_paint:frame_type', 'none')
-//                     }
-//                 }
-//             })
-//             if(!hasPainting) {
-//                 const folder = `heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}`
-//                 entity.runCommand(`loot spawn ^^^1 loot "${folder}"`)
-//                 removeBarrier(entity)
-//                 entity.remove()
-//             }
-//         }
-//     }
-// })
 world.afterEvents.entityHitEntity.subscribe((arg)=>{
     const player = arg.damagingEntity
     const entity = arg.hitEntity
@@ -1157,11 +966,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
 
     const targetFront = getFrontPos(entity, 1)
     const slot0 = entity.getDynamicProperty(`hp4_paint:slot0`), slot1 = entity.getDynamicProperty(`hp4_paint:slot1`), slot2 = entity.getDynamicProperty(`hp4_paint:slot2`), slot3 = entity.getDynamicProperty(`hp4_paint:slot3`), slot4 = entity.getDynamicProperty(`hp4_paint:slot4`)
-    if(displays.includes(entity.typeId)) {
-        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
+    if(furnitures.includes(entity.typeId) || displays.includes(entity.typeId)) {
+        if(player.getDynamicProperty(`hp4_paint:particles`)) {
             entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
             entity.runCommand(`function hp/more_paintings/destroy_wood`)
-        }
+        } 
         {
             let hasPainting = false
             
@@ -1170,7 +979,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     if(paint.id==entity.getDynamicProperty(`hp4_paint:babu`)) {
                         hasPainting = true
                         if(paint.getProperty('hp4_paint:frame_type')=='none') {
-                            //console.warn('hit')
+                            //kontol.warn('hit')
                             gamemode != 'creative' ? (paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/${paint.typeId.replace('hp4_paint:', '').replace('_painting', '')}"`), paint.remove()) : paint.remove();
                             entity.setProperty(`hp4_paint:paint_installed`, false)
                         } else {
@@ -1185,22 +994,15 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
             if(!hasPainting) {
                 const folder = `heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}`
                 gamemode != 'creative' ? entity.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "${folder}"`) : null;
-                removeBarrier(entity)
+                resetCollision(entity, true, false, false)
                 entity.remove()
             }
         }
-    }
-                console.warn('cok')
-    if(furnitures.includes(entity.typeId)) {
-        if(player.getDynamicProperty(`hp4_paint:particlesOutlines`)) {
-            entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
-            entity.runCommand(`function hp/more_paintings/destroy_wood`)
-        }
-        {
+        if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
             if(slot0 == undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined)  {
                 entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
                 player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
-                removeBarrier(entity)
+                resetCollision(entity, true)
                 entity.remove()
                 return
             }
@@ -1269,7 +1071,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
 })
 function getFrontPos(entity, distance) {
     let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
-    //console.warn(newRotation)
+    //kontol.warn(newRotation)
     if(newRotation == 0) {
         return {
             x: Math.floor(entity.location.x) + 0.5,
@@ -1296,278 +1098,214 @@ function getFrontPos(entity, distance) {
         }
     }
 }
-function barrierPlacement(entity, newRotation) {
-    switch (entity.typeId) {
-        case `hp4_paint:canvas`:
-            for (let index = 0; index < 2; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:sculpture_stand`:
-        case `hp4_paint:easel_stand`:
-            for (let index = 0; index < 2; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:display_case`:
-            for (let index = 0; index < 3; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:display_case_wide`:
-            for (let index = 0; index < 2; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
+function getEntitySize(entity, isNext = false) {
+    system.runTimeout(()=>{
+        resetCollision(entity, true, false, isNext)
+        let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
+        switch (entity.typeId) {
+            //Display
+            case `hp4_paint:easel_stand`:
+                blockDetect(entity, newRotation, {radius: 1, height: 2})
+                break;
+            case `hp4_paint:display_case`:
+                blockDetect(entity, newRotation, {radius: 1, height: 3})
+                break;
+            case `hp4_paint:display_case_wide`:
+                blockDetect(entity, newRotation, {radius: 3, height: 2})
+                break;
+            case `hp4_paint:display_case_big`:
+                blockDetect(entity, newRotation, {radius: 3, height: 4})
+                break;
+            case `hp4_paint:display_case_tall`:
+                blockDetect(entity, newRotation, {radius: 3, height: 6})
+                break;
+            case `hp4_paint:display_case_huge`:
+                blockDetect(entity, newRotation, {radius: 5, height: 6})
+                break;
+            case `hp4_paint:display_case_wide2`:
+                blockDetect(entity, newRotation, {radius: 5, height: 4})
+                break;
+            //Furnitures
+            case `hp4_paint:cabinet`:
+                blockDetect(entity, newRotation, {radius: 3, height: 3})
+                break;
+            case `hp4_paint:statue_painting`:
+                blockDetect(entity, newRotation, {radius: 1, height: 3})
+                break;
+            case `hp4_paint:brush_on_shelf`:
+                if(entity.getProperty(`hp4_paint:furniture_model`) == 0) {
+                    blockDetect(entity, newRotation, {radius: 1, height: 1})
+                } else if(entity.getProperty(`hp4_paint:furniture_model`) == 1) {
+                    blockDetect(entity, newRotation, {radius: 2, height: 1})
                 }
-            }
-            break;
-        case `hp4_paint:display_case_big`:
-            for (let index = 0; index < 4; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
+                break;
+            case `hp4_paint:jewellery_components`:
+            case `hp4_paint:variant_paint_bottle`:
+            case `hp4_paint:sack_of_beton`:
+            case `hp4_paint:lying_bottle_color`:
+            case `hp4_paint:stool`:
+            case `hp4_paint:sketchbook`:
+            case `hp4_paint:chalk_and_charcoal`:
+            case `hp4_paint:spatula`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:art_chair`:
+                blockDetect(entity, newRotation, {radius: 1, height: 2})
+                break;
+            case `hp4_paint:canvas`:
+                if(entity.getProperty(`hp4_paint:furniture_model`) == 0) {
+                    blockDetect(entity, newRotation, {radius: 1, height: 1})
+                } else if(entity.getProperty(`hp4_paint:furniture_model`) == 1) {
+                    blockDetect(entity, newRotation, {radius: 2, height: 1})
+                } else if(entity.getProperty(`hp4_paint:furniture_model`) == 2) {
+                    blockDetect(entity, newRotation, {radius: 1, height: 2})
                 }
-            }
-            break;
-        case `hp4_paint:display_case_tall`:
-            for (let index = 0; index < 6; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-                }
-            }
-            break;
-        case `hp4_paint:display_case_huge`:
-            for (let index = 0; index < 6; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~2~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-2~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~2 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-2 barrier replace`)
-                }
-            }
-            break;
-        case `hp4_paint:display_case_wide2`:
-            for (let index = 0; index < 4; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~2~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-2~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~2 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-2 barrier replace`)
-                }
-            }
-            break;
-        case `hp4_paint:variant_paint_bottle`:
-        case `hp4_paint:jewellery_components`:
-        case `hp4_paint:powderjar`:
-        case `hp4_paint:sewing_kit`:
-        case `hp4_paint:unfinished_wooden_block`:
-        case `hp4_paint:stencil`:
-        case `hp4_paint:spray_can`:
-        case `hp4_paint:soft_pastel_box`:
-        case `hp4_paint:pencil_set`:
-        case `hp4_paint:painting_brush`:
-        case `hp4_paint:paint_tubes`:
-        case `hp4_paint:marker_set`:
-        case `hp4_paint:eraser_sharpener`:
-        case `hp4_paint:drawing_tube`:
-        case `hp4_paint:drafting_tools`:
-        case `hp4_paint:color_swatch`:
-        case `hp4_paint:brush_holder_cup`:
-        case `hp4_paint:brush_cleaner_cup`:
-        case `hp4_paint:artist_box`:
-        case `hp4_paint:art_knives`:
-            // spawn only one barrier block for these small furniture items
-            entity.runCommand(`setblock ~~0~ barrier replace`)
-            break;
-            
-        case `hp4_paint:tube_paint`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-        case `hp4_paint:chalk_and_charcoal`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-        case `hp4_paint:spatula`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-        case `hp4_paint:brush_cleaner_jar`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-        case `hp4_paint:brushes_set`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-        case `hp4_paint:art_bench`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_black`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_blue`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_brown`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_cyan`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_gray`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_green`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_light_blue`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_light_gray`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_lime`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_magenta`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_orange`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_pink`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_purple`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_red`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_white`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:color_bucket_yellow`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:round_planter`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:vase`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-            }
-            break;
-        case `hp4_paint:large_planter`:
-            for (let index = 0; index < 1; index++) {
-                entity.runCommand(`setblock ~1~${index}~1 barrier replace`)
-                entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                entity.runCommand(`setblock ~1~${index}~-1 barrier replace`)
-                entity.runCommand(`setblock ~-1~${index}~1 barrier replace`)
-                entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                entity.runCommand(`setblock ~-1~${index}~-1 barrier replace`)
-                entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-            }
-            break;
-        case `hp4_paint:thin_planter`:
-            for (let index = 0; index < 1; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-                }
-            }
-            break;
-        case `hp4_paint:wide_planter`:
-            for (let index = 0; index < 1; index++) {
-                if(newRotation == 0 || newRotation == 180 || newRotation == -180) {
-                    entity.runCommand(`setblock ~1~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ barrier replace`)
-                } else if (newRotation == 90 || newRotation == 270 || newRotation == -90 || newRotation == -270) {
-                    entity.runCommand(`setblock ~~${index}~1 barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~ barrier replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 barrier replace`)
-                }
-            }
-            break;
-        default:
-            break;
-    }
+                break;
+            case `hp4_paint:powderjar`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:sewing_kit`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:unfinished_wooden_block`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:stencil`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:spray_can`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:soft_pastel_box`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:sculpture_stand`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:pencil_set`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:painting_brush`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:paint_tubes`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:marker_set`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:eraser_sharpener`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:drawing_tube`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:drafting_tools`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_swatch`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:brush_holder_cup`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:brush_cleaner_cup`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:artist_box`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:art_knives`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:brush_cleaner_jar`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:tube_paint`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:brushes_set`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:art_bench`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_black`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_blue`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_brown`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_cyan`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_gray`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_green`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_light_blue`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_light_gray`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_lime`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_magenta`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_orange`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_pink`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_purple`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_red`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_white`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket_yellow`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:color_bucket`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            //Planters
+            case `hp4_paint:large_planter`:
+                entity.setDynamicProperty('hp4_paint:slot', 4)
+                blockDetect(entity, newRotation, {radius: 3, height: 1}, true)
+                break;
+            case `hp4_paint:round_planter`:
+                entity.setDynamicProperty('hp4_paint:slot', 0)
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:thin_planter`:
+                entity.setDynamicProperty('hp4_paint:slot', 2)
+                blockDetect(entity, newRotation, {radius: 3, height: 1})
+                break;
+            case `hp4_paint:vase`:
+                entity.setDynamicProperty('hp4_paint:slot', 0)
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:wide_planter`:
+                entity.setDynamicProperty('hp4_paint:slot', 2)
+                blockDetect(entity, newRotation, {radius: 3, height: 1})
+                break;
+            default:
+                break;
+        }
+    },1)
 }
 function blockDetect(entity, rot, requiredSpace, isRound) {
     const radius = requiredSpace.radius
@@ -1587,194 +1325,199 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
     
     //Fix Position
     if(radius != 2) {
-        if(isRound) {
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x + index,
-                    y: entity.location.y,
-                    z: entity.location.z
-                }
-                rightSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x - index,
-                    y: entity.location.y,
-                    z: entity.location.z
-                }
-                leftSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z + index
-                }
-                forWard = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z - index
-                }
-                BackWard = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-        } else {
-            if(rot == 0 || rot == 180 || rot == -180) {
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x + index,
-                    y: entity.location.y,
-                    z: entity.location.z
-                }
-                rightSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x - index,
-                    y: entity.location.y,
-                    z: entity.location.z
-                }
-                leftSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            }
-            if(rot == 90 || rot == 270 || rot == -90 || rot == -270) {
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z + index
-                }
-                rightSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            for (let index = 0; index < 10; index++) {
-                const loc = {
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z - index
-                }
-                leftSide = index;
-                const block = entity.dimension.getBlock(loc);
-                if (!block.isAir) {
-                    break;
-                }
-            }
-            }
-        }
-        availableRadius = rightSide + leftSide - 1
-        if(isRound) {
-            if((rightSide < radius/2)) {
-                entity.teleport({
-                    x: entity.location.x - 1,
-                    y: entity.location.y,
-                    z: entity.location.z
-                })
-                blockDetect(entity, rot, requiredSpace)
-                return;
-            }
-            if((leftSide < radius/2)) {
-                entity.teleport({
-                    x: entity.location.x + 1,
-                    y: entity.location.y,
-                    z: entity.location.z
-                })
-                blockDetect(entity, rot, requiredSpace)
-                return;
-            }
-            if((forWard < radius/2)) {
-                entity.teleport({
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z - 1
-                })
-                blockDetect(entity, rot, requiredSpace)
-                return;
-            }
-            if((BackWard < radius/2)) {
-                entity.teleport({
-                    x: entity.location.x,
-                    y: entity.location.y,
-                    z: entity.location.z + 1
-                })
-                blockDetect(entity, rot, requiredSpace)
-                return;
-            }
-        } else {
-            if(availableRadius >= radius){
-                if(rot == 0 || rot == 180 || rot == -180) {
-                    if((rightSide < radius/2)) {
-                        entity.teleport({
-                            x: entity.location.x - 1,
-                            y: entity.location.y,
-                            z: entity.location.z
-                        })
-                        blockDetect(entity, rot, requiredSpace)
-                        return;
+        try {
+            if(isRound) {
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x + index,
+                        y: entity.location.y,
+                        z: entity.location.z
                     }
-                    if((leftSide < radius/2)) {
-                        entity.teleport({
-                            x: entity.location.x + 1,
-                            y: entity.location.y,
-                            z: entity.location.z
-                        })
-                        blockDetect(entity, rot, requiredSpace)
-                        return;
+                    rightSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
                     }
                 }
-                if(rot == 90 || rot == 270 || rot == -90 || rot == -270) {
-                    if((rightSide < radius/2)) {
-                        entity.teleport({
-                            x: entity.location.x,
-                            y: entity.location.y,
-                            z: entity.location.z - 1
-                        })
-                        blockDetect(entity, rot, requiredSpace)
-                        return;
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x - index,
+                        y: entity.location.y,
+                        z: entity.location.z
                     }
-                    if((leftSide < radius/2)) {
-                        entity.teleport({
-                            x: entity.location.x,
-                            y: entity.location.y,
-                            z: entity.location.z + 1
-                        })
-                        blockDetect(entity, rot, requiredSpace)
-                        return;
+                    leftSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z + index
+                    }
+                    forWard = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z - index
+                    }
+                    BackWard = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
                     }
                 }
             } else {
-                radiusCheck = false;
+                if(rot == 0 || rot == 180 || rot == -180) {
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x + index,
+                        y: entity.location.y,
+                        z: entity.location.z
+                    }
+                    rightSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x - index,
+                        y: entity.location.y,
+                        z: entity.location.z
+                    }
+                    leftSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                }
+                if(rot == 90 || rot == 270 || rot == -90 || rot == -270) {
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z + index
+                    }
+                    rightSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                for (let index = 0; index < 10; index++) {
+                    const loc = {
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z - index
+                    }
+                    leftSide = index;
+                    const block = entity.dimension.getBlock(loc);
+                    if (!block.isAir) {
+                        break;
+                    }
+                }
+                }
             }
+            availableRadius = rightSide + leftSide - 1
+            if(isRound) {
+                if((rightSide < radius/2)) {
+                    entity.teleport({
+                        x: entity.location.x - 1,
+                        y: entity.location.y,
+                        z: entity.location.z
+                    })
+                    blockDetect(entity, rot, requiredSpace)
+                    return;
+                }
+                if((leftSide < radius/2)) {
+                    entity.teleport({
+                        x: entity.location.x + 1,
+                        y: entity.location.y,
+                        z: entity.location.z
+                    })
+                    blockDetect(entity, rot, requiredSpace)
+                    return;
+                }
+                if((forWard < radius/2)) {
+                    entity.teleport({
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z - 1
+                    })
+                    blockDetect(entity, rot, requiredSpace)
+                    return;
+                }
+                if((BackWard < radius/2)) {
+                    entity.teleport({
+                        x: entity.location.x,
+                        y: entity.location.y,
+                        z: entity.location.z + 1
+                    })
+                    blockDetect(entity, rot, requiredSpace)
+                    return;
+                }
+            } else {
+                if(availableRadius >= radius){
+                    if(rot == 0 || rot == 180 || rot == -180) {
+                        if((rightSide < radius/2)) {
+                            entity.teleport({
+                                x: entity.location.x - 1,
+                                y: entity.location.y,
+                                z: entity.location.z
+                            })
+                            blockDetect(entity, rot, requiredSpace)
+                            return;
+                        }
+                        if((leftSide < radius/2)) {
+                            entity.teleport({
+                                x: entity.location.x + 1,
+                                y: entity.location.y,
+                                z: entity.location.z
+                            })
+                            blockDetect(entity, rot, requiredSpace)
+                            return;
+                        }
+                    }
+                    if(rot == 90 || rot == 270 || rot == -90 || rot == -270) {
+                        if((rightSide < radius/2)) {
+                            entity.teleport({
+                                x: entity.location.x,
+                                y: entity.location.y,
+                                z: entity.location.z - 1
+                            })
+                            blockDetect(entity, rot, requiredSpace)
+                            return;
+                        }
+                        if((leftSide < radius/2)) {
+                            entity.teleport({
+                                x: entity.location.x,
+                                y: entity.location.y,
+                                z: entity.location.z + 1
+                            })
+                            blockDetect(entity, rot, requiredSpace)
+                            return;
+                        }
+                    }
+                } else {
+                    radiusCheck = false;
+                }
+            }
+        } catch (error) {
+            radiusCheck = false
         }
     } else {
+        try {
         {
             if(rot == 0) {
                 for (let index = 0; index < 10; index++) {
@@ -1801,7 +1544,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == 90) {
                 for (let index = 0; index < 10; index++) {
@@ -1828,7 +1571,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == -90) {
                 for (let index = 0; index < 10; index++) {
@@ -1855,7 +1598,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == 180 || rot == -180) {
                 for (let index = 0; index < 10; index++) {
@@ -1882,7 +1625,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
         }
         availableRadius = rightSide + leftSide - 1
@@ -1931,9 +1674,14 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
         } else {
             radiusCheck = false;
         }
+            
+        } catch (error) {
+            
+        }
     }
     //Height Control
     {
+        try {
         for (let index = 0; index < 10; index++) {
             const loc = {
                 x: entity.location.x,
@@ -1958,6 +1706,9 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                 break;
             }
         }
+        } catch (error) {
+            radiusCheck = false
+        }
     }
     const availableHeight = upSide + downSide - 1;
     
@@ -1974,238 +1725,605 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
     } else {
         heightCheck = false;
     }
-    console.warn(`radiusCheck: ${radiusCheck}, heightCheck: ${heightCheck}`)
+    //kontol.warn(`radiusCheck: ${radiusCheck}, heightCheck: ${heightCheck}`)
     if(!radiusCheck || !heightCheck) {
-        entity.runCommand(`playsound note.bass @a ~~~`)
-        entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
-            player.runCommand(`title @s actionbar §cNot enough space!`)
-            player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${player.location.x} ${player.location.y} ${player.location.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
-        })
-        entity.remove()
+        try {
+            entity.runCommand(`playsound note.bass @a ~~~`)
+            entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
+                player.runCommand(`title @s actionbar §cNot enough space!`)
+                player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${player.location.x} ${player.location.y} ${player.location.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
+            })
+            entity.remove()
+        } catch (error) {
+            
+        }
         //contol.warn(`not enough space for the display!`)
     } else {
         entity.runCommand(`playsound dig.wood @a ~~~`)
-        barrierPlacement(entity, rot)
+        //Place Collision
+        resetCollision(entity, false, true)
     }
 }
-function removeBarrier(entity) {
-    let rot = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
-    let radius
-    let height
-    let isRound = false
-    switch (entity.typeId) {
-        case `hp4_paint:sculpture_stand`:
-        case `hp4_paint:canvas`:
-        case `hp4_paint:easel_stand`:
-            radius = 1
-            height = 2
+function checkDir(block, direction) {
+    let dir = direction
+    if(block.flip != undefined) {
+        if(block.flip.condition.includes(dir)) {
+            dir = flip(dir)
+        }
+    }
+    if(block.rotate != undefined) {
+        dir = rotate(dir, block.rotate.clock)
+    }
+    return dir
+}
+function resetCollision(entity, removing, noReplace, isNext) {
+    const rotation_y = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
+    let direction
+    if(rotation_y == 0) {
+        direction = 'north'
+    } else if(rotation_y == 90 || rotation_y == -270) {
+        direction = 'east'
+    } else if(rotation_y == 180 || rotation_y == -180) {
+        direction = 'south'
+    } else if(rotation_y == 270 || rotation_y == -90) {
+        direction = 'west'
+    }
+    //kontol.warn(direction)
+    if(!noReplace) {
+    collisionData.filter(c=>entity.typeId.includes(c.id)).some(c=>{
+        c.blocks.forEach(b=>{
+            if(typeof b.condition != 'function') {
+                entity.runCommand(`setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} air`)
+            } else {
+                if(b.condition(entity).next == entity.getProperty(`hp4_paint:furniture_model`) && isNext){
+                    b.blocks.forEach(b=>{
+                        entity.runCommand(`setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} air`)
+                    })
+                } else if(b.condition(entity).req == entity.getProperty(`hp4_paint:furniture_model`) && !isNext) {
+                    b.blocks.forEach(b=>{
+                        entity.runCommand(`setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} air`)
+                    })
+                }
+            }
+        })
+    })
+    }
+    if(!removing) {
+        system.runTimeout(()=>{
+            collisionData.filter(c=>entity.typeId.includes(c.id)).some(c=>{
+                c.blocks.forEach(b=>{
+                    if(typeof b.condition != 'function') {
+                        entity.runCommand( 
+                            !b.state ? 
+                            `setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} hp4_paint:${b.name} ["minecraft:cardinal_direction"="${checkDir(b, direction)}"]` : 
+                            `setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} hp4_paint:${b.name} ["hp4_paint:custom_state"="${b.state}", "minecraft:cardinal_direction"="${checkDir(b, direction)}"]`
+                        )
+                    } else {
+                        if (b.condition(entity).isActive == true) {
+                            b.blocks.forEach(b=>{
+                                entity.runCommand( 
+                                    !b.state ? 
+                                    `setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} hp4_paint:${b.name} ["minecraft:cardinal_direction"="${checkDir(b, direction)}"]` : 
+                                    `setblock ${blockDirectionBasedCoords(direction, b.x, b.y, b.z)} hp4_paint:${b.name} ["hp4_paint:custom_state"="${b.state}", "minecraft:cardinal_direction"="${checkDir(b, direction)}"]`
+                                )
+                            })
+                        }
+                    }
+                })
+            })
+        },1)
+    }
+}
+function blockDirectionBasedCoords(dir, x, y, z) {
+    let result
+    switch (dir) {
+        case 'north':
+            result = `~${x} ~${y} ~${z}`
             break;
-        case `hp4_paint:display_case`:
-            radius = 1
-            height = 3
+        case 'south':
+            result = `~${-x} ~${y} ~${-z}`
             break;
-        case `hp4_paint:display_case_wide`:
-            radius = 3
-            height = 2
+        case 'west':
+            result = `~${z} ~${y} ~${-x}`
             break;
-        case `hp4_paint:display_case_big`:
-            radius = 3
-            height = 4
-            break;
-        case `hp4_paint:display_case_tall`:
-            radius = 3
-            height = 6
-            break;
-        case `hp4_paint:display_case_huge`:
-            radius = 5
-            height = 6
-            break;
-        case `hp4_paint:display_case_wide2`:
-            radius = 5
-            height = 4
-            break;
-        case `hp4_paint:variant_paint_bottle`:
-        case `hp4_paint:jewellery_components`:
-        case `hp4_paint:powderjar`:
-        case `hp4_paint:sewing_kit`:
-        case `hp4_paint:unfinished_wooden_block`:
-        case `hp4_paint:stencil`:
-        case `hp4_paint:spray_can`:
-        case `hp4_paint:soft_pastel_box`:
-        case `hp4_paint:pencil_set`:
-        case `hp4_paint:painting_brush`:
-        case `hp4_paint:paint_tubes`:
-        case `hp4_paint:marker_set`:
-        case `hp4_paint:eraser_sharpener`:
-        case `hp4_paint:drawing_tube`:
-        case `hp4_paint:drafting_tools`:
-        case `hp4_paint:color_swatch`:
-        case `hp4_paint:brush_holder_cup`:
-        case `hp4_paint:brush_cleaner_cup`:
-        case `hp4_paint:artist_box`:
-        case `hp4_paint:art_knives`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:chalk_and_charcoal`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:tube_paint`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:spatula`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:brush_cleaner_jar`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:brushes_set`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:art_bench`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_black`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_blue`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_brown`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_cyan`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_gray`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_green`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_light_blue`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_light_gray`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_lime`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_magenta`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_orange`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_pink`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_purple`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_red`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_white`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:color_bucket_yellow`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:large_planter`:
-            radius = 3
-            height = 1
-            isRound = true
-            break;
-        case `hp4_paint:round_planter`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:thin_planter`:
-            radius = 3
-            height = 1
-            break;
-        case `hp4_paint:vase`:
-            radius = 1
-            height = 1
-            break;
-        case `hp4_paint:wide_planter`:
-            radius = 3
-            height = 1
+        case 'east':
+            result = `~${-z} ~${y} ~${x}`
             break;
         default:
             break;
     }
-    if(isRound) {
-        if (radius == 3) {
-            for (let index = 0; index < height; index++) {
-                entity.runCommand(`setblock ~1~${index}~1 air replace`)
-                entity.runCommand(`setblock ~1~${index}~ air replace`)
-                entity.runCommand(`setblock ~1~${index}~-1 air replace`)
-                entity.runCommand(`setblock ~-1~${index}~1 air replace`)
-                entity.runCommand(`setblock ~-1~${index}~ air replace`)
-                entity.runCommand(`setblock ~-1~${index}~-1 air replace`)
-                entity.runCommand(`setblock ~~${index}~1 air replace`)
-                entity.runCommand(`setblock ~~${index}~ air replace`)
-                entity.runCommand(`setblock ~~${index}~-1 air replace`)
+    return result
+}
+const collisionData = [
+    {
+        id: `hp4_paint:art_bench`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:brushes_set`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.spray_can'},
+        ]
+    },
+    {
+        id: `hp4_paint:sketchbook`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:tube_paint`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_slab',state:'down'},
+        ]
+    },
+    {
+        id: `hp4_paint:spatula`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.eraser_sharpener'},
+        ]
+    },
+    {
+        id: `hp4_paint:chalk_and_charcoal`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.eraser_sharpener'},
+        ]
+    },
+    {
+        id: `hp4_paint:brush_cleaner_jar`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.spray_can'},
+        ]
+    },
+    {
+        id: `hp4_paint:art_knives`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.eraser_sharpener'},
+        ]
+    },
+    {
+        id: `hp4_paint:artist_box`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_side_slab',state:'back'},
+        ]
+    },
+    {
+        id: `hp4_paint:brush_cleaner_cup`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.brush_cleaner_cup'},
+        ]
+    },
+    {
+        id: `hp4_paint:brush_holder_cup`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.brush_holder_cup'},
+        ]
+    },
+    {
+        id: `hp4_paint:color_swatch`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:drafting_tools`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:drawing_tube`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.drawing_tube'},
+        ]
+    },
+    {
+        id: `hp4_paint:eraser_sharpener`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.eraser_sharpener'},
+        ]
+    },
+    {
+        id: `hp4_paint:marker_set`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.marker_set'},
+        ]
+    },
+    {
+        id: `hp4_paint:paint_tubes`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:pencil_set`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:sculpture_stand`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_slab', state: 'down'},
+        ]
+    },
+    {
+        id: `hp4_paint:soft_pastel_box`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.soft_pastel_box'},
+        ]
+    },
+    {
+        id: `hp4_paint:sewing_kit`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.soft_pastel_box'},
+        ]
+    },
+    {
+        id: `hp4_paint:spray_can`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.spray_can'},
+        ]
+    },
+    {
+        id: `hp4_paint:stencil`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stencil'},
+        ]
+    },
+    {
+        id: `hp4_paint:unfinished_wooden_block`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.unfinished_wooden_block'},
+        ]
+    },
+    {
+        id: `hp4_paint:powderjar`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.powderjar'},
+        ]
+    },
+    {
+        id: `hp4_paint:jewellery_components`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.jewellery_components'},
+        ]
+    },
+    {
+        id: `hp4_paint:art_chair`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.art_chair',state:'down'},
+            {x:0,y:1,z:0,name:'collision.art_chair',state:'up'},
+        ]
+    },
+    {
+        id: `hp4_paint:color_bucket`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.color_bucket'},
+        ]
+    },
+    {
+        id: `hp4_paint:brush_on_shelf`,
+        blocks: [
+            {
+                condition: (e) => {
+                    const value = 0
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: value + 1, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision.brush_on_shelf',rotate:{clock:false}},
+                ]
+            },
+            {
+                condition: (e) => {
+                    const value = 1
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: 0, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision.brush_on_shelf',rotate:{clock:false}},
+                    {x:1,y:0,z:0,name:'collision.brush_on_shelf',rotate:{clock:false}},
+                ]
             }
-        }
-    } else {
-        if(rot == 0 || rot == 180 || rot == -180) {
-            for (let index = 0; index < height; index++) {
-                if(radius == 1) {
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                } else if (radius == 3) {
-                    entity.runCommand(`setblock ~-1~${index}~ air replace`)
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                    entity.runCommand(`setblock ~1~${index}~ air replace`)
-                } else if (radius == 5) {
-                    entity.runCommand(`setblock ~-2~${index}~ air replace`)
-                    entity.runCommand(`setblock ~-1~${index}~ air replace`)
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                    entity.runCommand(`setblock ~1~${index}~ air replace`)
-                    entity.runCommand(`setblock ~2~${index}~ air replace`)
-                }
+        ]
+    },
+    {
+        id: `hp4_paint:canvas`,
+        blocks: [
+            {
+                condition: (e) => {
+                    const value = 0
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: value + 1, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision_side_slab',state:'back'},
+                ]
+            },
+            {
+                condition: (e) => {
+                    const value = 1
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: value + 1, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision_side_slab',state:'back'},
+                    {x:1,y:0,z:0,name:'collision_side_slab',state:'back'},
+                ]
+            },
+            {
+                condition: (e) => {
+                    const value = 2
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: 0, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision_side_slab',state:'back'},
+                    {x:0,y:1,z:0,name:'collision_side_slab',state:'back'},
+                ]
             }
-        } else if (rot == 90 || rot == 270 || rot == -90 || rot == -270) {
-            for (let index = 0; index < height; index++) {
-                if (radius == 1) {
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                } else if (radius == 3) {
-                    entity.runCommand(`setblock ~~${index}~-1 air replace`)
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                    entity.runCommand(`setblock ~~${index}~1 air replace`)
-                } else if (radius == 5) {
-                    entity.runCommand(`setblock ~~${index}~-2 air replace`)
-                    entity.runCommand(`setblock ~~${index}~-1 air replace`)
-                    entity.runCommand(`setblock ~~${index}~ air replace`)
-                    entity.runCommand(`setblock ~~${index}~1 air replace`)
-                    entity.runCommand(`setblock ~~${index}~2 air replace`)
-                }
-            }
-        }
+        ]
+    },
+    {
+        id: `hp4_paint:variant_paint_bottle`,
+        blocks: [
+            {
+                condition: (e) => {
+                    const value = 0
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: value + 1, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision.variant_paint_bottle'},
+                ]
+            },
+            {
+                condition: (e) => {
+                    const value = 1
+                    return {isActive: e.getProperty(`hp4_paint:furniture_model`) == value, next: 0, req: value}
+                },
+                blocks: [
+                    {x:0,y:0,z:0,name:'collision_side_slab',state:'back'}
+                ]
+            },
+        ]
+    },
+    {
+        id: `hp4_paint:lying_bottle_color`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.lying_bottle_color'},
+        ]
+    },
+    {
+        id: `hp4_paint:stool`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.stool'},
+        ]
+    },
+    {
+        id: `hp4_paint:statue_painting`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:sack_of_beton`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.sack_of_beton'},
+        ]
+    },
+    {
+        id: `hp4_paint:cabinet`,
+        blocks: [
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:easel_stand`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_slab', state: 'down'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case_wide`,
+        blocks: [
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case_big`,
+        blocks: [
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            {x:-1,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            {x:0,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+            {x:1,y:3,z:0,name:'collision_slab', state: 'down'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case_tall`,
+        blocks: [
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            {x:-1,y:3,z:0,name:'collision_full'},
+            {x:-1,y:4,z:0,name:'collision_full'},
+            {x:-1,y:5,z:0,name:'collision_slab', state: 'down'},
+
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            {x:0,y:3,z:0,name:'collision_full'},
+            {x:0,y:4,z:0,name:'collision_full'},
+            {x:0,y:5,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+            {x:1,y:3,z:0,name:'collision_full'},
+            {x:1,y:4,z:0,name:'collision_full'},
+            {x:1,y:5,z:0,name:'collision_slab', state: 'down'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case_huge`,
+        blocks: [
+            {x:-2,y:0,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-2,y:1,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-2,y:2,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-2,y:3,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-2,y:4,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-2,y:5,z:0,name:'collision_half_slab', state: 'bottom_right'},
+
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            {x:-1,y:3,z:0,name:'collision_full'},
+            {x:-1,y:4,z:0,name:'collision_full'},
+            {x:-1,y:5,z:0,name:'collision_slab', state: 'down'},
+
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            {x:0,y:3,z:0,name:'collision_full'},
+            {x:0,y:4,z:0,name:'collision_full'},
+            {x:0,y:5,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+            {x:1,y:3,z:0,name:'collision_full'},
+            {x:1,y:4,z:0,name:'collision_full'},
+            {x:1,y:5,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:2,y:0,z:0,name:'collision_side_slab', state: 'left'},
+            {x:2,y:1,z:0,name:'collision_side_slab', state: 'left'},
+            {x:2,y:2,z:0,name:'collision_side_slab', state: 'left'},
+            {x:2,y:3,z:0,name:'collision_side_slab', state: 'left'},
+            {x:2,y:4,z:0,name:'collision_side_slab', state: 'left'},
+            {x:2,y:5,z:0,name:'collision_half_slab', state: 'bottom_left'},
+        ]
+    },
+    {
+        id: `hp4_paint:display_case_wide2`,
+        blocks: [
+            {x:-3,y:0,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-3,y:1,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-3,y:2,z:0,name:'collision_side_slab', state: 'right'},
+            {x:-3,y:3,z:0,name:'collision_half_slab', state: 'bottom_right'},
+
+            {x:-2,y:0,z:0,name:'collision_full'},
+            {x:-2,y:1,z:0,name:'collision_full'},
+            {x:-2,y:2,z:0,name:'collision_full'},
+            {x:-2,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            {x:-1,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            {x:0,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+            {x:1,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:2,y:0,z:0,name:'collision_full'},
+            {x:2,y:1,z:0,name:'collision_full'},
+            {x:2,y:2,z:0,name:'collision_full'},
+            {x:2,y:3,z:0,name:'collision_slab', state: 'down'},
+            
+            {x:3,y:0,z:0,name:'collision_side_slab', state: 'left'},
+            {x:3,y:1,z:0,name:'collision_side_slab', state: 'left'},
+            {x:3,y:2,z:0,name:'collision_side_slab', state: 'left'},
+            {x:3,y:3,z:0,name:'collision_half_slab', state: 'bottom_left'},
+        ]
     }
+]
+function flip(dir) {
+    let result
+    switch (dir) {
+        case 'north':
+            result = 'south'
+            break;
+        case 'south':
+            result = 'north'
+            break;
+        case 'west':
+            result = 'east'
+            break;
+        case 'east':
+            result = 'west'
+            break;
+        default:
+            break;
+    }
+    return result
+}
+function rotate(dir, clock = true) {
+    let result
+    switch (dir) {
+        case 'north':
+            clock ?
+            result = 'east' :
+            result = 'west'
+            break;
+        case 'south':
+            clock ?
+            result = 'west' :
+            result = 'east'
+            break;
+        case 'west':
+            clock ?
+            result = 'north' :
+            result = 'south'
+            break;
+        case 'east':
+            clock ?
+            result = 'south' :
+            result = 'north'
+            break;
+        default:
+            break;
+    }
+    return result
 }

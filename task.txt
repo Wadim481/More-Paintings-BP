@@ -1,10 +1,6 @@
-Buat mekanik ganti model dengan menggunakan Furniture Wand
-dan mekanik ganti warna dengan menggunakan Paint Brush
+- Collision Making
 
-
-
-
-untuk easel stand dan kawan2 menggunakan mekanisme serupa (variable model limit, dsb)
-untuk furniture dan kawan2 menggunakan mekanisme lebih ringan (entity server limit property)
-
-PROTOTYPING EASEL STAND DONE
+- Animated paintings
+(windtree) 2x2
+(Mountaincar, sleepinggirl) 2x4
+(Musicdisk) 4x2

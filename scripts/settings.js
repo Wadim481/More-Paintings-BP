@@ -48,7 +48,7 @@ mc.world.afterEvents.worldInitialize.subscribe(()=>{
 mc.world.afterEvents.playerSpawn.subscribe((arg)=>{
     if(!arg.player.hasTag('hp4_paint')) {
         arg.player.setDynamicProperty(`hp4_paint:additionalFurniture`, true)
-        arg.player.setDynamicProperty(`hp4_paint:particlesOutlines`, true)
+        arg.player.setDynamicProperty(`hp4_paint:particles`, true)
         arg.player.setDynamicProperty(`hp4_paint:onlyCutePaintings`, false)
         arg.player.setDynamicProperty(`hp4_paint:paintingSizeUI`, true)
         arg.player.addTag('hp4_paint')
@@ -89,23 +89,27 @@ function mainSettings(player) {
 function gameplaySettings(player) {
     const defaultValue = {
         additionalFurnitures: player.getDynamicProperty(`hp4_paint:additionalFurniture`),
-        particlesOutlines: player.getDynamicProperty(`hp4_paint:particlesOutlines`),
+        particles: player.getDynamicProperty(`hp4_paint:particles`),
+        outlines: player.getDynamicProperty(`hp4_paint:outlines`),
         paintingsSizeUI: player.getDynamicProperty(`hp4_paint:paintingSizeUI`)
     }
     new ui.ModalFormData()
 	.title({translate:'settings'})
     .toggle('Additional Furnitures', defaultValue.additionalFurnitures)
-    .toggle('Particles and Outline', defaultValue.particlesOutlines)
+    .toggle('Particles', defaultValue.particles)
+    .toggle('Outlines', defaultValue.outlines)
     .toggle('Painting size choose UI', defaultValue.paintingsSizeUI)
 	.show(player)
 	.then((r) => {
         try {
-		    const additionalFurnitures = r.formValues[0];
-		    const particlesOutlines = r.formValues[1];
-		    const paintingSizeUI = r.formValues[2];
+            const additionalFurnitures = r.formValues[0];
+            const particles = r.formValues[1];
+            const outlines = r.formValues[2];
+            const paintingSizeUI = r.formValues[3];
 
             player.setDynamicProperty(`hp4_paint:additionalFurniture`, additionalFurnitures)
-            player.setDynamicProperty(`hp4_paint:particlesOutlines`, particlesOutlines)
+            player.setDynamicProperty(`hp4_paint:particles`, particles)
+            player.setDynamicProperty(`hp4_paint:outlines`, outlines)
             player.setDynamicProperty(`hp4_paint:paintingSizeUI`, paintingSizeUI)
         } catch (error) {
             
