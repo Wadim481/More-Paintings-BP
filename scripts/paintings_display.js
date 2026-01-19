@@ -1836,6 +1836,51 @@ function blockDirectionBasedCoords(dir, x, y, z) {
 }
 const collisionData = [
     {
+        id: `hp4_paint:wide_planter`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:0,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:large_planter`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+
+            {x:1,y:0,z:0,name:'collision_side_slab',state:'left'},
+            {x:-1,y:0,z:0,name:'collision_side_slab',state:'right'},
+            
+            {x:0,y:0,z:1,name:'collision_side_slab',state:'back'},
+            {x:0,y:0,z:-1,name:'collision_side_slab',state:'front'},
+            
+            {x:1,y:0,z:1,name:'collision_half_side_slab',state:'front_right'},
+            {x:-1,y:0,z:1,name:'collision_half_side_slab',state:'front_left'},
+            {x:1,y:0,z:-1,name:'collision_half_side_slab',state:'back_right'},
+            {x:-1,y:0,z:-1,name:'collision_half_side_slab',state:'back_left'},
+        ]
+    },
+    {
+        id: `hp4_paint:vase`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision.spray_can'},
+        ]
+    },
+    {
+        id: `hp4_paint:thin_planter`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_side_slab',state:'back'},
+            {x:1,y:0,z:0,name:'collision_half_side_slab',state:'front_right'},
+            {x:-1,y:0,z:0,name:'collision_half_side_slab',state:'front_left'},
+        ]
+    },
+    {
+        id: `hp4_paint:round_planter`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+        ]
+    },
+    {
         id: `hp4_paint:art_bench`,
         blocks: [
             {x:0,y:0,z:0,name:'collision_full'},
