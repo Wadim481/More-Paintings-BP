@@ -972,12 +972,15 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
             entity.runCommand(`function hp/more_paintings/destroy_wood`)
         } 
         {
-            let hasPainting = false
+            let cancelRemove = false
             
             entity.dimension.getEntities().forEach(paint=>{
+                if(entity.getDynamicProperty(`hp4_paint:slot0`)!=undefined) {
+                    cancelRemove = true
+                }
                 try {
                     if(paint.id==entity.getDynamicProperty(`hp4_paint:babu`)) {
-                        hasPainting = true
+                        cancelRemove = true
                         if(paint.getProperty('hp4_paint:frame_type')=='none') {
                             //kontol.warn('hit')
                             gamemode != 'creative' ? (paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/${paint.typeId.replace('hp4_paint:', '').replace('_painting', '')}"`), paint.remove()) : paint.remove();
@@ -987,11 +990,9 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                             paint.setProperty('hp4_paint:frame_type', 'none')
                         }
                     }
-                } catch (error) {
-                    
-                }
+                } catch (error) {}
             })
-            if(!hasPainting) {
+            if(!cancelRemove) {
                 const folder = `heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}`
                 gamemode != 'creative' ? entity.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "${folder}"`) : null;
                 resetCollision(entity, true, false, false)
