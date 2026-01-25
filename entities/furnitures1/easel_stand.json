@@ -155,7 +155,21 @@
                     "hp4_paint:paint_materials": false
                 }
             },
-            "death": {}
+            "death": {
+
+                "sequence": [
+                    {
+                        "queue_command": {
+                           "command": ["particle test:d_plank_jungle ~ ~0.75 ~","particle test:d_plank_jungle ~ ~1.5 ~"]
+                        }
+                    },
+                    {
+                        "queue_command": {
+                            "command": "playsound dig.wood @a[r=10]"
+                        }
+                    }
+                ]
+            }
         }
     }
 }

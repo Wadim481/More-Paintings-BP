@@ -106,7 +106,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": "particle hp4_paint:destroy_particle ~ ~ ~"
+                            "command": ["particle test:d_rainbow ~ ~0.5 ~","particle test:d_plank_jungle ~ ~0.5 ~"]
                         }
                     },
                     {

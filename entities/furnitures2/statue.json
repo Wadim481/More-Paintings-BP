@@ -115,7 +115,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": "particle hp4_paint:destroy_particle ~ ~ ~"
+                            "command": ["particle test:d_stone ~ ~0.5 ~","particle test:d_stone ~ ~1.5 ~","particle test:d_stone ~ ~2.5 ~"]
                         }
                     },
                     {
