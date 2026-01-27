@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:canvas"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "iii",
+            "iai",
+            "iii"
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:stick"
+            },
+            "a": {
+                "item": "minecraft:paper"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:canvas"
+        }
+    }
+}

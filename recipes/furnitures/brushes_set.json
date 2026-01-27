@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:brushes_set"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            " i ",
+            "iai"
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:brush"
+            },
+            "a": {
+                "item": "minecraft:vase"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:brushes_set"
+        }
+    }
+}
