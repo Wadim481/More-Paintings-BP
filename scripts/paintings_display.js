@@ -124,16 +124,15 @@ const flowers = [
 ]
 world.afterEvents.entitySpawn.subscribe(arg=>{//
     if(furnitures.includes(arg.entity.typeId) || displays.includes(arg.entity.typeId)) {
-        const spawner = arg.entity.dimension.getPlayers({closest:1, location: arg.entity.location}).filter(p=>(p.getDynamicProperty(`hp4_paint:additionalFurniture`) && p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex).typeId == arg.entity.typeId))
+        const spawner = arg.entity.dimension.getPlayers({closest:1, location: arg.entity.location}).filter(p=>(p.getDynamicProperty(`hp4_paint:additionalFurniture`)))
         if(spawner.length >= 1) {
             system.runTimeout(() => {
                 getEntitySize(arg.entity)
             },1)
         } else if (spawner.length == 0) {
-            //kontol.warn('anjay')
             arg.entity.runCommand(`title @p actionbar Activate Additional Furnitures in settings\nto put this furniture`)
             arg.entity.dimension.getPlayers({closest:1, location:arg.entity.location}).forEach(p=>{
-                p.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${p.location.x} ${p.location.y} ${p.location.z}  loot "heropixels/more_paintings/${arg.entity.typeId.replace('hp4_paint:', '')}"`) : null;
+                p.getGameMode() != 'creative' ? arg.entity.runCommand(`give @p ${arg.entity.typeId}`) : null;
             })
             arg.entity.remove()
         }
@@ -709,7 +708,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                             e.remove()
                         })
                         const objectLoc = {
@@ -746,7 +745,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                             
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                                 e.remove()
                             })
                             const objectLoc = {
@@ -778,7 +777,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                             e.remove()
                         })
                         const objectLoc = {
@@ -812,7 +811,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                             
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                                 e.remove()
                             })
                             const objectLoc = {
@@ -851,12 +850,11 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        system.runTimeout(()=>{object.remove()},5*20)
                         target.runCommand(`function hp/more_paintings/hammer_start`)
                         system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},1*20)
 
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                             e.remove()
                         })
                         const objectLoc = {
@@ -876,11 +874,10 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                             
-                            system.runTimeout(()=>{object.remove()},5*20)
                             target.runCommand(`function hp/more_paintings/hammer_start`)
                             system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},1*20)
 
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
                                 e.remove()
                             })
                             const objectLoc = {
@@ -1146,7 +1143,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         cancelRemove = true
                         if(paint.getProperty('hp4_paint:frame_type')=='none') {
                             //kontol.warn('hit')
-                            gamemode != 'creative' ? (paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/${paint.typeId.replace('hp4_paint:', '').replace('_painting', '')}"`), paint.remove()) : paint.remove();
+                            gamemode != 'creative' ? (paint.runCommand(`give @p ${paint.typeId}`), paint.remove()) : paint.remove();
                             entity.setProperty(`hp4_paint:paint_installed`, false)
                         } else {
                             player.getGameMode() != 'creative' ? paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/frames/${paint.getProperty('hp4_paint:frame_type')}"`) : null;
@@ -1156,18 +1153,21 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 } catch (error) {}
             })
             if(!cancelRemove) {
-                const folder = `heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}`
-                gamemode != 'creative' ? entity.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "${folder}"`) : null;
+                gamemode != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
                 resetCollision(entity, true, false, false)
                 entity.remove()
             }
         }
         if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
             if(slot0 == undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined)  {
-                entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
-                player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
-                resetCollision(entity, true)
-                entity.remove()
+                try {
+                    entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
+                    player.getGameMode() != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
+                    resetCollision(entity, true)
+                    entity.remove()
+                } catch (error) {
+                    
+                }
                 return
             }
             entity.dimension.getEntities().filter(plant => 
@@ -1264,7 +1264,8 @@ function getFrontPos(entity, distance) {
 }
 function getEntitySize(entity, isNext = false) {
     system.runTimeout(()=>{
-        resetCollision(entity, true, false, isNext)
+        isNext ? 
+        resetCollision(entity, true, false, isNext) : null
         let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
         switch (entity.typeId) {
             //Display
@@ -1487,7 +1488,9 @@ function getEntityHeight(entity) {
 
         // Furnitures
         case `hp4_paint:cabinet`: return 3
-        case `hp4_paint:statue_painting`: return 3
+        case `hp4_paint:statue_painting`: 
+            if(entity.getProperty?.(`hp4_paint:statue_pose`) < 5) return 3
+            return 2
 
         case `hp4_paint:brush_on_shelf`:
             if (model === 1) return 1
@@ -1978,18 +1981,13 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
     } else {
         heightCheck = false;
     }
-    //kontol.warn(`radiusCheck: ${radiusCheck}, heightCheck: ${heightCheck}`)
     if(!radiusCheck || !heightCheck) {
-        try {
             entity.runCommand(`playsound note.bass @a ~~~`)
             entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
                 player.runCommand(`title @s actionbar §cNot enough space!`)
                 player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${player.location.x} ${player.location.y} ${player.location.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
             })
             entity.remove()
-        } catch (error) {
-            
-        }
         //contol.warn(`not enough space for the display!`)
     } else {
         entity.runCommand(`playsound dig.wood @a ~~~`)
