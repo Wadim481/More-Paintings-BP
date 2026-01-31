@@ -416,9 +416,13 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                 })
             }
+
+
+
             if(item.typeId === 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool')) {
                 try {
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        //AFANDI
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -460,6 +464,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 } catch (error) {
                     try {
                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                            //AFANDI
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -509,6 +514,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                 try {
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        //AFANDI
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -549,6 +555,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     })
                 } catch (error) {
                     try {
+                        //AFANDI
                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
@@ -704,6 +711,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             if(item.typeId == 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool')) {
                 try {
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        //AFANDI
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -741,6 +749,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 } catch (error) {
                     try {
                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                            //AFANDI
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -773,6 +782,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             if(item.typeId == 'hp4_paint:brush' && !main.checkOutlineFilter(target, 'hp4_paint:brush')) {
                 try {
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        //AFANDI
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -806,6 +816,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
                 } catch (error) {
                     try {
+                        //AFANDI
                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
@@ -846,6 +857,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             if(item.typeId == 'hp4_paint:chisel' && main.checkOutlineFilter(target, 'hp4_paint:chisel')) {
                 try {
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        //AFANDI
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
@@ -870,6 +882,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 } catch (error) {
                     try {
                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                            //AFANDI
                             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                             // target.runCommand(`particle hp4_paint:dust ~~1~`)
                             // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
