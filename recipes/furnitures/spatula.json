@@ -2,29 +2,29 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:spatula"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
-            "   ",
+            " a ",
             " i ",
-            "iai"
+            " i "
         ],
         "key": {
             "i": {
-                "item": "hp4_paint:brush"
+                "item": "minecraft:stick"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:iron_nugget"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:spatula"
         }
     }
 }

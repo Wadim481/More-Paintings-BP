@@ -2,29 +2,29 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:art_knives"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
             "   ",
-            " i ",
-            "iai"
+            "iia",
+            "   "
         ],
         "key": {
             "i": {
-                "item": "hp4_paint:brush"
+                "item": "minecraft:stick"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:iron_nugget"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:art_knives"
         }
     }
 }

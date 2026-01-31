@@ -2,29 +2,32 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:chalk_and_charcoal"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
-            "   ",
-            " i ",
-            "iai"
+            "aa ",
+            "bi ",
+            "   "
         ],
         "key": {
             "i": {
-                "item": "hp4_paint:brush"
+                "item": "minecraft:white_concrete_powder"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:charcoal"
+            },
+            "b": {
+                "item": "minecraft:paper"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:chalk_and_charcoal"
         }
     }
 }

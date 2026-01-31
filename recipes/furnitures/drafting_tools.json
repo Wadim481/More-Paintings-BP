@@ -2,29 +2,29 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:drafting_tools"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
+            "ab ",
             "   ",
-            " i ",
-            "iai"
+            "   "
         ],
         "key": {
-            "i": {
-                "item": "hp4_paint:brush"
+            "b": {
+                "item": "hp4_paint:pencil_set"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:copper_ingot"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:drafting_tools"
         }
     }
 }

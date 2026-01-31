@@ -1,0 +1,39 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:color_swatch"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "ab ",
+            "xyz"
+        ],
+        "key": {
+            "x": {
+                "item": "minecraft:red_dye"
+            },
+            "y": {
+                "item": "minecraft:blue_dye"
+            },
+            "z": {
+                "item": "minecraft:green_dye"
+            },
+            "a": {
+                "item": "minecraft:stick"
+            },
+            "b": {
+                "item": "minecraft:paper"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:color_swatch"
+        }
+    }
+}

@@ -2,29 +2,29 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:sculpture_stand"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
-            "   ",
+            " a ",
             " i ",
-            "iai"
+            " i "
         ],
         "key": {
             "i": {
-                "item": "hp4_paint:brush"
+                "item": "minecraft:polished_andesite"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:planks"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:sculpture_stand"
         }
     }
 }

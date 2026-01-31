@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:jewellery_components"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "ab ",
+            "dc ",
+            "   "
+        ],
+        "key": {
+            "b": {
+                "item": "minecraft:shears"
+            },
+            "a": {
+                "item": "minecraft:wool"
+            },
+            "c": {
+                "item": "minecraft:string"
+            },
+            "d": {
+                "item": "minecraft:chest"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:jewellery_components"
+        }
+    }
+}

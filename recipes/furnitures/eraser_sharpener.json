@@ -2,29 +2,32 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:brushes_set"
+            "identifier": "hp4_paint:eraser_sharpener"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
-            "   ",
-            " i ",
-            "iai"
+            "ib ",
+            "ia ",
+            "   "
         ],
         "key": {
             "i": {
-                "item": "hp4_paint:brush"
+                "item": "minecraft:copper_ingot"
             },
             "a": {
-                "item": "minecraft:flower_pot"
+                "item": "minecraft:slime_ball"
+            },
+            "b": {
+                "item": "minecraft:iron_nugget"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:brushes_set"
+            "item": "hp4_paint:eraser_sharpener"
         }
     }
 }
