@@ -95,9 +95,19 @@
         "events": {
             "death": {
                 "sequence": [
+                    
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 0 },
+                        
                         "queue_command": {
-                            "command": "particle test:d_stone ~ ~ ~"
+                            "command": ["particle test:d_stone ~ ~0.25 ~"]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 1 },
+                        
+                        "queue_command": {
+                            "command": ["particle test:d_white_wool ~ ~0.25 ~"]
                         }
                     },
                     {

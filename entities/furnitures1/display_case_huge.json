@@ -158,8 +158,24 @@
             "death": {
                 "sequence": [
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 0 },
+                        
                         "queue_command": {
-                           "command": ["particle test:db_plank_jungle ~ ~0.5 ~","particle test:db_plank_jungle ~ ~0.5 ~"]
+                           "command": ["particle test:db_plank_jungle ~ ~0.75 ~"]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 1 },
+                        
+                        "queue_command": {
+                           "command": ["particle test:db_plank_cherry ~ ~0.75 ~"]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 2 },
+                        
+                        "queue_command": {
+                           "command": ["particle test:db_plank_pale ~ ~0.75 ~"]
                         }
                     },
                     {

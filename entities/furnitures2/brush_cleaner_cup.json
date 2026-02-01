@@ -95,6 +95,7 @@
         "events": {
             "death": {
                 "sequence": [
+                    
                     {
                         "queue_command": {
                             "command": ["particle test:d_purple_wool ~ ~0.3 ~","particle test:df_glass ~ ~0.3 ~"]

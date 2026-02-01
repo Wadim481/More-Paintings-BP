@@ -105,18 +105,47 @@
             "death": {
                 "sequence": [
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 0 },
+                        
                         "queue_command": {
-                            "command": 
-                            [
-                                "particle test:db_plank_jungle ~ ~2 ~",
-                                
-                                "particle test:d_purple_wool ~ ~2 ~",
-                                "particle test:d_blue_wool ~ ~2 ~",
-                                "particle test:d_rainbow2 ~ ~2 ~",
-                                "particle test:d_rainbow ~ ~2 ~",
-                                "particle test:d_rainbow2 ~ ~2 ~",
-                                "particle test:d_rainbow ~ ~2 ~"
-                            ]
+                           "command": [
+                            "particle test:d_pot ~ ~2 ~",
+                            "particle test:d_plank_jungle ~ ~0.5 ~",
+                            "particle test:d_plank_jungle ~ ~1.5 ~",
+                            "particle test:d_plank_jungle ~ ~2.5 ~",
+                            "particle test:d_rainbow2 ~ ~2 ~",
+                            "particle test:d_rainbow ~ ~2 ~"
+
+                        ]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 1 },
+                        
+                        "queue_command": {
+                           "command": [
+                            "particle test:d_purple_wool ~ ~2 ~",
+                            "particle test:d_plank_cherry ~ ~0.5 ~",
+                            "particle test:d_plank_cherry ~ ~1.5 ~",
+                            "particle test:d_plank_cherry ~ ~2.5 ~",
+                            "particle test:d_rainbow2 ~ ~2 ~",
+                            "particle test:d_rainbow ~ ~2 ~"
+                        ]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 2 },
+                        
+                        "queue_command": {
+                           "command": [
+                            "particle test:d_black_wool ~ ~2 ~",
+                            "particle test:d_plank_pale ~ ~0.5 ~",
+                            "particle test:d_plank_pale ~ ~1.5 ~",
+                            "particle test:d_plank_pale ~ ~2.5 ~",
+                            "particle test:d_rainbow2 ~ ~2 ~",
+                            "particle test:d_rainbow ~ ~2 ~"
+                        
+                        ]
                         }
                     },
                     {

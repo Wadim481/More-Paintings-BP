@@ -104,14 +104,143 @@
         "events": {
             "death": {
                 "sequence": [
+                    
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 0 },
                         "queue_command": {
-                            "command": "particle test:d_plank_oak ~ ~0.5 ~"
+
+                                "command": "particle test:d_c16 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 1 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c1 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 2 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c2 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 3 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c3 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 4 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c4 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 5 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c5 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 6 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c6 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 7 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c7 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 8 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c8 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 9 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c9 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 10 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c10 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 11 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c11 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 12 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c12 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 13 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c13 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 14 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c14 ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 15 },
+                        "queue_command": {
+
+                                "command": "particle test:d_c15 ~ ~1 ~"
                         }
                     },
                     {
                         "queue_command": {
                             "command": "playsound dig.wood @a[r=10]"
+                        }
+                    },
+                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 0 },
+                        "queue_command": {
+
+                            "command": "particle test:d_plank_jungle ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 1 },
+                        "queue_command": {
+
+                            "command": "particle test:d_plank_cherry ~ ~1 ~"
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 2 },
+                        "queue_command": {
+
+                            "command": "particle test:d_plank_pale ~ ~1 ~"
                         }
                     }
                 ]

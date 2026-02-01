@@ -95,14 +95,29 @@
             "death": {
                 "sequence": [
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 0 },
+                        
                         "queue_command": {
-                            "command": ["particle test:db_pot ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                            "command": ["particle test:db_pot_0 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 1 },
+                        
+                        "queue_command": {
+                            "command": ["particle test:db_pot_1 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 2 },
+                        
+                        "queue_command": {
+                            "command": ["particle test:db_pot_2 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
                         }
                     },
                     {
                         "queue_command": {
-                            "command": "playsound dig.wood @a[r=10]"
-                        }
+                            "command": ["playsound dig.wood @a[r=10]"]                      }
                     }
                 ]
             }

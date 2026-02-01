@@ -423,7 +423,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        target.runCommand(`say anjay`)
+                       
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, target.location)
                         object.setProperty(`hp4_paint:model`, 0)
                         system.runTimeout(()=>{object.remove()},5*20)
@@ -969,7 +969,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
     if(furnitures.includes(entity.typeId) || displays.includes(entity.typeId)) {
         if(player.getDynamicProperty(`hp4_paint:particles`)) {
             entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
-            entity.runCommand(`function hp/more_paintings/destroy_wood`)
+            // entity.runCommand(`function hp/more_paintings/destroy_wood`)
         } 
         {
             let hasPainting = false

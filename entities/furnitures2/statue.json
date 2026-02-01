@@ -114,8 +114,31 @@
             "death": {
                 "sequence": [
                     {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 0 },
                         "queue_command": {
-                            "command": ["particle test:d_stone ~ ~0.5 ~","particle test:d_stone ~ ~1.5 ~","particle test:d_stone ~ ~2.5 ~"]
+                            "command": [
+                                "particle test:d_statue ~ ~0.5 ~","particle test:d_statue ~ ~1.5 ~","particle test:d_statue ~ ~2.5 ~"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 1 },
+                        "queue_command": {
+                            "command": [
+                                "particle test:d_statue ~ ~0.5 ~","particle test:d_statue ~ ~1.5 ~","particle test:d_statue ~ ~2.5 ~",
+                                "particle test:d_c14 ~ ~0.5 ~","particle test:d_c2 ~ ~1.5 ~","particle test:d_c16 ~ ~2.5 ~"
+                            
+                            ]
+                        }
+                        
+                    },
+                    {
+                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 2 },
+                        "queue_command": {
+                            "command": [
+                                "particle test:d_statue ~ ~0.5 ~","particle test:d_statue ~ ~1.5 ~","particle test:d_statue ~ ~2.5 ~",
+                                "particle test:d_c5 ~ ~0.5 ~","particle test:d_c5 ~ ~1.5 ~","particle test:d_c5 ~ ~2.5 ~"
+                            ]
                         }
                     },
                     {

@@ -97,7 +97,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": ["particle test:d_stone ~ ~ ~","particle test:d_white_wool ~ ~ ~"]
+                            "command": ["particle test:d_stone ~ ~0.25 ~","particle test:d_c15 ~ ~0.25 ~"]
                         }
                     },
                     {
