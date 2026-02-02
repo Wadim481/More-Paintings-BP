@@ -423,19 +423,22 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                       
+                       target.runCommand(`playanimation @s animation.hp4_paint.on_hammer`)
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, target.location)
                         object.setProperty(`hp4_paint:model`, 0)
-                        system.runTimeout(()=>{object.remove()},5*20)
+                        system.runTimeout(()=>{object.remove()},4*20)
                         target.runCommand(`function hp/more_paintings/hammer_start`)
-                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},1*20)
+                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},4*20)
                     }
-                    target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
+                    system.runTimeout(()=>{
+                       target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
+                    },4*20)
+                    
                     target.dimension.getEntities().forEach(arg=>{
                         if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
                             system.runTimeout(()=>{
                                 arg.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`))
-                            },1)
+                            },1*20)
                         }
                     })
                 } catch (error) {
@@ -449,14 +452,17 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             object.setProperty(`hp4_paint:model`, 0)
                             system.runTimeout(()=>{object.remove()},5*20)
                             target.runCommand(`function hp/more_paintings/hammer_start`)
-                            system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},1*20)
+                            system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_wood`)},4*20)
                         }
-                        target.setProperty(`hp4_paint:furniture_model`, 0)
+                        system.runTimeout(()=>{
+                           target.setProperty(`hp4_paint:furniture_model`, 0)
+                        },4*20)
+                        
                         target.dimension.getEntities().forEach(arg=>{
                             if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
                                 system.runTimeout(()=>{
                                     arg.setProperty(`hp4_paint:furniture_model`, 0)
-                                },1)
+                                },1*20)
                             }
                         })
                     } catch (error) {
@@ -619,7 +625,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
+                        target.runCommand(`playanimation @s animation.hp4_paint.on_hammer`)
                         target.runCommand(`say anjay`)
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, target.location)
                         object.setProperty(`hp4_paint:model`, 0)
@@ -628,7 +634,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 object.remove()
                             } catch (error) {
                             }
-                        },5*20
+                        },4*20
                         )
                         target.runCommand(`function hp/more_paintings/hammer_start`)
                         system.runTimeout(()=>{

@@ -77,6 +77,16 @@
                 }
             }
         },
+        "component_groups": {
+            "spawn": {
+                "minecraft:is_stunned": {},
+                "minecraft:timer": {
+                    "time": 1.6,
+                    "looping": true,
+                    "time_down_event": { "event": "spawn_finish", "target": "self" }
+                }
+            }
+        },
         "components": {
             "minecraft:knockback_resistance": {
                 "value": 1000
@@ -145,6 +155,8 @@
             }
         },
         "events": {
+            "minecraft:entity_spawned": { "add": { "component_groups": [ "spawn" ]}},
+            "spawn_finish": { "remove": { "component_groups": [ "spawn" ]}},
             "glow": {
                 "set_property": {
                     "hp4_paint:paint_materials": true
