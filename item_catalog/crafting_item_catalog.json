@@ -93,7 +93,6 @@
                             "hp4_paint:soft_pastel_box",
                             "hp4_paint:sculpture_stand",
                             "hp4_paint:pencil_set",
-                            "hp4_paint:painting_brush",
                             "hp4_paint:paint_tubes",
                             "hp4_paint:marker_set",
                             "hp4_paint:eraser_sharpener",
@@ -123,6 +122,20 @@
                             "hp4_paint:thin_planter",
                             "hp4_paint:vase",
                             "hp4_paint:wide_planter"
+                        ]
+                    }
+                ]
+            },
+            {
+                "category_name": "items",
+                "groups": [
+                    {
+                        "group_identifier": { "icon": "hp4_paint:brush", "name": "hp4_paint:painting_tools" },
+                        "items": [
+                            "hp4_paint:settings_gear",
+                            "hp4_paint:brush",
+                            "hp4_paint:chisel",
+                            "hp4_paint:special_tool"
                         ]
                     }
                 ]
