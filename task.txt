@@ -1,6 +1,0 @@
-- Collision Making
-
-- Animated paintings
-(windtree) 2x2
-(Mountaincar, sleepinggirl) 2x4
-(Musicdisk) 4x2

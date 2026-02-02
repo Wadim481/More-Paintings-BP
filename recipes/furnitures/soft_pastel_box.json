@@ -1,0 +1,39 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:soft_pastel_box"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "ab ",
+            "xyz",
+            "   "
+        ],
+        "key": {
+            "b": {
+                "item": "minecraft:paper"
+            },
+            "a": {
+                "item": "minecraft:candle"
+            },
+            "x": {
+                "item": "minecraft:red_dye"
+            },
+            "y": {
+                "item": "minecraft:green_dye"
+            },
+            "z": {
+                "item": "minecraft:blue_dye"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:soft_pastel_box"
+        }
+    }
+}

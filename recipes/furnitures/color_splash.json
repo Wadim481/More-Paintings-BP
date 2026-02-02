@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:color_splash"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "iii",
+            "   "
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:cyan_dye"
+            },
+            "a": {
+                "item": "minecraft:paper"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:color_splash"
+        }
+    }
+}

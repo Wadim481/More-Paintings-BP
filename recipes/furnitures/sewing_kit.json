@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:sewing_kit"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "ab ",
+            " c ",
+            "   "
+        ],
+        "key": {
+            "b": {
+                "item": "minecraft:shears"
+            },
+            "a": {
+                "item": "minecraft:wool"
+            },
+            "c": {
+                "item": "minecraft:string"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:sewing_kit"
+        }
+    }
+}

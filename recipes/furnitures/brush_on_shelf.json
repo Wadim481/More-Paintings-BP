@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:brush_on_shelf"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            " b ",
+            "iii"
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:planks"
+            },
+            "b": {
+                "item": "hp4_paint:brush_holder_cup"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:brush_on_shelf"
+        }
+    }
+}

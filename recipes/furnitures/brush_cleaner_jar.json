@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:brush_cleaner_jar"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            " a ",
+            " i "
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:glass_bottle"
+            },
+            "a": {
+                "item": "hp4_paint:brush"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:brush_cleaner_jar"
+        }
+    }
+}

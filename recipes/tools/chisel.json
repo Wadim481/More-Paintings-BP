@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:chisel"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            " cd",
+            "   ",
+            "ab "
+        ],
+        "key": {
+            "a": {
+                "item": "minecraft:stick"
+            },
+            "b": {
+                "item": "minecraft:iron_nugget"
+            },
+            "c": {
+                "item": "minecraft:stick"
+            },
+            "d": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:chisel"
+        }
+    }
+}

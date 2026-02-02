@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:chalk_and_charcoal"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "aa ",
+            "bi ",
+            "   "
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:white_concrete_powder"
+            },
+            "a": {
+                "item": "minecraft:charcoal"
+            },
+            "b": {
+                "item": "minecraft:paper"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:chalk_and_charcoal"
+        }
+    }
+}

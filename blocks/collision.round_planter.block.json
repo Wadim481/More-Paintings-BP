@@ -2,7 +2,7 @@
 	"format_version": "1.21.60",
 	"minecraft:block": {
 		"description": {
-			"identifier": "hp4_paint:collision.art_chair",
+			"identifier": "hp4_paint:collision.round_planter",
 			"menu_category": {
 				"category": "none"
 			},
@@ -10,19 +10,16 @@
 				"minecraft:placement_direction": {
 					"enabled_states": ["minecraft:cardinal_direction"]
 				}
-			},
-  			"states": {
-  			  	"hp4_paint:custom_state": ["down", "up"]
-  			}
+			}
 		},
 		"components": {
 			"minecraft:collision_box": {
-				"origin": [-6, 0, -6],
-				"size": [12, 1, 12]
+				"origin": [-8, 0, -8],
+				"size": [16, 11, 16]
 			},
 			"minecraft:selection_box": {
-				"origin": [-6, 0, -6],
-				"size": [12, 1, 12]
+				"origin": [-8, 0, -8],
+				"size": [16, 11, 16]
 			},
 			"minecraft:destructible_by_mining": {
 				"seconds_to_destroy": 6000
@@ -82,34 +79,6 @@
 				"components": {
 					"minecraft:transformation": {
 						"rotation": [0, 270, 0]
-					}
-				}
-			},
-
-
-			{
-				"condition": "q.block_state('hp4_paint:custom_state') == 'up' ",
-				"components": {
-					"minecraft:collision_box": {
-						"origin": [-6, 2, 4],
-						"size": [12, 2, 4]
-					},
-					"minecraft:selection_box": {
-						"origin": [-6, 2, 4],
-						"size": [12, 2, 4]
-					}
-				}
-			},
-			{
-				"condition": "q.block_state('hp4_paint:custom_state') == 'down' ",
-				"components": {
-					"minecraft:collision_box": {
-						"origin": [-6, 0, -6],
-						"size": [12, 9, 12]
-					},
-					"minecraft:selection_box": {
-						"origin": [-6, 0, -6],
-						"size": [12, 9, 12]
 					}
 				}
 			}

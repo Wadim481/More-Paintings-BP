@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:cabinet"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "aab",
+            "aac",
+            "aad"
+        ],
+        "key": {
+            "b": {
+                "item": "hp4_paint:color_bucket"
+            },
+            "a": {
+                "item": "minecraft:planks"
+            },
+            "c": {
+                "item": "minecraft:glass_bottle"
+            },
+            "d": {
+                "item": "minecraft:brush"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:cabinet"
+        }
+    }
+}

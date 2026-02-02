@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:paint_tubes"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "xyz",
+            "bbb"
+        ],
+        "key": {
+            "x": {
+                "item": "minecraft:red_dye"
+            },
+            "y": {
+                "item": "minecraft:blue_dye"
+            },
+            "z": {
+                "item": "minecraft:green_dye"
+            },
+            "b": {
+                "item": "minecraft:glass_bottle"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:paint_tubes"
+        }
+    }
+}

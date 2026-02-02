@@ -59,12 +59,12 @@ export function instanceMenu(player, title, body, buttons, cancelation) {
 
 system.runInterval(()=>{
     world.getAllPlayers().forEach(p=>{
-        if(!p.getDynamicProperty('hp4_paint:particles')) return
+        if(!p.getDynamicProperty(`hp4_paint:outlines`)) return
         const heldItem = p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex)
         p.dimension.getEntities({maxDistance: 10, location: p.location}).forEach(e=>{
             if(e == p) return
             try {
-                if((heldItem.typeId == 'hp4_paint:special_tool' && !checkOutlineFilter(e, 'hp4_paint:special_tool')) || heldItem.typeId == 'hp4_paint:brush') {
+                if((heldItem.typeId == 'hp4_paint:special_tool' && !checkOutlineFilter(e, 'hp4_paint:special_tool')) || (heldItem.typeId == 'hp4_paint:brush' && !checkOutlineFilter(e, 'hp4_paint:brush')) || (heldItem.typeId == 'hp4_paint:chisel' && checkOutlineFilter(e, 'hp4_paint:chisel'))) {
                     try {
                         if (!e.getProperty(`hp4_paint:outline`)) {
                             e.setProperty(`hp4_paint:outline`, true)
@@ -104,9 +104,9 @@ system.runInterval(()=>{
         })
     })
 })
-function checkOutlineFilter(e, item) {
+export function checkOutlineFilter(e, item) {
     for (const f of outLineFilters[item]) {
-        if (e.typeId === `hp4_paint:${f}`) {
+        if (e.typeId.includes(f)) {
             return true
         }
     }
@@ -114,7 +114,13 @@ function checkOutlineFilter(e, item) {
 }
 const outLineFilters = {
     'hp4_paint:special_tool': [
-        `display`, `planter`, `cabinet`, `lying_bottle_color`, `jewellery_components`, `powder_jar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`
+        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`
+    ],
+    'hp4_paint:brush': [
+        `canvas`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `stencil`, `spray_paint`, `soft_pastel`, `sculpture_stand`, `pencil_set`, `paint_tubes`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `drafting_tool`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `brush_cleaner_jar`, `chalk_and_charcoal`, `spatula`, `tube_paint`, `sketchbook`, `brushes_set`, `spray_can`
+    ],
+    'hp4_paint:chisel': [
+        `statue`
     ]
 }
 //MECHANIC

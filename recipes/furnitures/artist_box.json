@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:artist_box"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            " b ",
+            "iai",
+            "   "
+        ],
+        "key": {
+            "i": {
+                "item": "hp4_paint:spatula"
+            },
+            "a": {
+                "item": "minecraft:chest"
+            },
+            "b": {
+                "item": "hp4_paint:lying_bottle_color"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:artist_box"
+        }
+    }
+}

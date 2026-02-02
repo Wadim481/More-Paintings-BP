@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:drawing_tube"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "ibb",
+            "ibb",
+            "ibb"
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:copper_ingot"
+            },
+            "b": {
+                "item": "minecraft:paper"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:drawing_tube"
+        }
+    }
+}

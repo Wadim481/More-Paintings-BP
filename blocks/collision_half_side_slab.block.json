@@ -2,7 +2,7 @@
 	"format_version": "1.21.60",
 	"minecraft:block": {
 		"description": {
-			"identifier": "hp4_paint:collision.art_chair",
+			"identifier": "hp4_paint:collision_half_side_slab",
 			"menu_category": {
 				"category": "none"
 			},
@@ -11,18 +11,18 @@
 					"enabled_states": ["minecraft:cardinal_direction"]
 				}
 			},
-  			"states": {
-  			  	"hp4_paint:custom_state": ["down", "up"]
-  			}
+			"states": {
+				"hp4_paint:custom_state": ["front_right", "front_left", "back_right", "back_left"]
+			}
 		},
 		"components": {
 			"minecraft:collision_box": {
-				"origin": [-6, 0, -6],
-				"size": [12, 1, 12]
+				"origin": [0, 0, 0],
+				"size": [8, 16, 8]
 			},
 			"minecraft:selection_box": {
-				"origin": [-6, 0, -6],
-				"size": [12, 1, 12]
+				"origin": [0, 0, 0],
+				"size": [8, 16, 8]
 			},
 			"minecraft:destructible_by_mining": {
 				"seconds_to_destroy": 6000
@@ -85,31 +85,55 @@
 					}
 				}
 			},
-
-
 			{
-				"condition": "q.block_state('hp4_paint:custom_state') == 'up' ",
+				"condition": "q.block_state('hp4_paint:custom_state') == 'front_right' ",
 				"components": {
 					"minecraft:collision_box": {
-						"origin": [-6, 2, 4],
-						"size": [12, 2, 4]
+				"origin": [-8, 0, 0],
+				"size": [8, 16, 8]
 					},
 					"minecraft:selection_box": {
-						"origin": [-6, 2, 4],
-						"size": [12, 2, 4]
+				"origin": [-8, 0, 0],
+				"size": [8, 16, 8]
 					}
 				}
 			},
 			{
-				"condition": "q.block_state('hp4_paint:custom_state') == 'down' ",
+				"condition": "q.block_state('hp4_paint:custom_state') == 'front_left' ",
 				"components": {
 					"minecraft:collision_box": {
-						"origin": [-6, 0, -6],
-						"size": [12, 9, 12]
+				"origin": [0, 0, 0],
+				"size": [8, 16, 8]
 					},
 					"minecraft:selection_box": {
-						"origin": [-6, 0, -6],
-						"size": [12, 9, 12]
+				"origin": [0, 0, 0],
+				"size": [8, 16, 8]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('hp4_paint:custom_state') == 'back_right' ",
+				"components": {
+					"minecraft:collision_box": {
+				"origin": [-8, 0, -8],
+				"size": [8, 16, 8]
+					},
+					"minecraft:selection_box": {
+				"origin": [-8, 0, -8],
+				"size": [8, 16, 8]
+					}
+				}
+			},
+			{
+				"condition": "q.block_state('hp4_paint:custom_state') == 'back_left' ",
+				"components": {
+					"minecraft:collision_box": {
+						"origin": [0, 0, -8],
+						"size": [8, 16, 8]
+					},
+					"minecraft:selection_box": {
+						"origin": [0, 0, -8],
+						"size": [8, 16, 8]
 					}
 				}
 			}

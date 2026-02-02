@@ -1,0 +1,36 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:tube_paint"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "abc",
+            "iii"
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:wooden_slab"
+            },
+            "a": {
+                "item": "hp4_paint:spatula"
+            },
+            "b": {
+                "item": "hp4_paint:brush"
+            },
+            "c": {
+                "item": "hp4_paint:art_knives"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:tube_paint"
+        }
+    }
+}

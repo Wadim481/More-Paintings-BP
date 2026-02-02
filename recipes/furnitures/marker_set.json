@@ -1,0 +1,33 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:marker_set"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            " a ",
+            " b ",
+            " i "
+        ],
+        "key": {
+            "i": {
+                "item": "minecraft:copper_ingot"
+            },
+            "b": {
+                "item": "minecraft:wool"
+            },
+            "a": {
+                "item": "minecraft:green_dye"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:marker_set"
+        }
+    }
+}

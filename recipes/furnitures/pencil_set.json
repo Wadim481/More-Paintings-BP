@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.10",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "hp4_paint:pencil_set"
+        },
+        "tags": [
+            "crafting_table"
+        ],
+        "pattern": [
+            "   ",
+            "x  ",
+            "b  "
+        ],
+        "key": {
+            "x": {
+                "item": "minecraft:green_dye"
+            },
+            "b": {
+                "item": "minecraft:stick"
+            }
+        },
+        "unlock": {
+            "context": "AlwaysUnlocked"
+        },
+        "result": {
+            "item": "hp4_paint:pencil_set"
+        }
+    }
+}
