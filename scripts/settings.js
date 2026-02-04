@@ -61,11 +61,6 @@ mc.world.afterEvents.itemUse.subscribe(arg=>{
     if(item.typeId == 'hp4_paint:settings_gear') {
         mainSettings(player)
     }
-    if(item.typeId=='minecraft:stick') {
-        const object = player.dimension.spawnEntity(`hp4_paint:particle_objects`, player.location)
-        object.setProperty(`hp4_paint:model`, 0)
-        mc.system.runTimeout(()=>{object.remove()},5*20)
-    }
 })
 function mainSettings(player) {
     let buttons = [

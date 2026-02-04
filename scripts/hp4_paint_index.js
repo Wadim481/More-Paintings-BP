@@ -4,6 +4,7 @@ import { colorPaintingData } from './color_painting_data'
 import './paintings_display'
 import './vanilla_features'
 import './settings'
+import './artist_villager'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []
@@ -1521,6 +1522,66 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
                 entity.runCommand(`playsound dig.wood @a ~~~`)
             }
         })
+    }
+    if (id == 'hp4_paint:summon') {
+        const furnitures = [
+            "hp4_paint:artist_box",
+            "hp4_paint:art_bench",
+            "hp4_paint:art_chair",
+            "hp4_paint:art_knives", 
+            "hp4_paint:brushes_set", //
+            "hp4_paint:brush_cleaner_cup",
+            "hp4_paint:brush_cleaner_jar",
+            "hp4_paint:brush_holder_cup", //
+            "hp4_paint:brush_on_shelf",
+            "hp4_paint:cabinet",
+            "hp4_paint:canvas", //
+            "hp4_paint:chalk_and_charcoal",
+            "hp4_paint:color_bucket",
+            "hp4_paint:color_splash",
+            "hp4_paint:color_swatch",
+            "hp4_paint:display_case",
+            "hp4_paint:display_case_big",
+            "hp4_paint:display_case_huge",
+            "hp4_paint:display_case_tall",
+            "hp4_paint:display_case_wide",
+            "hp4_paint:display_case_wide2",
+            "hp4_paint:drafting_tools",
+            "hp4_paint:drawing_tube",
+            "hp4_paint:easel_stand",
+            "hp4_paint:eraser_sharpener",
+            "hp4_paint:jewellery_components",
+            "hp4_paint:large_planter",
+            "hp4_paint:lying_bottle_color",
+            "hp4_paint:marker_set",
+            "hp4_paint:paint_tubes",
+            "hp4_paint:pencil_set",
+            "hp4_paint:powderjar",
+            "hp4_paint:round_planter",
+            "hp4_paint:sack_of_beton",
+            "hp4_paint:sculpture_stand",
+            "hp4_paint:sewing_kit",
+            "hp4_paint:sketchbook", //
+            "hp4_paint:soft_pastel_box",
+            "hp4_paint:spatula",
+            "hp4_paint:spray_can",
+            "hp4_paint:statue_painting",
+            "hp4_paint:stencil", //
+            "hp4_paint:stool",
+            "hp4_paint:thin_planter",
+            "hp4_paint:tube_paint",
+            "hp4_paint:unfinished_wooden_block",
+            "hp4_paint:variant_paint_bottle",
+            "hp4_paint:vase",
+            "hp4_paint:wide_planter"
+        ]
+        for (let index = 0; index < furnitures.length; index++) {
+            source.dimension.spawnEntity(furnitures[index], {
+                x: (Math.floor(source.location.x)+0.5) + (5*(index%10)),
+                y: (Math.floor(source.location.y)),
+                z: (Math.floor(source.location.z)+0.5) + (5 * Math.floor(index / 10))
+            })
+        }
     }
 })
 export function paintingTypeChoose(entity) {

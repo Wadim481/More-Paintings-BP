@@ -1,0 +1,8 @@
+artist villager spawn bersama dengan structure
+
+how it works?
+
+- artist villager adalah entitas statis dengan animasi unik
+- dia muncul di sebuah ruangan melukis dsb
+- saat player memukulnya, artist villager melawan sebentar lalu berlari ke tempat lain
+- saat ada monster disekitarnya, artist villager berkamuflase menjadi zombie/skeleton

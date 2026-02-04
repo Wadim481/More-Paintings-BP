@@ -1,0 +1,42 @@
+{
+  "format_version": "1.16.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "hp4_paint:artist_villager_painting_spot",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "components": {
+      "minecraft:nameable": {
+      },
+      "minecraft:type_family": {
+        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager_painting_spot" ]
+      },
+      "minecraft:collision_box": {
+        "width": -1,
+        "height": -1
+      },
+      "minecraft:health": {
+        "value": 100,
+        "max": 100
+      },
+      "minecraft:physics": {
+        "has_collision":false,
+        "has_gravity":false
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:damage_sensor": {
+          "triggers": [
+              {
+                  "cause": "all",
+                  "deals_damage": false
+              }
+          ]
+      }
+    }
+  }
+}
