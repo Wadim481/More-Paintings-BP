@@ -6,3 +6,5 @@ how it works?
 - dia muncul di sebuah ruangan melukis dsb
 - saat player memukulnya, artist villager melawan sebentar lalu berlari ke tempat lain
 - saat ada monster disekitarnya, artist villager berkamuflase menjadi zombie/skeleton
+- animasi
+- nonton hytale

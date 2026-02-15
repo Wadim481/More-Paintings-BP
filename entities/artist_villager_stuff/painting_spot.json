@@ -3,7 +3,7 @@
   "minecraft:entity": {
     "description": {
       "identifier": "hp4_paint:artist_villager_painting_spot",
-      "is_spawnable": true,
+      "is_spawnable": false,
       "is_summonable": true,
       "is_experimental": false
     },

@@ -1,0 +1,1582 @@
+{
+  "tiers": [
+    {
+      "total_exp_required": 0,
+      "groups": [
+        {
+          "num_to_select": 98,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:black_modern.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:burning.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:decgold.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:deciron.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:diamond.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:enchanted.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:foliage.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:glass.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:glitter.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:medieval.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:pink.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:white_modern.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:wooden.frame"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:art_bench"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brushes_set"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brush_cleaner_jar"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:chalk_and_charcoal"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:color_bucket"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case_big"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case_huge"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case_tall"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case_wide"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:display_case_wide2"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:easel_stand"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:large_planter"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:round_planter"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:sketchbook"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:spatula"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:thin_planter"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:tube_paint"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:vase"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:wide_planter"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:artist_box"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:art_chair"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:art_knives"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brush_cleaner_cup"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brush_holder_cup"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brush_on_shelf"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:cabinet"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:canvas"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:color_splash"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:color_swatch"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:drafting_tools"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:drawing_tube"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:eraser_sharpener"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:jewellery_components"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:lying_bottle_color"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:marker_set"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:paint_tubes"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:pencil_set"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:powderjar"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:sack_of_beton"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:sculpture_stand"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:sewing_kit"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:soft_pastel_box"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:spray_can"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:statue_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:stencil"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:stool"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:unfinished_wooden_block"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:variant_paint_bottle"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:8bit_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:alien_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:animated_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:biomes_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:candy1_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:candy2_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:circus_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:dino_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:dino_dragons_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:dragon_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:egypt_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:fantasy_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:fog_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:forest_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:halloween_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:horror_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:kawaii_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:magic_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:medieval_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:modern_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:music_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:nature_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:ninja_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:ocean_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:pirates_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:robot_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:scifi_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:snow_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:steampunk_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:superheroes_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:tiny_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:zombies_painting"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:settings_gear"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:brush"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:chisel"
+                }
+              ]
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": {
+                    "min": 1,
+                    "max": 6
+                  }
+                }
+              ],
+              "gives": [
+                {
+                  "item": "hp4_paint:special_tool"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

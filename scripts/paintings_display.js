@@ -129,6 +129,22 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
             system.runTimeout(() => {
                 getEntitySize(arg.entity)
                 arg.entity.playAnimation(`animation.hp4_paint.spawned`)
+                spawner.some(p=>{
+                    const defaultColor = p.getDynamicProperty(`hp4_paint:defaultColor`)
+                    woodColorful.forEach(colorful=>{
+                        const name = Array.isArray(colorful) ? colorful[0] : colorful
+                        if(arg.entity.typeId.includes(name)) {
+                            console.warn('filter masuk')
+                            try {
+                                system.runTimeout(()=>{
+                                    try {
+                                        arg.entity.setProperty(Array.isArray(colorful) ? colorful[1] : `hp4_paint:furniture_color`, defaultColor)
+                                    } catch (error) {}
+                                },3)
+                            } catch (error) {}
+                        }
+                    })
+                })
             },1)
         } else if (spawner.length == 0) {
             arg.entity.runCommand(`title @p actionbar Activate Additional Furnitures in settings\nto put this furniture`)
@@ -138,7 +154,46 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
             arg.entity.remove()
         }
     }
+
+    //COLOR SPLASH FILTER
+    if(arg.entity.typeId == 'hp4_paint:color_splash') {
+        arg.entity.dimension.getEntities({type: 'hp4_paint:color_splash', location: arg.entity.location, maxDistance: 0.5}).forEach(e=>{
+            if(e == arg.entity) return;
+            console.warn('removing')
+            system.runTimeout(()=>{
+                e.dimension.getPlayers({closest:1, location: e.location}).forEach(p=>{
+                    p.runCommand(`give @s hp4_paint:color_splash 1`)
+                })
+                e.remove()
+            },5)
+        })
+    }
 })
+const smallFurnitures = [
+    `hp4_paint:color_splash`,
+    `hp4_paint:spray_can`,
+    `hp4_paint:brushes_set`,
+    `hp4_paint:brush_cleaner_jar`,
+    `hp4_paint:color_bucket`,
+    `hp4_paint:drafting_tools`,
+    `hp4_paint:paint_tubes`,
+    `hp4_paint:spatula`,
+    `hp4_paint:stencil`,
+    `hp4_paint:sack_of_beton`
+]
+const woodColorful = [
+    [`hp4_paint:art_chair`, `hp4_paint:furniture_model`],
+    `hp4_paint:art_bench`,
+    `hp4_paint:brush_on_shelf`,
+    `hp4_paint:cabinet`,
+    [`hp4_paint:color_bucket`, `hp4_paint:furniture_model`],
+    `display_case`,
+    `hp4_paint:easel_stand`,
+    `planter`,
+    `vase`,
+    [`hp4_paint:stool`, `hp4_paint:furniture_model`],
+    `hp4_paint:variant_paint_bottle`
+]
 world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
     const player = arg.player;
     const item = arg.itemStack;
@@ -146,6 +201,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
 
     const frontTarget = getFrontPos(target, 1)
     //Inisiasi
+    if(target.getDynamicProperty(`hp4_paint:disable_interaction`) > 0) return
     if(displays.includes(target.typeId)) {
         if(item) {
             if(item.typeId.includes('hp4_paint')&&(item.typeId.endsWith('painting'))){
@@ -421,22 +477,29 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
 
 
             if(item.typeId === 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool')) {
-                target.playAnimation(`animation.hp4_paint.on_hammer`)
                 try {
+                    const parLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target),
+                        z: target.location.z
+                    }
+                    
+                    target.dimension.spawnParticle(`test:loading`, parLoc)
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        target.playAnimation(`animation.hp4_paint.on_hammer`)
                         //AFANDI
-                        target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                            e.remove()
-                        })
                         const objectLoc = {
                             x: target.location.x,
                             y: target.location.y + getEntityHeight(target) - 1,
                             z: target.location.z
                         }
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                            e.remove()
+                        })
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                         object.setProperty(`hp4_paint:model`, 0)
                         system.runTimeout(()=>{
@@ -453,72 +516,41 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             } catch (error) {
                                 
                             }
-                        },1*20)
+                        },4*20)
                     }
-                    target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
-                    target.dimension.getEntities().forEach(arg=>{
-                        if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
-                            system.runTimeout(()=>{
-                                arg.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`))
-                            },1)
+                    target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20)
+                    system.runTimeout(()=>{
+                        try {
+                            target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)    
+                        } catch (error) {
+                            target.setProperty(`hp4_paint:furniture_model`, 0)
                         }
-                    })
-                } catch (error) {
-                    try {
-                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                            //AFANDI
-                            target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                            // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                            // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                                e.remove()
-                            })
-                            const objectLoc = {
-                                x: target.location.x,
-                                y: target.location.y + getEntityHeight(target) - 1,
-                                z: target.location.z
-                            }
-                            const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                            object.setProperty(`hp4_paint:model`, 0)
-                            system.runTimeout(()=>{
-                                try {
-                                    object.remove()
-                                } catch (error) {
-                                }
-                            },5*20
-                            )
-                            target.runCommand(`function hp/more_paintings/hammer_start`)
-                            system.runTimeout(()=>{
-                                try {
-                                    target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
-                                } catch (error) {
-
-                                }
-                            },1*20)
-                        }
-                        target.setProperty(`hp4_paint:furniture_model`, 0)
                         target.dimension.getEntities().forEach(arg=>{
                             if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
                                 system.runTimeout(()=>{
-                                    arg.setProperty(`hp4_paint:furniture_model`, 0)
+                                    arg.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`))
                                 },1)
                             }
                         })
-                    } catch (error) {
-                        
-                    }
+                    },4*20)
+                } catch (error) {
                 }
             }
             if(item.typeId == 'hp4_paint:brush' && !main.checkOutlineFilter(target, 'hp4_paint:brush')) {
-                target.playAnimation(`animation.hp4_paint.spawned`)
                 // target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                 // target.runCommand(`particle hp4_paint:dust ~~1~`)
                 // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                 try {
+                    const parLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target),
+                        z: target.location.z
+                    }
+                    target.dimension.spawnParticle(`test:loading`, parLoc)
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        target.playAnimation(`animation.hp4_paint.spawned`)
                         //AFANDI
-                        target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
@@ -537,7 +569,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 object.remove()
                             } catch (error) {
                             }
-                        },5*20
+                        },2.5*20
                         )
                         target.runCommand(`function hp/more_paintings/brush_start`)
                         system.runTimeout(()=>{
@@ -546,62 +578,24 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             } catch (error) {
                                 
                             }
-                        },1*20)
+                        },2.5*20)
                     }
-                    target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
-                    target.dimension.getEntities().forEach(arg=>{
-                        if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
-                            system.runTimeout(()=>{
-                                arg.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`))
-                            },1)
+                    target.setDynamicProperty(`hp4_paint:disable_interaction`, 2.5*20)
+                    system.runTimeout(()=>{
+                        try {
+                            target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
+                        } catch (error) {
+                            target.setProperty(`hp4_paint:furniture_color`, 0)
                         }
-                    })
-                } catch (error) {
-                    try {
-                        //AFANDI
-                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                            target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                            // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                            // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                                e.remove()
-                            })
-                            const objectLoc = {
-                                x: target.location.x,
-                                y: target.location.y + getEntityHeight(target) - 1,
-                                z: target.location.z
-                            }
-                            const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                            object.setProperty(`hp4_paint:model`, 2)
-                            system.runTimeout(()=>{
-                                try {
-                                    object.remove()
-                                } catch (error) {
-                                }
-                            },5*20
-                            )
-                            target.runCommand(`function hp/more_paintings/brush_start`)
-                            system.runTimeout(()=>{
-                                try {
-                                    target.runCommand(`function hp/more_paintings/brush_finish`)
-                                } catch (error) {
-
-                                }
-                            },1*20)
-                        }
-                        target.setProperty(`hp4_paint:furniture_color`, 0)
                         target.dimension.getEntities().forEach(arg=>{
                             if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
                                 system.runTimeout(()=>{
-                                    arg.setProperty(`hp4_paint:furniture_color`, 0)
+                                    arg.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`))
                                 },1)
                             }
                         })
-                    } catch (error) {
-                        
-                    }
-                }
+                    },2.5*20)
+                } catch (error) {}
             }
             // main.frames.forEach(frame=>{
             //     if(item.typeId==`hp4_paint:${frame}.frame`) {
@@ -712,15 +706,38 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         //NEW FURNITURE VARIANT MANAGER
         if(target.typeId == furniture) {
             if(item.typeId == 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool')) {
-                target.playAnimation(`animation.hp4_paint.on_hammer`)
                 try {
+                    let isSmallFurnitures = false
+                    if(smallFurnitures.includes(furniture)) {
+                        isSmallFurnitures = true
+                    }
+                    
+                    const parLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target),
+                        z: target.location.z
+                    }
+                    if(!isSmallFurnitures) {
+                        target.dimension.spawnParticle(`test:loading`, parLoc)
+                        target.runCommand(`function hp/more_paintings/hammer_start`)
+                        system.runTimeout(()=>{
+                            try {
+                                target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                            } catch (error) {
+
+                            }
+                        },4*20)
+                    } else {
+                        target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                    }
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        target.playAnimation(`animation.hp4_paint.on_hammer`)
                         //AFANDI
-                        target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
                             e.remove()
                         })
                         const objectLoc = {
@@ -735,65 +752,54 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 object.remove()
                             } catch (error) {
                             }
-                        },5*20
+                        },4*20
                         )
-                        system.runTimeout(()=>{
-                            try {
-                                target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
-                            } catch (error) {
-                                
-                            }
-                        },1*20)
                     }
-                    target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
-
-                    //Place Collision
-                    getEntitySize(target, true)
-                } catch (error) {
-                    try {
-                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                            //AFANDI
-                            target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                            // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                            // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                            
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
-                                e.remove()
-                            })
-                            const objectLoc = {
-                                x: target.location.x,
-                                y: target.location.y + getEntityHeight(target) - 1,
-                                z: target.location.z
-                            }
-                            const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                            object.setProperty(`hp4_paint:model`, 0)
-                                system.runTimeout(()=>{
-                                try {
-                                    object.remove()
-                                } catch (error) {}
-                            },5*20)
-                            system.runTimeout(()=>{
-                                target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
-                            },1*20)
+                    !isSmallFurnitures ? target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20) : null
+                    system.runTimeout(()=>{
+                        try {
+                            target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
+                        } catch (error) {
+                            target.setProperty(`hp4_paint:furniture_model`, 0)
                         }
-                        target.setProperty(`hp4_paint:furniture_model`, 0)
                         //Place Collision
                         getEntitySize(target, true)
-                    } catch (error) {
-                        
-                    }
+                    },isSmallFurnitures ? 0 : 4*20)
+                } catch (error) {
                 }
             }
             if(item.typeId == 'hp4_paint:brush' && !main.checkOutlineFilter(target, 'hp4_paint:brush')) {
-                target.playAnimation(`animation.hp4_paint.spawned`)
                 try {
+                    let isSmallFurnitures = false
+                    if(smallFurnitures.includes(furniture)) {
+                        isSmallFurnitures = true
+                    }
+                    const parLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target),
+                        z: target.location.z
+                    }
+                    if(!isSmallFurnitures) {
+                        target.dimension.spawnParticle(`test:loading`, parLoc)
+                        target.runCommand(`function hp/more_paintings/brush_start`)
+                        system.runTimeout(()=>{
+                            try {
+                                target.runCommand(`function hp/more_paintings/brush_finish`)
+                            } catch (error) {
+                                
+                            }
+                        },2.5*20)
+                    } else {
+                        target.runCommand(`function hp/more_paintings/brush_finish`)
+                    }
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        target.playAnimation(`animation.hp4_paint.spawned`)
                         //AFANDI
-                        target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
+                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
                             e.remove()
                         })
                         const objectLoc = {
@@ -808,69 +814,36 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 object.remove()
                             } catch (error) {
                             }
-                        },5*20
+                        },2.5*20
                         )
-                        target.runCommand(`function hp/more_paintings/brush_start`)
-                        system.runTimeout(()=>{
-                            try {
-                                target.runCommand(`function hp/more_paintings/brush_finish`)
-                            } catch (error) {
-                                
-                            }
-                        },1*20)
                     }
-                    target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
-                } catch (error) {
-                    try {
-                        //AFANDI
-                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                            target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                            // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                            // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                            
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
-                                e.remove()
-                            })
-                            const objectLoc = {
-                                x: target.location.x,
-                                y: target.location.y + getEntityHeight(target) - 1,
-                                z: target.location.z
-                            }
-                            const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                            object.setProperty(`hp4_paint:model`, 2)
-                            system.runTimeout(()=>{
-                                try {
-                                    object.remove()
-                                } catch (error) {
-                                }
-                            },5*20
-                            )
-                            target.runCommand(`function hp/more_paintings/brush_start`)
-                            system.runTimeout(()=>{
-                                try {
-                                    target.runCommand(`function hp/more_paintings/brush_finish`)
-                                } catch (error) {
-                                    
-                                }
-                            },1*20)
+                    !isSmallFurnitures ? target.setDynamicProperty(`hp4_paint:disable_interaction`, 3*20) : null
+                    system.runTimeout(()=>{
+                        try {
+                            target.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`) + 1)
+                        } catch (error) {
+                            target.setProperty(`hp4_paint:furniture_color`, 0)
                         }
-                        target.setProperty(`hp4_paint:furniture_color`, 0)
-                    } catch (error) {
-                        
-                    }
+                    },isSmallFurnitures ? 0 : 2.5*20)
+                } catch (error) {
                 }
             }
             if(item.typeId == 'hp4_paint:chisel' && main.checkOutlineFilter(target, 'hp4_paint:chisel')) {
-                target.playAnimation(`animation.hp4_paint.on_chisel`)
                 try {
+                    const parLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target),
+                        z: target.location.z
+                    }
+                    target.dimension.spawnParticle(`test:loading`, parLoc)
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        target.playAnimation(`animation.hp4_paint.on_chisel`)
                         //AFANDI
-                        target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                        ////target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
                         // target.runCommand(`particle hp4_paint:dust ~~1~`)
                         // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                         
                         target.runCommand(`function hp/more_paintings/hammer_start`)
-                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},1*20)
 
                         
                         target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
@@ -882,45 +855,23 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             z: target.location.z
                         }
                         const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},4*20)
                         object.setProperty(`hp4_paint:model`, 1)
                         system.runTimeout(()=>{
                             try {
                                 object.remove()
                             } catch (error) {}
-                        },5*20)
+                        },4*20)
                     }
-                    target.setProperty(`hp4_paint:statue_pose`, target.getProperty(`hp4_paint:statue_pose`) + 1)
-                } catch (error) {
-                    try {
-                        if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                            //AFANDI
-                            target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                            // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                            // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                            
-                            target.runCommand(`function hp/more_paintings/hammer_start`)
-                            system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},1*20)
-
-                            target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
-                                e.remove()
-                            })
-                            const objectLoc = {
-                                x: target.location.x,
-                                y: target.location.y + getEntityHeight(target) - 1,
-                                z: target.location.z
-                            }
-                            const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                            object.setProperty(`hp4_paint:model`, 1)
-                            system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {}
-                        },5*20)
+                    target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20)
+                    system.runTimeout(()=>{
+                        try {
+                            target.setProperty(`hp4_paint:statue_pose`, target.getProperty(`hp4_paint:statue_pose`) + 1)
+                        } catch (error) {
+                            target.setProperty(`hp4_paint:statue_pose`, 0)
                         }
-                        target.setProperty(`hp4_paint:statue_pose`, 0)
-                    } catch (error) {
-                        
-                    }
+                    },4*20)
+                } catch (error) {
                 }
             }
         }
@@ -937,7 +888,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         //                 }
         //             })
         //             target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) >= maxModel ? 0 : target.getProperty(`hp4_paint:furniture_model`) + 1)
-        //             target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+        //             //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
         //             target.runCommand(`particle hp4_paint:dust ~~1~`)
         //             target.runCommand(`particle hp4_paint:dust2 ~~1~`)
         //             target.dimension.getEntities().forEach(arg=>{
@@ -1183,7 +1134,12 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
             if(!cancelRemove) {
                 gamemode != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
                 resetCollision(entity, true, false, false)
-                entity.remove()
+                if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
+                    entity.triggerEvent('death');
+                }
+                system.runTimeout(()=>{
+                    entity.remove()
+                },1)
             }
         }
         if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
@@ -1192,7 +1148,6 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
                     player.getGameMode() != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
                     resetCollision(entity, true)
-                    entity.remove()
                 } catch (error) {
                     
                 }
@@ -1538,6 +1493,7 @@ function getEntityHeight(entity) {
 
         // Small items (height 1 gang)
         case `hp4_paint:jewellery_components`:
+        case `hp4_paint:color_splash`:
         case `hp4_paint:variant_paint_bottle`:
         case `hp4_paint:sack_of_beton`:
         case `hp4_paint:lying_bottle_color`:
@@ -2657,3 +2613,10 @@ function rotate(dir, clock = true) {
     }
     return result
 }
+system.runInterval(()=>{
+    world.getDimension("overworld").getEntities().forEach(entity=>{
+        if(entity.getDynamicProperty(`hp4_paint:disable_interaction`) > 0) {
+            entity.setDynamicProperty(`hp4_paint:disable_interaction`, entity.getDynamicProperty(`hp4_paint:disable_interaction`)-1)
+        }
+    })
+})

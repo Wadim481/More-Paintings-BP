@@ -55,9 +55,6 @@
             "minecraft:damage_sensor": {
                 "triggers": [
                     {
-                        "on_damage": {
-                            "event": "death"
-                        },
                         "cause": "entity_attack",
                         "deals_damage": false
                     },

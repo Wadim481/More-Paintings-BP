@@ -49,6 +49,7 @@ mc.world.afterEvents.playerSpawn.subscribe((arg)=>{
     if(!arg.player.hasTag('hp4_paint')) {
         arg.player.setDynamicProperty(`hp4_paint:additionalFurniture`, true)
         arg.player.setDynamicProperty(`hp4_paint:particles`, true)
+        arg.player.setDynamicProperty(`hp4_paint:outlines`, true)
         arg.player.setDynamicProperty(`hp4_paint:onlyCutePaintings`, false)
         arg.player.setDynamicProperty(`hp4_paint:paintingSizeUI`, true)
         arg.player.addTag('hp4_paint')
@@ -99,6 +100,14 @@ function gameplaySettings(player) {
     .toggle('Particles', defaultValue.particles)
     .toggle('Outlines', defaultValue.outlines)
     .toggle('Painting size choose UI', defaultValue.paintingsSizeUI)
+    .dropdown('Default Color',
+        [
+            'Brown / Gold',
+            'Pink',
+            'White'
+        ],
+        player.getDynamicProperty(`hp4_paint:defaultColor`)
+    )
 	.show(player)
 	.then((r) => {
         try {
@@ -106,11 +115,13 @@ function gameplaySettings(player) {
             const particles = r.formValues[1];
             const outlines = r.formValues[2];
             const paintingSizeUI = r.formValues[3];
+            const defaultColor = r.formValues[4]
 
             player.setDynamicProperty(`hp4_paint:additionalFurniture`, additionalFurnitures)
             player.setDynamicProperty(`hp4_paint:particles`, particles)
             player.setDynamicProperty(`hp4_paint:outlines`, outlines)
             player.setDynamicProperty(`hp4_paint:paintingSizeUI`, paintingSizeUI)
+            player.setDynamicProperty(`hp4_paint:defaultColor`, defaultColor)
         } catch (error) {
             
         }

@@ -1,5 +1,5 @@
 {
-  "format_version": "1.16.0",
+  "format_version": "1.13.0",
   "minecraft:entity": {
     "description": {
       "identifier": "hp4_paint:artist_villager",
@@ -7,7 +7,8 @@
       "is_summonable": true,
       "is_experimental": false,
       "properties": {
-        "hp4_paint:bool": {"client_sync": true, "type": "bool", "default": false},
+        "hp4_paint:camouflage": {"client_sync": true, "type": "bool", "default": false},
+        "hp4_paint:is_painting": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:int": {"client_sync": true, "type": "int", "default": 0, "range": [0, 5]}
       }
     },
@@ -72,13 +73,35 @@
           "is_pushable": false,
           "is_pushable_by_piston": true
         },
-        "minecraft:body_rotation_blocked": {}
+        "minecraft:body_rotation_blocked": {},
+        "minecraft:damage_sensor": {
+            "triggers": [
+                {
+                    "cause": "all",
+                    "deals_damage": false
+                }
+            ]
+        }
       },
       "despawn": {
         "minecraft:instant_despawn": {}
+      },
+      "hang_around": {
+        "minecraft:movement": {
+          "value": 0.23
+        },
+        "minecraft:behavior.random_stroll": {
+          "priority": 5,
+          "speed_multiplier": 1
+        }
       }
     },
     "components": {
+      "minecraft:trade_table": {
+        "display_name": "hp4_paint.entity.artist_villager.trade",
+        "table": "trading/hp/more_paintings/artist_villager.json",
+        "convert_trades_economy": true
+      },
       "minecraft:attack": {
         "damage": 3
       },
@@ -115,39 +138,14 @@
         "height": 1.8
       },
       "minecraft:health": {
-        "value": 100,
-        "max": 100
+        "value": 20,
+        "max": 20
       },
       "minecraft:physics": {
       },
       "minecraft:pushable": {
         "is_pushable": true,
         "is_pushable_by_piston": true
-      },
-      "minecraft:damage_sensor": {
-          "triggers": [
-              {
-                  "cause": "all",
-                  "deals_damage": false
-              }
-          ]
-      },
-      "minecraft:interact": {
-        "interactions": [
-          {
-            "on_interact": {
-              "filters": {
-                "all_of": [
-                  {
-                    "test": "is_family",
-                    "subject": "other",
-                    "value": "player"
-                  }
-                ]
-              }
-            }
-          }
-        ]
       }
     },
     "events": {
@@ -160,7 +158,8 @@
         "remove": {
           "component_groups": [
             "static",
-            "go_hiding"
+            "go_hiding",
+            "hang_around"
           ]
         }
       },
@@ -186,7 +185,22 @@
         "remove": {
           "component_groups": [
             "go_painting",
+            "hang_around",
             "static"
+          ]
+        }
+      },
+      "go_hang_around": {
+        "add": {
+          "component_groups": [
+            "hang_around"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "static",
+            "go_hiding",
+            "go_painting"
           ]
         }
       },

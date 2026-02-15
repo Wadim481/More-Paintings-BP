@@ -1529,10 +1529,10 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
             "hp4_paint:art_bench",
             "hp4_paint:art_chair",
             "hp4_paint:art_knives", 
-            "hp4_paint:brushes_set", //
+            "hp4_paint:brushes_set", 
             "hp4_paint:brush_cleaner_cup",
             "hp4_paint:brush_cleaner_jar",
-            "hp4_paint:brush_holder_cup", //
+            "hp4_paint:brush_holder_cup", 
             "hp4_paint:brush_on_shelf",
             "hp4_paint:cabinet",
             "hp4_paint:canvas", //
@@ -1576,11 +1576,12 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
             "hp4_paint:wide_planter"
         ]
         for (let index = 0; index < furnitures.length; index++) {
-            source.dimension.spawnEntity(furnitures[index], {
+            const furn = source.dimension.spawnEntity(furnitures[index], {
                 x: (Math.floor(source.location.x)+0.5) + (5*(index%10)),
                 y: (Math.floor(source.location.y)),
                 z: (Math.floor(source.location.z)+0.5) + (5 * Math.floor(index / 10))
             })
+            furn.nameTag = furn.typeId
         }
     }
 })

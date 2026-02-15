@@ -9,7 +9,7 @@
             "properties": {
                 "hp4_paint:furniture_model": {
                     "client_sync": true,
-                    "default": 0,
+                    "default": "math.floor(math.random(0, 4))",
                     "type": "int",
                     "range": [
                         0,
@@ -18,7 +18,7 @@
                 },
                 "hp4_paint:furniture_color": {
                     "client_sync": true,
-                    "default": 0,
+                    "default": "math.floor(math.random(0, 15))",
                     "type": "int",
                     "range": [
                         0,

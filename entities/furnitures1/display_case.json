@@ -40,8 +40,8 @@
                     "default": 0,
                     "type": "int",
                     "range": [
-                        -99999,
-                        99999
+                        0,
+                        2
                     ]
                 },
                 "hp4_paint:painting_type": {

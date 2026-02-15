@@ -2,8 +2,8 @@
   "format_version": "1.16.0",
   "minecraft:entity": {
     "description": {
-      "identifier": "hp4_paint:artist_villager_hiding_spot",
-      "is_spawnable": false,
+      "identifier": "hp4_paint:artist_villager_hiding_spot_loc",
+      "is_spawnable": true,
       "is_summonable": true,
       "is_experimental": false
     },
@@ -11,7 +11,7 @@
       "minecraft:nameable": {
       },
       "minecraft:type_family": {
-        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager_hiding_spot" ]
+        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager_hiding_spot_loc" ]
       },
       "minecraft:collision_box": {
         "width": -1,
