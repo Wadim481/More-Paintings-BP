@@ -121,10 +121,85 @@
                             "hp4_paint:round_planter",
                             "hp4_paint:thin_planter",
                             "hp4_paint:vase",
-                            "hp4_paint:wide_planter"
+                            "hp4_paint:wide_planter",
+                            "hp4_paint:window",
+                            "hp4_paint:window_big"
                         ]
                     }
                 ]
+            },
+            {
+              "category_name": "items",
+              "groups": [
+                {
+                  "group_identifier": {
+                    "icon": "hp4_paint:foxglove_plant1_orange",
+                    "name": "hp4_paint:foxglove_plant"
+                  },
+                  "items": [
+                    "hp4_paint:foxglove_plant1_orange",
+                    "hp4_paint:foxglove_plant1_pink",
+                    "hp4_paint:foxglove_plant1_purple",
+                    "hp4_paint:foxglove_plant1_white",
+                    "hp4_paint:foxglove_plant2_orange",
+                    "hp4_paint:foxglove_plant2_pink",
+                    "hp4_paint:foxglove_plant2_purple",
+                    "hp4_paint:foxglove_plant2_white",
+                    "hp4_paint:foxglove_plant3_orange",
+                    "hp4_paint:foxglove_plant3_pink",
+                    "hp4_paint:foxglove_plant3_purple",
+                    "hp4_paint:foxglove_plant3_white",
+                    "hp4_paint:foxglove_plant4_orange",
+                    "hp4_paint:foxglove_plant4_pink",
+                    "hp4_paint:foxglove_plant4_purple",
+                    "hp4_paint:foxglove_plant4_white"
+                  ]
+                }
+              ]
+            },
+            {
+              "category_name": "items",
+              "groups": [
+                {
+                  "group_identifier": {
+                    "icon": "hp4_paint:grass_plant1",
+                    "name": "hp4_paint:grass_plant"
+                  },
+                  "items": [
+                    "hp4_paint:grass_plant1",
+                    "hp4_paint:grass_plant2",
+                    "hp4_paint:grass_plant3",
+                    "hp4_paint:grass_plant4",
+                    "hp4_paint:grass_plant5",
+                    "hp4_paint:grass_plant6"
+                  ]
+                }
+              ]
+            },
+            {
+              "category_name": "items",
+              "groups": [
+                {
+                  "group_identifier": {
+                    "icon": "hp4_paint:rose_bush1_pink",
+                    "name": "hp4_paint:rose_bush"
+                  },
+                  "items": [
+                    "hp4_paint:rose_bush1_pink",
+                    "hp4_paint:rose_bush1_red",
+                    "hp4_paint:rose_bush1_white",
+                    "hp4_paint:rose_bush1_yellow",
+                    "hp4_paint:rose_bush2_pink",
+                    "hp4_paint:rose_bush2_red",
+                    "hp4_paint:rose_bush2_white",
+                    "hp4_paint:rose_bush2_yellow",
+                    "hp4_paint:rose_bush3_pink",
+                    "hp4_paint:rose_bush3_red",
+                    "hp4_paint:rose_bush3_white",
+                    "hp4_paint:rose_bush3_yellow"
+                  ]
+                }
+              ]
             }
         ]
     }

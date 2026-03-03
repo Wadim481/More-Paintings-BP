@@ -1,0 +1,30 @@
+{
+  "format_version": "1.21.10",
+  "minecraft:item": {
+    "description": {
+      "identifier": "hp4_paint:spray_can_light_blue",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:can_destroy_in_creative": {
+        "value": true
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:icon": {
+        "textures": {
+          "default": "hp4_paint:spray_can_light_blue"
+        }
+      },
+      "minecraft:hand_equipped": true,
+      "minecraft:use_animation": "none",
+      "minecraft:durability": {
+        "max_durability": 16
+      },
+      "minecraft:repairable": {
+        "repair_items": []
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "format_version": "1.13.0",
+  "format_version": "1.21.0",
   "minecraft:entity": {
     "description": {
       "identifier": "hp4_paint:artist_villager",
@@ -9,7 +9,19 @@
       "properties": {
         "hp4_paint:camouflage": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:is_painting": {"client_sync": true, "type": "bool", "default": false},
-        "hp4_paint:int": {"client_sync": true, "type": "int", "default": 0, "range": [0, 5]}
+        "hp4_paint:is_hiding": {"client_sync": true, "type": "bool", "default": false},
+        "hp4_paint:sleeping": {"client_sync": true, "type": "bool", "default": false},
+        "hp4_paint:cloth": {"client_sync": true, "type": "int", "default": 0, "range": [0, 4]},
+        "hp4_paint:skin": {"client_sync": true, "type": "int", "default": 0, "range": [0, 3]},
+        "hp4_paint:colors": {"client_sync": true, "type": "int", "default": 0, "range": [0, 3]}
+      },
+      "animations": {
+        "death": "controller.animation.hp4_paint.death"
+      },
+      "scripts": {
+        "animate": [
+          "death"
+        ]
       }
     },
     "component_groups": {
@@ -65,6 +77,32 @@
           "track_target": true
         }
       },
+      "find_bed": {
+        "minecraft:movement": {
+          "value": 0.3
+        },
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 1,
+          "within_radius": 100,
+          "reselect_targets": true,
+          "entity_types": [
+            {
+              "filters": {
+                "any_of": [
+                  { "test": "is_family", "subject": "other", "value": "hp4_paint_artist_villager_sleeping_spot" }
+                ]
+              },
+              "max_dist": 100
+            }
+          ],
+          "must_see": false
+        },
+        "minecraft:behavior.melee_attack": {
+          "priority": 3,
+          "speed_multiplier": 1,
+          "track_target": true
+        }
+      },
       "static": {
         "minecraft:movement": {
           "value": 0.0
@@ -100,7 +138,7 @@
       "minecraft:trade_table": {
         "display_name": "hp4_paint.entity.artist_villager.trade",
         "table": "trading/hp/more_paintings/artist_villager.json",
-        "convert_trades_economy": true
+        "new_screen": true
       },
       "minecraft:attack": {
         "damage": 3
@@ -139,7 +177,8 @@
       },
       "minecraft:health": {
         "value": 20,
-        "max": 20
+        "max": 20,
+        "min": 1
       },
       "minecraft:physics": {
       },
@@ -159,7 +198,23 @@
           "component_groups": [
             "static",
             "go_hiding",
-            "hang_around"
+            "hang_around",
+            "find_bed"
+          ]
+        }
+      },
+      "find_bed": {
+        "add": {
+          "component_groups": [
+            "find_bed"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "static",
+            "go_hiding",
+            "hang_around",
+            "go_painting"
           ]
         }
       },
@@ -167,7 +222,8 @@
         "remove": {
           "component_groups": [
             "go_painting",
-            "go_hiding"
+            "go_hiding",
+            "find_bed"
           ]
         },
         "add": {
@@ -186,7 +242,8 @@
           "component_groups": [
             "go_painting",
             "hang_around",
-            "static"
+            "static",
+            "find_bed"
           ]
         }
       },
@@ -200,7 +257,8 @@
           "component_groups": [
             "static",
             "go_hiding",
-            "go_painting"
+            "go_painting",
+            "find_bed"
           ]
         }
       },

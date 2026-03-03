@@ -49,6 +49,7 @@ mc.world.afterEvents.playerSpawn.subscribe((arg)=>{
     if(!arg.player.hasTag('hp4_paint')) {
         arg.player.setDynamicProperty(`hp4_paint:additionalFurniture`, true)
         arg.player.setDynamicProperty(`hp4_paint:particles`, true)
+        arg.player.setDynamicProperty(`hp4_paint:sfx`, true)
         arg.player.setDynamicProperty(`hp4_paint:outlines`, true)
         arg.player.setDynamicProperty(`hp4_paint:onlyCutePaintings`, false)
         arg.player.setDynamicProperty(`hp4_paint:paintingSizeUI`, true)
@@ -91,6 +92,7 @@ function gameplaySettings(player) {
     const defaultValue = {
         additionalFurnitures: player.getDynamicProperty(`hp4_paint:additionalFurniture`),
         particles: player.getDynamicProperty(`hp4_paint:particles`),
+        sfx: player.getDynamicProperty(`hp4_paint:sfx`),
         outlines: player.getDynamicProperty(`hp4_paint:outlines`),
         paintingsSizeUI: player.getDynamicProperty(`hp4_paint:paintingSizeUI`)
     }
@@ -98,6 +100,7 @@ function gameplaySettings(player) {
 	.title({translate:'settings'})
     .toggle('Additional Furnitures', defaultValue.additionalFurnitures)
     .toggle('Particles', defaultValue.particles)
+    .toggle('SFX', defaultValue.sfx)
     .toggle('Outlines', defaultValue.outlines)
     .toggle('Painting size choose UI', defaultValue.paintingsSizeUI)
     .dropdown('Default Color',
@@ -113,12 +116,14 @@ function gameplaySettings(player) {
         try {
             const additionalFurnitures = r.formValues[0];
             const particles = r.formValues[1];
-            const outlines = r.formValues[2];
-            const paintingSizeUI = r.formValues[3];
-            const defaultColor = r.formValues[4]
+            const sfx = r.formValues[2];
+            const outlines = r.formValues[3];
+            const paintingSizeUI = r.formValues[4];
+            const defaultColor = r.formValues[5]
 
             player.setDynamicProperty(`hp4_paint:additionalFurniture`, additionalFurnitures)
             player.setDynamicProperty(`hp4_paint:particles`, particles)
+            player.setDynamicProperty(`hp4_paint:sfx`, sfx)
             player.setDynamicProperty(`hp4_paint:outlines`, outlines)
             player.setDynamicProperty(`hp4_paint:paintingSizeUI`, paintingSizeUI)
             player.setDynamicProperty(`hp4_paint:defaultColor`, defaultColor)

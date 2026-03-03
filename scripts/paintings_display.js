@@ -91,6 +91,11 @@ const furnitures = [
     `hp4_paint:vase`,
     `hp4_paint:wide_planter`,
     `hp4_paint:color_bucket`,
+    `hp4_paint:foxglove_plant`,
+    `hp4_paint:grass_plant`,
+    `hp4_paint:rose_bush`,
+    `hp4_paint:window`,
+    `hp4_paint:window_big`,
 ]
 const flowers = [
     "crimson_roots",
@@ -179,7 +184,10 @@ const smallFurnitures = [
     `hp4_paint:paint_tubes`,
     `hp4_paint:spatula`,
     `hp4_paint:stencil`,
-    `hp4_paint:sack_of_beton`
+    `hp4_paint:sack_of_beton`,
+    `hp4_paint:grass_plant`,
+    `hp4_paint:foxglove_plant`,
+    `hp4_paint:rose_bush`
 ]
 const woodColorful = [
     [`hp4_paint:art_chair`, `hp4_paint:furniture_model`],
@@ -287,16 +295,17 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                         const delay = 1.5
                                         const painting = target.dimension.spawnEntity(`hp4_paint:${jenis}_painting`, target.location);
                                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                                            painting.runCommand(`playsound hp4_paint:display.painting_install @a ~~~`)
-                                            painting.runCommand(`function hp/more_paintings/place_painting_start`)
-                                            system.runTimeout(()=>{painting.runCommand(`function hp/more_paintings/place_painting_finish`)},1*20)
+                                            main.playSound(player, `hp4_paint:display.painting_install`)
+
+                                            //AFANDIv5 - mengubah call fungsi place painting start menjadi brush start
+                                            painting.runCommand(`function hp/more_paintings/brush_start`)
+                                            system.runTimeout(()=>{painting.runCommand(`function hp/more_paintings/place_painting_finish`)},3*20)
+                                            main.playSound(player, `hp4_paint:ring.sound`)
                                         }
                                         try {
                                             const displayModel = target.getProperty(`hp4_paint:furniture_model`)
                                             painting.setProperty(`hp4_paint:furniture_model`, displayModel)
                                         } catch (error) {}
-                                        // painting.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                                        // painting.runCommand(`particle hp4_paint:dust ~~2~`)
                                         painting.addEffect('invisibility',delay*20,{showParticles:false})
                                         painting.setRotation({y:target.getRotation().y, x:0})
                                         painting.setProperty(`hp4_paint:displayer`, target.typeId.replace('hp4_paint:', ''));
@@ -410,9 +419,10 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 const delay = 1.5
                                 const painting = target.dimension.spawnEntity(`hp4_paint:vanilla_pack`, target.location);
                                 if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                                    painting.runCommand(`playsound hp4_paint:display.painting_install @a ~~~`)
+                                    main.playSound(player, `hp4_paint:display.painting_install`)
                                     painting.runCommand(`function hp/more_paintings/place_painting_start`)
                                     system.runTimeout(()=>{painting.runCommand(`function hp/more_paintings/place_painting_finish`)},1*20)
+                                    main.playSound(player, `hp4_paint:ring.sound`)
                                 }
                                 // painting.runCommand(`particle hp4_paint:dust2 ~~1~`)
                                 // painting.runCommand(`particle hp4_paint:dust ~~2~`)
@@ -457,7 +467,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         if(!entity.getProperty(`hp4_paint:paint_materials`)) {
                             player.runCommand(`clear @s minecraft:glow_ink_sac 0 1`);
                             entity.setProperty(`hp4_paint:paint_materials`, true);
-                            entity.runCommand(`playsound sign.ink_sac.use @a ~~~`)
+                            main.playSound(player, `sign.ink_sac.use`)
                         }
                     }
                 })
@@ -467,7 +477,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
                         if(entity.getProperty(`hp4_paint:paint_materials`)) {
                             entity.setProperty(`hp4_paint:paint_materials`, false);
-                            entity.runCommand(`playsound mob.sheep.shear @a ~~~`);
+                            main.playSound(player, `mob.sheep.shear`)
                             player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${frontTarget.x} ${frontTarget.y} ${frontTarget.z} loot "heropixels/more_paintings/glow_ink_sac"`) : null;
                         }
                     }
@@ -485,34 +495,30 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     
                     target.dimension.spawnParticle(`test:loading`, parLoc)
-                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                        target.playAnimation(`animation.hp4_paint.on_hammer`)
-                        //AFANDI
-                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                        // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        
-                        const objectLoc = {
-                            x: target.location.x,
-                            y: target.location.y + getEntityHeight(target) - 1,
-                            z: target.location.z
+                    target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        e.remove()
+                    })
+                    target.playAnimation(`animation.hp4_paint.on_hammer`)
+                    const objectLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target) - 1,
+                        z: target.location.z
+                    }
+                    const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                    object.setProperty(`hp4_paint:model`, 0)
+                    system.runTimeout(()=>{
+                        try {
+                            object.remove()
+                        } catch (error) {
                         }
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                            e.remove()
-                        })
-                        const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                        object.setProperty(`hp4_paint:model`, 0)
-                        system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {
-                            }
-                        },5*20
-                        )
+                    },5*20
+                    )
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         target.runCommand(`function hp/more_paintings/hammer_start`)
                         system.runTimeout(()=>{
                             try {
                                 target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                                main.playSound(player, `hp4_paint:ring.sound`)
                             } catch (error) {
                                 
                             }
@@ -537,9 +543,6 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 }
             }
             if(item.typeId == 'hp4_paint:brush' && !main.checkOutlineFilter(target, 'hp4_paint:brush')) {
-                // target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
                 try {
                     const parLoc = {
                         x: target.location.x,
@@ -547,34 +550,32 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         z: target.location.z
                     }
                     target.dimension.spawnParticle(`test:loading`, parLoc)
-                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                        target.playAnimation(`animation.hp4_paint.spawned`)
-                        //AFANDI
-                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                        // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                            e.remove()
-                        })
-                        const objectLoc = {
-                            x: target.location.x,
-                            y: target.location.y + getEntityHeight(target) - 1,
-                            z: target.location.z
+                    target.playAnimation(`animation.hp4_paint.on_brush`)
+                    target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        e.remove()
+                    })
+                    const objectLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target) - 1,
+                        z: target.location.z
+                    }
+                    const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                    object.setProperty(`hp4_paint:model`, 2)
+                    system.runTimeout(()=>{
+                        try {
+                            object.remove()
+                        } catch (error) {
                         }
-                        const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                        object.setProperty(`hp4_paint:model`, 2)
-                        system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {
-                            }
-                        },2.5*20
-                        )
+                    },2.5*20
+                    )
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        
                         target.runCommand(`function hp/more_paintings/brush_start`)
                         system.runTimeout(()=>{
                             try {
+                                main.playSound(player, `hp4_paint:ring.sound`)
                                 target.runCommand(`function hp/more_paintings/brush_finish`)
+                                main.playSound(player, `hp4_paint:ring.sound`)
                             } catch (error) {
                                 
                             }
@@ -597,20 +598,6 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     },2.5*20)
                 } catch (error) {}
             }
-            // main.frames.forEach(frame=>{
-            //     if(item.typeId==`hp4_paint:${frame}.frame`) {
-            //         target.dimension.getEntities().forEach(entity=>{
-            //             if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
-            //                 if(entity.getProperty(`hp4_paint:frame_type`) != frame) {
-            //                     player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ^^^1 loot "heropixels/more_paintings/frames/${entity.getProperty('hp4_paint:frame_type')}"`) : null;
-            //                     entity.setProperty(`hp4_paint:frame_type`, frame);
-            //                     player.getGameMode() != 'creative' ? player.runCommand(`clear @s hp4_paint:${frame}.frame 0 1`) : null;
-            //                     entity.runCommand(`playsound dig.wood @a ~~~`)
-            //                 }
-            //             }
-            //         })
-            //     }
-            // })
         }
         else {
             target.dimension.getEntities().forEach(entity=>{
@@ -623,7 +610,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         const model = entity.getProperty(`hp4_paint:paint_models`)
                         //FUNCTION GANTI GAMBAR
                         main.gantiGambar(entity, model)
-                        entity.runCommand(`playsound dig.wood @a ~~~`)
+                        main.playSound(player, `dig.wood`)
                     }
                 }
             })
@@ -638,7 +625,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = flowers.indexOf(flower);
                         //kontol.warn(itemNumber)
-                        target.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'flower', height, player, item)
                         }
@@ -660,7 +647,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = doublePlants.indexOf(flower);
                         //kontol.warn(itemNumber)
-                        target.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'double_plant', height, player, item)
                         }
@@ -682,7 +669,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = customPlants.indexOf(flower);
                         //kontol.warn(itemNumber)
-                        target.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'custom_plant', height, player, item)
                         }
@@ -705,6 +692,17 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
 
         //NEW FURNITURE VARIANT MANAGER
         if(target.typeId == furniture) {
+            if(!item && target.typeId.startsWith(`hp4_paint:window`)) {
+                try {
+                    if(target.getProperty(`hp4_paint:window_open`)) {
+                        target.setProperty(`hp4_paint:window_open`, false)
+                    } else {
+                        target.setProperty(`hp4_paint:window_open`, true)
+                    }
+                } catch (error) {
+                    
+                }
+            } else {
             if(item.typeId == 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool')) {
                 try {
                     let isSmallFurnitures = false
@@ -719,48 +717,53 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     if(!isSmallFurnitures) {
                         target.dimension.spawnParticle(`test:loading`, parLoc)
-                        target.runCommand(`function hp/more_paintings/hammer_start`)
-                        system.runTimeout(()=>{
-                            try {
-                                target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
-                            } catch (error) {
-
-                            }
-                        },4*20)
-                    } else {
-                        target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
                     }
-                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                        target.playAnimation(`animation.hp4_paint.on_hammer`)
-                        //AFANDI
-                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                        // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                            e.remove()
-                        })
-                        const objectLoc = {
-                            x: target.location.x,
-                            y: target.location.y + getEntityHeight(target) - 1,
-                            z: target.location.z
+                    target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        e.remove()
+                    })
+                    const objectLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target) - 1,
+                        z: target.location.z
+                    }
+                    const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                    object.setProperty(`hp4_paint:model`, 0)
+                    target.playAnimation(`animation.hp4_paint.on_hammer`)
+                    system.runTimeout(()=>{
+                        try {
+                            object.remove()
+                        } catch (error) {
                         }
-                        const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                        object.setProperty(`hp4_paint:model`, 0)
-                        system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {
-                            }
-                        },4*20
-                        )
+                    },4*20
+                    )
+                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                        if(!isSmallFurnitures) {
+                            target.runCommand(`function hp/more_paintings/hammer_start`)
+                            system.runTimeout(()=>{
+                                try {
+                                    target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                                    main.playSound(player, `hp4_paint:ring.sound`)
+                                } catch (error) {
+
+                                }
+                            },4*20)
+                        } else {
+                            target.runCommand(`function hp/more_paintings/hammer_finish_wood`)
+                            main.playSound(player, `hp4_paint:ring.sound`)
+                        }
                     }
                     !isSmallFurnitures ? target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20) : null
                     system.runTimeout(()=>{
                         try {
                             target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) + 1)
+                            system.runTimeout(()=>{
+                                console.warn(target.getProperty(`hp4_paint:furniture_model`))
+                            },1)
                         } catch (error) {
                             target.setProperty(`hp4_paint:furniture_model`, 0)
+                            system.runTimeout(()=>{
+                                console.warn(target.getProperty(`hp4_paint:furniture_model`))
+                            },1)
                         }
                         //Place Collision
                         getEntitySize(target, true)
@@ -779,43 +782,44 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         y: target.location.y + getEntityHeight(target),
                         z: target.location.z
                     }
+                    target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
+                        e.remove()
+                    })
+                    target.playAnimation(`animation.hp4_paint.on_brush`)
+                    const objectLoc = {
+                        x: target.location.x,
+                        y: target.location.y + getEntityHeight(target) - 1,
+                        z: target.location.z
+                    }
+                    const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                    object.setProperty(`hp4_paint:model`, 2)
+                    system.runTimeout(()=>{
+                        try {
+                            object.remove()
+                        } catch (error) {
+                        }
+                    },2.5*20
+                    )
                     if(!isSmallFurnitures) {
                         target.dimension.spawnParticle(`test:loading`, parLoc)
-                        target.runCommand(`function hp/more_paintings/brush_start`)
-                        system.runTimeout(()=>{
-                            try {
-                                target.runCommand(`function hp/more_paintings/brush_finish`)
-                            } catch (error) {
-                                
-                            }
-                        },2.5*20)
-                    } else {
-                        target.runCommand(`function hp/more_paintings/brush_finish`)
                     }
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                        target.playAnimation(`animation.hp4_paint.spawned`)
-                        //AFANDI
-                        //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                        // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).some(e=>{
-                            e.remove()
-                        })
-                        const objectLoc = {
-                            x: target.location.x,
-                            y: target.location.y + getEntityHeight(target) - 1,
-                            z: target.location.z
+                        if(!isSmallFurnitures) {
+                            target.runCommand(`function hp/more_paintings/brush_start`)
+                            system.runTimeout(()=>{
+                                try {
+                                    main.playSound(player, `hp4_paint:ring.sound`)
+                                    target.runCommand(`function hp/more_paintings/brush_finish`)
+                                    main.playSound(player, `hp4_paint:ring.sound`)
+                                } catch (error) {
+
+                                }
+                            },2.5*20)
+                        } else {
+                            main.playSound(player, `hp4_paint:ring.sound`)
+                            target.runCommand(`function hp/more_paintings/brush_finish`)
+                            main.playSound(player, `hp4_paint:ring.sound`)
                         }
-                        const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                        object.setProperty(`hp4_paint:model`, 2)
-                        system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {
-                            }
-                        },2.5*20
-                        )
                     }
                     !isSmallFurnitures ? target.setDynamicProperty(`hp4_paint:disable_interaction`, 3*20) : null
                     system.runTimeout(()=>{
@@ -829,78 +833,48 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 }
             }
             if(item.typeId == 'hp4_paint:chisel' && main.checkOutlineFilter(target, 'hp4_paint:chisel')) {
-                try {
-                    const parLoc = {
-                        x: target.location.x,
-                        y: target.location.y + getEntityHeight(target),
-                        z: target.location.z
-                    }
-                    target.dimension.spawnParticle(`test:loading`, parLoc)
-                    if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                        target.playAnimation(`animation.hp4_paint.on_chisel`)
-                        //AFANDI
-                        ////target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-                        // target.runCommand(`particle hp4_paint:dust ~~1~`)
-                        // target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-                        
-                        target.runCommand(`function hp/more_paintings/hammer_start`)
-
-                        
-                        target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
-                            e.remove()
-                        })
-                        const objectLoc = {
-                            x: target.location.x,
-                            y: target.location.y + getEntityHeight(target) - 1,
-                            z: target.location.z
-                        }
-                        const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
-                        system.runTimeout(()=>{target.runCommand(`function hp/more_paintings/hammer_finish_stone`)},4*20)
-                        object.setProperty(`hp4_paint:model`, 1)
-                        system.runTimeout(()=>{
-                            try {
-                                object.remove()
-                            } catch (error) {}
-                        },4*20)
-                    }
-                    target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20)
-                    system.runTimeout(()=>{
-                        try {
-                            target.setProperty(`hp4_paint:statue_pose`, target.getProperty(`hp4_paint:statue_pose`) + 1)
-                        } catch (error) {
-                            target.setProperty(`hp4_paint:statue_pose`, 0)
-                        }
-                    },4*20)
-                } catch (error) {
+                const parLoc = {
+                    x: target.location.x,
+                    y: target.location.y + getEntityHeight(target),
+                    z: target.location.z
                 }
+                target.dimension.spawnParticle(`test:loading`, parLoc)
+                target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1, maxDistance:3, location: target.location}).some(e=>{
+                    e.remove()
+                })
+                target.playAnimation(`animation.hp4_paint.on_chisel`)
+                const objectLoc = {
+                    x: target.location.x,
+                    y: target.location.y + getEntityHeight(target) - 1,
+                    z: target.location.z
+                }
+                const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
+                object.setProperty(`hp4_paint:model`, 1)
+                system.runTimeout(()=>{
+                    try {
+                        object.remove()
+                    } catch (error) {}
+                },4*20)
+                if(player.getDynamicProperty(`hp4_paint:particles`)) {
+                    target.runCommand(`function hp/more_paintings/hammer_start`)
+
+                    
+                    system.runTimeout(()=>{
+                        target.runCommand(`function hp/more_paintings/hammer_finish_stone`)
+                        main.playSound(player, `hp4_paint:ring.sound`)
+                    },4*20)
+                }
+                target.setDynamicProperty(`hp4_paint:disable_interaction`, 4*20)
+                system.runTimeout(()=>{
+                    try {
+                        target.setProperty(`hp4_paint:statue_pose`, target.getProperty(`hp4_paint:statue_pose`) + 1)
+                    } catch (error) {
+                        target.setProperty(`hp4_paint:statue_pose`, 0)
+                    }
+                },4*20)
+            }
             }
         }
-
-        //OLD FURNITURE VARIANT MANAGER
-        // if(item && target.typeId == furniture && (furniture == 'hp4_paint:art_bench' || furniture.includes('color_bucket') || furniture == 'hp4_paint:spatula' || furniture == 'hp4_paint:brush_cleaner_jar' || furniture == 'hp4_paint:brushes_set' || furniture == 'hp4_paint:tube_paint')) {
-        ////     console.warn('script masuk')
-        //     if(item.typeId === 'hp4_paint:special_tool') {
-        //         try {
-        //             let maxModel
-        //             furnitureMaxModel.forEach(f=>{
-        //                 if(furniture.includes(f.nama)) {
-        //                     maxModel = f.max
-        //                 }
-        //             })
-        //             target.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`) >= maxModel ? 0 : target.getProperty(`hp4_paint:furniture_model`) + 1)
-        //             //target.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
-        //             target.runCommand(`particle hp4_paint:dust ~~1~`)
-        //             target.runCommand(`particle hp4_paint:dust2 ~~1~`)
-        //             target.dimension.getEntities().forEach(arg=>{
-        //                 if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
-        //                     arg.setProperty(`hp4_paint:furniture_model`, arg.getProperty(`hp4_paint:furniture_model`) >= maxModel ? 0 : arg.getProperty(`hp4_paint:furniture_model`) + 1)
-        //                 }
-        //             })
-        //         } catch (error) {
-                    
-        //         }
-        //     }
-        // }
     })
 })
 function getHeight(furniture, item) {
@@ -1145,7 +1119,6 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
         if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
             if(slot0 == undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined)  {
                 try {
-                    entity.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
                     player.getGameMode() != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
                     resetCollision(entity, true)
                 } catch (error) {
@@ -1164,7 +1137,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot0`, undefined)
-                        entity.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                     }
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
@@ -1175,7 +1148,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot1`, undefined)
-                        entity.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                     }
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 == undefined && slot4 == undefined) {
@@ -1186,7 +1159,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot2`, undefined)
-                        entity.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                     }
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
@@ -1197,7 +1170,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot3`, undefined)
-                        entity.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                     }
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 != undefined) {
@@ -1208,7 +1181,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot4`, undefined)
-                        entity.runCommand(`playsound use.grass @a ~~~`)
+                        main.playSound(player, `use.grass`)
                     }
                 }
             })
@@ -1435,6 +1408,12 @@ function getEntitySize(entity, isNext = false) {
             case `hp4_paint:color_bucket`:
                 blockDetect(entity, newRotation, {radius: 1, height: 1})
                 break;
+            case `hp4_paint:window`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
+            case `hp4_paint:window_big`:
+                blockDetect(entity, newRotation, {radius: 3, height: 4})
+                break;
             //Planters
             case `hp4_paint:large_planter`:
                 entity.setDynamicProperty('hp4_paint:slot', 4)
@@ -1549,8 +1528,10 @@ function getEntityHeight(entity) {
         case `hp4_paint:vase`: return 1
         case `hp4_paint:wide_planter`: return 1
 
+        case `hp4_paint:window`: return 1
+        case `hp4_paint:window_big`: return 4
         default:
-            return 0
+            return 1
     }
 }
 function blockDetect(entity, rot, requiredSpace, isRound) {
@@ -1972,15 +1953,17 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
         heightCheck = false;
     }
     if(!radiusCheck || !heightCheck) {
-            entity.runCommand(`playsound note.bass @a ~~~`)
             entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
+                main.playSound(player, `note.bass`)
                 player.runCommand(`title @s actionbar §cNot enough space!`)
                 player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${player.location.x} ${player.location.y} ${player.location.z}  loot "heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '')}"`) : null;
             })
             entity.remove()
         //contol.warn(`not enough space for the display!`)
     } else {
-        entity.runCommand(`playsound dig.wood @a ~~~`)
+        entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
+            main.playSound(player, `dig.wood`)
+        })
         //Place Collision
         resetCollision(entity, false, true)
     }
@@ -2076,6 +2059,29 @@ function blockDirectionBasedCoords(dir, x, y, z) {
     return result
 }
 const collisionData = [
+    {
+        id: `hp4_paint:window`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+        ]
+    },
+    {
+        id: `hp4_paint:window_big`,
+        blocks: [
+            {x:-1,y:0,z:0,name:'collision_full'},
+            {x:0,y:0,z:0,name:'collision_full'},
+            {x:1,y:0,z:0,name:'collision_full'},
+            {x:-1,y:1,z:0,name:'collision_full'},
+            {x:0,y:1,z:0,name:'collision_full'},
+            {x:1,y:1,z:0,name:'collision_full'},
+            {x:-1,y:2,z:0,name:'collision_full'},
+            {x:0,y:2,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'},
+            {x:-1,y:3,z:0,name:'collision_full'},
+            {x:0,y:3,z:0,name:'collision_full'},
+            {x:1,y:3,z:0,name:'collision_full'},
+        ]
+    },
     {
         id: `hp4_paint:wide_planter`,
         blocks: [

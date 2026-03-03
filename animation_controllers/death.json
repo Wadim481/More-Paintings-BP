@@ -1,0 +1,21 @@
+{
+	"format_version": "1.10.0",
+	"animation_controllers": {
+		"controller.animation.hp4_paint.death": {
+			"states": {
+				"default": {
+					"transitions": [
+						{
+							"death": "q.health == 1"
+						}
+					]
+				},
+				"death": {
+					"on_entry": [
+						"/scriptevent hp4_paint:artist_villager_death"
+					]
+				}
+			}
+		}
+	}
+}

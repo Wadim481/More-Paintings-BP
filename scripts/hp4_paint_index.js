@@ -5,6 +5,7 @@ import './paintings_display'
 import './vanilla_features'
 import './settings'
 import './artist_villager'
+import './spray_can_feature'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []
@@ -115,10 +116,10 @@ export function checkOutlineFilter(e, item) {
 }
 const outLineFilters = {
     'hp4_paint:special_tool': [
-        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`
+        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`, `window`
     ],
     'hp4_paint:brush': [
-        `canvas`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `stencil`, `spray_paint`, `soft_pastel`, `sculpture_stand`, `pencil_set`, `paint_tubes`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `drafting_tool`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `brush_cleaner_jar`, `chalk_and_charcoal`, `spatula`, `tube_paint`, `sketchbook`, `brushes_set`, `spray_can`
+        `canvas`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `stencil`, `spray_paint`, `soft_pastel`, `sculpture_stand`, `pencil_set`, `paint_tubes`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `drafting_tool`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `brush_cleaner_jar`, `chalk_and_charcoal`, `spatula`, `tube_paint`, `sketchbook`, `brushes_set`, `spray_can`, `hp4_paint:grass_plant`
     ],
     'hp4_paint:chisel': [
         `statue`
@@ -1477,7 +1478,7 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
         world.getDimension('overworld').getEntities().forEach(entity=>{
             if (entity.id == owner.replace('hp4_point:owner/', '')) {
                 entity.triggerEvent('glow')
-                entity.runCommand(`playsound sign.ink_sac.use @a ~~~`)
+                playSound(entity, `sign.ink_sac`)
             }
             if (entity.getDynamicProperty(`hp4_paint:owner`) == owner) {
                 entity.setProperty(`hp4_paint:is_glow`, true)
@@ -1490,7 +1491,7 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
             if (entity.id == owner.replace('hp4_point:owner/', '')) {
                 if(entity.getProperty(`hp4_paint:paint_materials`) == true) {
                     entity.runCommand(`loot spawn ^^^1 loot "heropixels/more_paintings/glow_ink_sac"`)
-                    entity.runCommand(`playsound mob.sheep.shear @a ~~~`)
+                    playSound(entity, `mob.sheep.shear`)
                 }
                 entity.triggerEvent('remove_glow')
             }
@@ -1504,7 +1505,7 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
         world.getDimension('overworld').getEntities().forEach(entity=>{
             if (entity.id == owner.replace('hp4_point:owner/', '')) {
                 entity.triggerEvent('remove_glow')
-                entity.runCommand(`playsound mob.sheep.shear @a ~~~`)
+                playSound(entity, `mob.sheep.shear`)
             }
             if (entity.getDynamicProperty(`hp4_paint:owner`) == owner) {
                 entity.setProperty(`hp4_paint:is_glow`, false)
@@ -1519,7 +1520,7 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
                 const model = entity.getProperty(`hp4_paint:paint_models`)
                 //FUNCTION GANTI GAMBAR
                 gantiGambar(entity, model)
-                entity.runCommand(`playsound dig.wood @a ~~~`)
+                playSound(entity, `dig.wood`)
             }
         })
     }
@@ -1573,7 +1574,12 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
             "hp4_paint:unfinished_wooden_block",
             "hp4_paint:variant_paint_bottle",
             "hp4_paint:vase",
-            "hp4_paint:wide_planter"
+            "hp4_paint:wide_planter",
+            `hp4_paint:window`,
+            `hp4_paint:window_big`,
+            `hp4_paint:grass_plant`,
+            `hp4_paint:rose_bush`,
+            `hp4_paint:foxglove_plant`
         ]
         for (let index = 0; index < furnitures.length; index++) {
             const furn = source.dimension.spawnEntity(furnitures[index], {
@@ -1728,13 +1734,13 @@ world.afterEvents.dataDrivenEntityTrigger.subscribe((arg)=>{
         if(event == 'death') {
             const folder = `heropixels/more_paintings/${entity.typeId.replace('hp4_paint:', '').replace('_painting', '')}`
             entity.runCommand(`loot spawn ^^^1 loot "${folder}"`)
-            entity.runCommand(`playsound dig.wood @a ~~~`)
+            playSound(entity, `dig.wood`)
             if(entity.getProperty(`hp4_paint:paint_materials`)){
                 entity.runCommand(`loot spawn ^^^1 loot "heropixels/more_paintings/glow_ink_sac"`)
             }
         }
         if(event == 'minecraft:entity_spawned') {
-            entity.runCommand(`playsound dig.wood @a ~~~`)
+            playSound(entity, `dig.wood`)
         }
     }
 })
@@ -1742,14 +1748,15 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
     const player = arg.damagingEntity
     const paint = arg.hitEntity
     if(paint.typeId == 'hp4_paint:hitboxes') {
-        paint.runCommand(`playsound hp4_paint:display.furniture_remove @a ~~~`)
+        playSound(entity, `hp4_paint:display.furniture_remove`)
         const gamemode = player.getGameMode()
         paint.dimension.getEntities({type:'hp4_paint:hitboxes'}).forEach(entity => {
             if(entity == paint) return
             if (entity.getDynamicProperty("hp4_paint:owner") == paint.getDynamicProperty("hp4_paint:owner")) {
                 if(player.getDynamicProperty(`hp4_paint:particles`)) {
-                    paint.runCommand(`playsound hp4_paint:display.tool_use @a ~~~`)
+                    playSound(entity, `hp4_paint:display.tool_use`)
                     paint.runCommand(`function hp/more_paintings/destroy_wood`)
+                    playSound(player, `hp4_paint:destroy_wood`)
                 }
             }
         })
@@ -1795,7 +1802,7 @@ world.afterEvents.playerInteractWithEntity.subscribe((arg)=>{
                 //PAINTING ENTITY
                 world.getDimension('overworld').getEntities().forEach(entity=>{
                     if (entity.id == owner.replace('hp4_point:owner/', '')) {
-                        entity.runCommand(`playsound dig.wood @a ~~~`)
+                        playSound(player, `dig.wood`)
                         if (entity.getProperty('hp4_paint:frame_type') != frame) {
                             player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ^^^1 loot "heropixels/more_paintings/frames/${entity.getProperty('hp4_paint:frame_type')}"`) : null
                             entity.setProperty('hp4_paint:frame_type', frame)
@@ -1818,4 +1825,9 @@ export function gantiGambar(entity, model) {
     entity.setProperty(`hp4_paint:paint_colors`, 
         color == max ? min : color + 1
     )
+}
+export function playSound(player, sound, vector3) {
+    if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+        vector3 ? player.runCommand(`playsound ${sound} @s ${vector3.x} ${vector3.y} ${vector3.z}`) : player.runCommand(`playsound ${sound} @s`)
+    }
 }

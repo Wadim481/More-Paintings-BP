@@ -1,15 +1,12 @@
 {
 	"format_version": 2,
 	"metadata": {
-		"product_type": "addon",
-		"generated_with": {
-			"blockbench_item_wizard": ["1.2.4"]
-		}
+		"product_type": "addon"
 	},
 	"header": {
 		"name": "pack.name",
 		"description": "pack.description",
-		"min_engine_version": [1, 21, 70],
+		"min_engine_version": [1, 26, 2],
 		"uuid": "e0842488-86c1-47fa-be07-bf13d1f715b8",
 		"version": [1, 0, 0]
 	},

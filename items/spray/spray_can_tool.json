@@ -1,0 +1,24 @@
+{
+  "format_version": "1.21.10",
+  "minecraft:item": {
+    "description": {
+      "identifier": "hp4_paint:spray_can_tool",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:can_destroy_in_creative": {
+        "value": true
+      },
+      "minecraft:max_stack_size": 1,
+      "minecraft:icon": {
+        "textures": {
+          "default": "hp4_paint:spray_can"
+        }
+      },
+      "minecraft:hand_equipped": true,
+      "minecraft:use_animation": "none"
+    }
+  }
+}
