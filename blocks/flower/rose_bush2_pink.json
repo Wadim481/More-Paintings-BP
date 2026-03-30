@@ -15,6 +15,7 @@
       }
     },
     "components": {
+      "minecraft:loot": "loot_tables/heropixels/more_paintings/plants/custom_flower/rose_bush2_pink",
       "minecraft:placement_filter": {
         "conditions": [
           {

@@ -11,7 +11,7 @@
       "minecraft:nameable": {
       },
       "minecraft:type_family": {
-        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager_hiding_spot_loc" ]
+        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager_hiding_spot_loc", "hp4_paint_furniture" ]
       },
       "minecraft:collision_box": {
         "width": -1,

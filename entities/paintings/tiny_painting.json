@@ -51,6 +51,15 @@
                         "wooden"
                     ]
                 },
+                "hp4_paint:size": {
+                    "client_sync": true,
+                    "default": 1,
+                    "type": "int",
+                    "range": [
+                        1,
+                        4
+                    ]
+                },
                 "hp4_paint:displayer_active": {
                     "client_sync": true,
                     "type": "bool",
@@ -102,6 +111,9 @@
             }
         },
         "components": {
+            "minecraft:type_family": {
+                "family": [ "hp4_paint_furniture" ]
+            },
             "minecraft:knockback_resistance": {
                 "value": 1000
             },

@@ -1,0 +1,31 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:feature_rules": {
+    "description": {
+      "identifier": "hp4_paint:artist_villager_house",
+      "places_feature": "hp4_paint:artist_villager_house_group"
+    },
+    "conditions": {
+      "placement_pass": "final_pass",
+      "minecraft:biome_filter": [
+        {
+          "any_of": [
+            {
+              "test": "has_biome_tag",
+              "value": "plains",
+              "operator": "=="
+            }
+          ]
+        }
+      ]
+    },
+    "distribution": {
+      "coordinate_eval_order": "xyz",
+      "iterations": "v.fc = math.mod(math.abs(v.originx),48)<5&&math.mod(math.abs(v.originz),48)<5?1:0; v.ct = q.heightmap((v.originx??0)-16,(v.originz??0)-16);v.p0 = math.abs(v.ct-q.heightmap((v.originx??0)+-16,(v.originz??0)+0));v.p1 = math.abs(v.ct-q.heightmap((v.originx??0)+-16,(v.originz??0)+16));v.p2 = math.abs(v.ct-q.heightmap((v.originx??0)+-16,(v.originz??0)+31));v.p3 = math.abs(v.ct-q.heightmap((v.originx??0)+0,(v.originz??0)+-16));v.p4 = math.abs(v.ct-q.heightmap((v.originx??0)+16,(v.originz??0)+-16));v.p5 = math.abs(v.ct-q.heightmap((v.originx??0)+31,(v.originz??0)+-16));v.p6 = math.abs(v.ct-q.heightmap((v.originx??0)+0,(v.originz??0)+31));v.p7 = math.abs(v.ct-q.heightmap((v.originx??0)+16,(v.originz??0)+31));v.p8 = math.abs(v.ct-q.heightmap((v.originx??0)+31,(v.originz??0)+31));v.p9 = math.abs(v.ct-q.heightmap((v.originx??0)+31,(v.originz??0)+16));v.p10 = math.abs(v.ct-q.heightmap((v.originx??0)+31,(v.originz??0)+0));v.p11 = math.abs(v.ct-q.heightmap((v.originx??0)+0,(v.originz??0)+0));v.p12 = math.abs(v.ct-q.heightmap((v.originx??0)+16,(v.originz??0)+0));v.p13 = math.abs(v.ct-q.heightmap((v.originx??0)+0,(v.originz??0)+16));v.p14 = math.abs(v.ct-q.heightmap((v.originx??0)+16,(v.originz??0)+16));return (v.fc&&(v.p0<6&&v.p1<6&&v.p2<6&&v.p3<6&&v.p4<6&&v.p5<6&&v.p6<6&&v.p7<6&&v.p8<6&&v.p9<6&&v.p10<6&&v.p11<6&&v.p12<6&&v.p13<6&&v.p14<6))?1:0;",
+      "scatter_chance": 100,
+      "x": "-15",
+      "y": "v.height=query.heightmap((v.originx??0)-16, (v.originz??0)-16); return v.height<66?-999:(v.height+-0);",
+      "z": "-15"
+    }
+  }
+}

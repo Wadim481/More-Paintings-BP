@@ -1,0 +1,26 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hp4_paint:spray_can_tool"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "hp4_paint:spray_can"
+      },
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hp4_paint:spray_can"
+      }
+    ],
+    "result": {
+      "item": "hp4_paint:spray_can_tool",
+      "count": 1
+    }
+  }
+}

@@ -1,16 +1,16 @@
 import * as mc from "@minecraft/server";
+import * as main from './hp4_paint_index'
 
 //NAVIGATION SYSTEM
-const radius = 8
+const radius = 50
 const dura = 0.3
-const paintingTimer = [10, 30]
+const paintingTimer = [5, 20]
 mc.system.runInterval(()=>{
     mc.world.getDimension(`overworld`).getEntities({type: `hp4_paint:artist_villager`}).forEach((entity)=>{
-        const isPainting = entity.getDynamicProperty(`hp4_paint:is_painting`)
         const isHiding = entity.getDynamicProperty(`hp4_paint:isHiding`)
         const hidingSpot = entity.dimension.getEntities({type: `hp4_paint:artist_villager_hiding_spot`, location: entity.location, maxDistance: 1})
         const paintingSpot = entity.dimension.getEntities({type: `hp4_paint:artist_villager_painting_spot`, location: entity.location, maxDistance: 1})
-        const sleepingSpot = entity.dimension.getEntities({type: `hp4_paint:artist_villager_sleeping_spot`, location: entity.location, maxDistance: 1})
+        const sleepingSpot = entity.dimension.getEntities({type: `hp4_paint:artist_villager_sleeping_spot`, location: entity.location, maxDistance: 1}).filter(e=>!e.getDynamicProperty(`hp4_paint:sleeper`) || e.getDynamicProperty(`hp4_paint:sleeper`) == entity.id)
 
         //TIMER COUNTDOWN
         entity.getDynamicProperty(`hp4_paint:hidingTimer`) > 0 ? entity.setDynamicProperty(`hp4_paint:hidingTimer`, entity.getDynamicProperty(`hp4_paint:hidingTimer`) - 1) : null
@@ -20,16 +20,19 @@ mc.system.runInterval(()=>{
             if(!entity.getDynamicProperty(`hp4_paint:night`)) {
                 paintingSpot.forEach((paintingSpot)=>{
                     if(isHiding || entity.getDynamicProperty(`hp4_paint:isCamouflage`))return
-                    if(!isPainting){
-                        //console.warn('looking for initiate')
-                        entity.triggerEvent(`static`)
+                    if(!entity.getDynamicProperty(`hp4_paint:is_painting`)){
+                        entity.setRotation({x: 0, y: paintingSpot.getRotation().y + 180})
+                        entity.addEffect(`slowness`, 1*20, {amplifier: 255, showParticles: false})
+                        mc.system.runTimeout(()=>{entity.triggerEvent(`static`)
+                        console.warn(`\nspot rotation: ${paintingSpot.getRotation().y}\nentity rotation: ${entity.getRotation().y}`)
+                        },5)
                         entity.teleport(paintingSpot.location)
                         const timer = Math.round(Math.random()*(paintingTimer[1]-paintingTimer[0])+paintingTimer[0])
                         entity.setDynamicProperty(`hp4_paint:paintingTimer`, timer*20)
                         entity.setDynamicProperty(`hp4_paint:is_painting`, true)
                         //entity.playAnimation(`animation.hp4_paint.artist_villager.painting`)
                         entity.setDynamicProperty(`hp4_paint:lookingForSpot`, false)
-                    } else if(isPainting && entity.getDynamicProperty(`hp4_paint:paintingTimer`) <= 0 && !entity.getDynamicProperty(`hp4_paint:lookingForSpot`)){
+                    } else if(entity.getDynamicProperty(`hp4_paint:is_painting`) && entity.getDynamicProperty(`hp4_paint:paintingTimer`) <= 0 && !entity.getDynamicProperty(`hp4_paint:lookingForSpot`)){
                         //console.warn('looking for spot2')
                         entity.dimension.getEntities({type: `hp4_paint:artist_villager_painting_spot`, location: entity.location, maxDistance: 1}).forEach((spotEntity)=>{
                             spotEntity.remove()
@@ -37,29 +40,31 @@ mc.system.runInterval(()=>{
                         const paintingSpotLoc = entity.dimension.getEntities({type: `hp4_paint:artist_villager_painting_spot_loc`, location: entity.location, maxDistance: radius})
                         const random = Math.floor(Math.random() * (paintingSpotLoc.length - 0) + 0)
                         const chosenSpot = paintingSpotLoc[random]
-                        chosenSpot.dimension.spawnEntity(`hp4_paint:artist_villager_painting_spot`, chosenSpot.location)
+                        const tot = chosenSpot.dimension.spawnEntity(`hp4_paint:artist_villager_painting_spot`, chosenSpot.location)
+                        const rots = [
+                            0, 90, 180, -90
+                        ]
+                        tot.setRotation({
+                            x:chosenSpot.getRotation().x,
+                            y:main.findClosestNumber(rots, chosenSpot.getRotation().y),
+                        })
                         entity.triggerEvent(`go_painting`)
                         entity.setDynamicProperty(`hp4_paint:is_painting`, false)
                         entity.setDynamicProperty(`hp4_paint:lookingForSpot`, true)
                     }
                     entity.getDynamicProperty(`hp4_paint:isHidingStart`) ? entity.setDynamicProperty(`hp4_paint:isHidingStart`, false) : null
                 })
-                if(paintingSpot.length == 0 && entity.getProperty(`hp4_paint:is_painting`)){
-                    entity.setProperty(`hp4_paint:is_painting`, false)
-                } else if (paintingSpot.length > 0 && !entity.getProperty(`hp4_paint:is_painting`)){
-                    entity.setProperty(`hp4_paint:is_painting`, true)
-                }
 
                 //MONSTER DETECT
                 if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: radius}).length > 0){
                     if(!entity.getDynamicProperty(`hp4_paint:isCamouflage`)) {
-                        entity.playAnimation(`camouflage`)
+                        entity.playAnimation(`spin`)
                         mc.system.runTimeout(()=>{
                             //console.warn('camouflage on')
                             entity.setProperty(`hp4_paint:camouflage`, true)
                             !entity.getDynamicProperty(`hp4_paint:isHiding`) ?
                             entity.triggerEvent(`go_hang_around`) : null
-                        },7*20)
+                        },3*20)
                         entity.setDynamicProperty(`hp4_paint:isCamouflage`, true)
                     }
                 } else if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: radius}).length == 0){
@@ -81,6 +86,14 @@ mc.system.runInterval(()=>{
                     }
                 }
             }
+            
+                if(paintingSpot.length == 0 && (entity.getProperty(`hp4_paint:is_painting`)||entity.getDynamicProperty(`hp4_paint:is_painting`))){
+                    entity.setProperty(`hp4_paint:is_painting`, false)
+                    entity.setDynamicProperty(`hp4_paint:is_painting`, false)
+                } else if (paintingSpot.length > 0 && (!entity.getProperty(`hp4_paint:is_painting`) || !entity.getDynamicProperty(`hp4_paint:is_painting`))){
+                    entity.setProperty(`hp4_paint:is_painting`, true)
+                    entity.setDynamicProperty(`hp4_paint:is_painting`, true)
+                }
             //SPOT DETECT
             hidingSpot.forEach((hidingSpot)=>{
                 if(!entity.getDynamicProperty(`hp4_paint:isHidingStart`)){
@@ -88,6 +101,7 @@ mc.system.runInterval(()=>{
                     entity.teleport(hidingSpot.location)
                     entity.setDynamicProperty(`hp4_paint:isHidingStart`, true)
                     entity.setDynamicProperty(`hp4_paint:is_painting`, false)
+                    entity.setProperty(`hp4_paint:using_shield`, true)
                 }
                 if(entity.getDynamicProperty(`hp4_paint:hidingTimer`) <= 0){
                     if(entity.getProperty(`hp4_paint:camouflage`)==false) {
@@ -98,37 +112,84 @@ mc.system.runInterval(()=>{
                         entity.setProperty(`hp4_paint:is_hiding`, false)
                     }
                     entity.setDynamicProperty(`hp4_paint:isHiding`, false)
+                    entity.setProperty(`hp4_paint:using_shield`, false)
                 }
                 //entity.addEffect(`invisibility`, 1*20, {showParticles: false})
                 entity.addEffect(`regeneration`, 1*20, {showParticles: false})
             })
+            if(hidingSpot.length == 0 && entity.getDynamicProperty(`hp4_paint:isHidingStart`)){
+                entity.setProperty(`hp4_paint:is_painting`, false)
+                entity.setDynamicProperty(`hp4_paint:isHidingStart`, false)
+            }
         }
         if(getTimeOfDayForQuest() == `day`) {
             //INITIATOR
-            if(entity.getDynamicProperty(`hp4_paint:night`)) {
+            if(entity.getDynamicProperty(`hp4_paint:night`) && !isHiding) {
                 entity.setDynamicProperty(`hp4_paint:night`, false)
                 entity.triggerEvent(`go_painting`)
                 entity.setProperty(`hp4_paint:sleeping`, false)
             }
         } else if (getTimeOfDayForQuest() == `night`){
             //INITIATOR
-            if(!entity.getDynamicProperty(`hp4_paint:night`)) {
-                entity.triggerEvent(`find_bed`)
-                entity.setDynamicProperty(`hp4_paint:night`, true)
+            if(!entity.getDynamicProperty(`hp4_paint:night`) && !isHiding) {
+                mc.system.runTimeout(()=>{
+                    entity.triggerEvent(`find_bed`)
+                    entity.setDynamicProperty(`hp4_paint:night`, true)
+                },1)
             }
             if(sleepingSpot.length > 0) {
-                if(!entity.getProperty(`hp4_paint:sleeping`) && !entity.getDynamicProperty(`hp4_paint:isHiding`)) {
+                if(!entity.getDynamicProperty(`hp4_paint:sleeping`) && !entity.getDynamicProperty(`hp4_paint:isHiding`)) {
+                    sleepingSpot[0].setDynamicProperty(`hp4_paint:sleeper`, entity.id)
+                    entity.setDynamicProperty(`hp4_paint:sleeping`, true)
                     entity.setProperty(`hp4_paint:sleeping`, true)
-                    entity.triggerEvent(`static`)
+                    const facingLoc = {
+                        x: sleepingSpot[0].location.x + sleepingSpot[0].getViewDirection().x * 5,
+                        y: sleepingSpot[0].location.y,
+                        z: sleepingSpot[0].location.z + sleepingSpot[0].getViewDirection().z * 5
+                    }
+                    entity.teleport(sleepingSpot[0].location,
+                        {
+                            facingLocation: facingLoc
+                        }
+                    )
+                    mc.system.runTimeout(()=>{
+                        entity.triggerEvent(`static`)
+                    },15)
                 }
-                const rot = (sleepingSpot.map(e=>e.getRotation().y))
-                entity.setRotation({
-                    x: 0,
-                    y: Math.floor(rot)
-                })
             } else {
                 entity.getProperty(`hp4_paint:sleeping`) ? entity.setProperty(`hp4_paint:sleeping`, false) : null
+                if (entity.getDynamicProperty(`hp4_paint:sleeping`)) {
+                    entity.setDynamicProperty(`hp4_paint:sleeping`, false)
+                    entity.triggerEvent('go_hang_around')
+                }
             }
+        }
+    })
+    mc.world.getDimension(`overworld`).getEntities({type: `hp4_paint:artist_villager_sleeping_spot`}).forEach((entity)=>{
+        const sleeper = entity.dimension.getEntities({type:`hp4_paint:artist_villager`, maxDistance: 1, location: entity.location}).filter(e=>e.id == entity.getDynamicProperty(`hp4_paint:sleeper`))
+        if(sleeper.length > 0) {
+            entity.triggerEvent(`has_sleeper`)
+        } else if(sleeper.length == 0) {
+            entity.triggerEvent(`no_sleeper`)
+        }
+
+        const owner = entity.dimension.getEntities({type:`hp4_paint:artist_villager`}).filter(e=>e.id == entity.getDynamicProperty(`hp4_paint:sleeper`))
+        if(owner.length == 0) {
+            entity.setDynamicProperty(`hp4_paint:sleeper`, undefined)
+        }
+
+        const blockBelow = entity.dimension.getBlock({
+            x: entity.location.x,
+            y: entity.location.y - 1,
+            z: entity.location.z
+        })
+        try {
+        if(blockBelow.typeId != 'minecraft:bed') {
+            console.warn('no bed was found below the entity')
+            entity.remove()
+        }
+        } catch (error) {
+            
         }
     })
 })
@@ -179,7 +240,6 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
     const entity = arg.entity
     if(entity.typeId == `hp4_paint:artist_villager`){
         const paintingSpot = entity.dimension.getEntities({type: `hp4_paint:artist_villager_painting_spot_loc`, location: entity.location, maxDistance: radius})
-        
             {
                 //VARIANT RANDOMIZE
                 const variants = [
@@ -192,7 +252,7 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
                     entity.setProperty(`hp4_paint:${variant[0]}`, random)
                 })
             }
-        if(getTimeOfDayForQuest() == `day`) {
+        {
             if(paintingSpot.length > 0) {
                 entity.triggerEvent(`go_painting`)
                 paintingSpot.forEach((spot)=>{
@@ -207,9 +267,216 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
             } else if(paintingSpot.length == 0) {
                 entity.triggerEvent(`static`)
             }
-        } else {
-            entity.triggerEvent(`find_bed`)
         }
+    }
+    if(entity.typeId == `hp4_paint:artist_villager_sleeping_spot`) {
+        try {
+            entity.setRotation({
+                x: 0,
+                y: Math.round(
+                    entity.getRotation().y / 90) * 90
+            })
+            mc.system.runTimeout(()=>{
+                const blockBelow = entity.dimension.getBlock({
+                    x: entity.location.x,
+                    y: entity.location.y - 1,
+                    z: entity.location.z
+                })
+                console.warn(blockBelow.typeId)
+            },1)
+        } catch (error) {}
+    }
+    if(entity.typeId == `hp4_paint:artist_villager_house1_executor`) {
+        mc.system.runTimeout(()=>{
+            entity.dimension.getEntities({type: `hp4_paint:artist_villager_house1_target`, closest:1, location: entity.location}).forEach(target=>{
+                entity.teleport(
+                    entity.location,
+                    {
+                        facingLocation: target.location
+                    }
+                )
+                mc.system.runTimeout(()=>{
+                    target.runCommand(`setblock ~~~ air`)
+                    target.runCommand(`setblock ~~-1~ oak_planks`)
+                },1*20)
+            })
+            mc.system.runTimeout(()=>{
+                //console.warn(entity.getRotation().y)
+                    const furnish = [
+{type: "hp4_paint:pirates_painting",location: {x: -1,y: 0.5,z: 2},rotation: {x: 0,y: -132.114013671875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799847"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"medieval"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:8},{name:"hp4_paint:paint_models", value:1},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:halloween_painting",location: {x: 3,y: -0.5,z: 1},rotation: {x: 0,y: -84.59473419189453},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799834"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"easel_stand"},{name:"hp4_paint:paint_colors", value:13},{name:"hp4_paint:paint_models", value:2},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:statue_painting",location: {x: 7,y: -0.5,z: 1},rotation: {x: 0,y: 72.99526977539062},dynamicProperties: [{name:"hp4_paint:disable_interaction", value:0},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799824"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:1},{name:"hp4_paint:statue_pose", value:0},]},
+{type: "hp4_paint:forest_painting",location: {x: -4,y: -0.5,z: 7},rotation: {x: 0,y: 0.4322509765625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799823"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"display_case_wide"},{name:"hp4_paint:paint_colors", value:7},{name:"hp4_paint:paint_models", value:1},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:statue_painting",location: {x: 5,y: 4.5,z: 5},rotation: {x: 0,y: 11.65460205078125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799818"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:statue_pose", value:0},]},
+{type: "hp4_paint:dino_dragons_painting",location: {x: -1,y: 5.5,z: 7},rotation: {x: 0,y: 131.67190551757812},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799817"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"medieval"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:3},{name:"hp4_paint:paint_models", value:0},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:alien_painting",location: {x: -1,y: -0.5,z: 9},rotation: {x: 0,y: -174.82379150390625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799812"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"easel_stand"},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_models", value:0},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:biomes_painting",location: {x: 5,y: -0.5,z: 10},rotation: {x: 0,y: 168.40228271484375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799804"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"easel_stand"},{name:"hp4_paint:paint_colors", value:12},{name:"hp4_paint:paint_models", value:2},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:tiny_painting",location: {x: 5,y: 4.5,z: 9},rotation: {x: 0,y: 86.16983032226562},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799796"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"easel_stand"},{name:"hp4_paint:paint_colors", value:13},{name:"hp4_paint:paint_models", value:2},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:alien_painting",location: {x: -7,y: 0.5,z: 9},rotation: {x: 0,y: -90.4085693359375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799786"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"deciron"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:14},{name:"hp4_paint:paint_models", value:3},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:horror_painting",location: {x: -6,y: -0.5,z: 11},rotation: {x: 0,y: -175.33853149414062},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799769"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"display_case"},{name:"hp4_paint:paint_colors", value:13},{name:"hp4_paint:paint_models", value:2},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:dino_dragons_painting",location: {x: -6,y: 5.5,z: 11},rotation: {x: 0,y: -166.8050079345703},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799761"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:11},{name:"hp4_paint:paint_models", value:1},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:animated_painting",location: {x: 3,y: 5.5,z: 14},rotation: {x: 0,y: -179.1344451904297},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799758"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"black_modern"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:13},{name:"hp4_paint:paint_models", value:6},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:fantasy_painting",location: {x: 11,y: 8.499999046325684,z: 9},rotation: {x: 0,y: -23.019088745117188},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799753"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:37},{name:"hp4_paint:paint_models", value:5},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:fantasy_painting",location: {x: 13,y: 8.499999046325684,z: 7},rotation: {x: 0,y: 169.19842529296875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799743"},{name:"hp4_paint:rotation_attempt", value:0},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:frame_type", value:"none"},{name:"hp4_paint:size", value:1},{name:"hp4_paint:displayer_active", value:false},{name:"hp4_paint:displayer", value:"none"},{name:"hp4_paint:paint_colors", value:37},{name:"hp4_paint:paint_models", value:5},{name:"hp4_paint:paint_materials", value:false},{name:"hp4_paint:visible", value:true},]},
+{type: "hp4_paint:brush_on_shelf",location: {x: 1,y: 0.5,z: 0},rotation: {x: 0,y: 77.659912109375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799726"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:brush_on_shelf",location: {x: 1,y: 0.5,z: 1},rotation: {x: 0,y: 96.9991455078125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799725"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_bench",location: {x: 3,y: -0.5,z: 0},rotation: {x: 0,y: -87.55055236816406},dynamicProperties: [{name:"hp4_paint:disable_interaction", value:0},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799724"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:1},]},
+{type: "hp4_paint:cabinet",location: {x: 1,y: -0.5,z: 3},rotation: {x: 0,y: 71.19107055664062},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799723"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:easel_stand",location: {x: 3,y: -0.5,z: 1},rotation: {x: 0,y: -84.59473419189453},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-21474836428"},{name:"hp4_paint:id", value:"-682899799722"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:round_planter",location: {x: 1,y: -0.5,z: 5},rotation: {x: 0,y: 61.3419189453125},dynamicProperties: [{name:"hp4_paint:slot", value:0},{name:"hp4_paint:slot0", value:"-682899799627"},{name:"hp4_paint:id", value:"-682899799628"},],properties: [{name:"hp4_paint:furniture_color", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 1,y: -0.5,z: 5},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799627"},],properties: []},
+{type: "hp4_paint:easel_stand",location: {x: 3,y: -0.5,z: 5},rotation: {x: 0,y: -3.4742584228515625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799719"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:false},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:sack_of_beton",location: {x: 4,y: -0.5,z: 5},rotation: {x: 0,y: 9.511260986328125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799718"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:artist_box",location: {x: 5,y: 0.5,z: 5},rotation: {x: 0,y: 1.026397705078125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799717"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -6,y: 0.5,z: 4},rotation: {x: 0,y: 3.852081298828125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799716"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 6,y: 0.5,z: 4},rotation: {x: 0,y: -158.45529174804688},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799715"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -6,y: 1.5,z: 4},rotation: {x: 0,y: 3.84747314453125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799713"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 6,y: 1.5,z: 4},rotation: {x: 0,y: -158.42922973632812},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799714"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_knives",location: {x: 7,y: 0.5,z: 3},rotation: {x: 0,y: 85.77450561523438},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799712"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:cabinet",location: {x: 2,y: 4.5,z: 6},rotation: {x: 0,y: -1.34185791015625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799711"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_knives",location: {x: 6,y: 0.5,z: 5},rotation: {x: 0,y: -18.58551025390625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799709"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:brush_cleaner_cup",location: {x: -6,y: 0.5,z: 5},rotation: {x: 0,y: -3.384307861328125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799710"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:stool",location: {x: 0,y: -0.5,z: 8},rotation: {x: 0,y: 144.2830810546875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799708"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:display_case_wide",location: {x: -4,y: -0.5,z: 7},rotation: {x: 0,y: 0.4322509765625},dynamicProperties: [{name:"hp4_paint:disable_interaction", value:0},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-8589934513"},{name:"hp4_paint:id", value:"-682899799707"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:color_bucket",location: {x: -7,y: 0.5,z: 5},rotation: {x: 0,y: -23.42529296875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799706"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:easel_stand",location: {x: -1,y: -0.5,z: 9},rotation: {x: 0,y: -174.82379150390625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-8589934500"},{name:"hp4_paint:id", value:"-682899799705"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.49899959564209,z: 5.147003173828125},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799619"},],properties: []},
+{type: "hp4_paint:art_chair",location: {x: 1,y: 4.5,z: 8},rotation: {x: 0,y: -76.81513977050781},dynamicProperties: [{name:"hp4_paint:disable_interaction", value:0},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799704"},],properties: [{name:"hp4_paint:furniture_color", value:2},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:brush_holder_cup",location: {x: 7,y: 0.5,z: 6},rotation: {x: 0,y: 61.25502014160156},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799703"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.494999885559082,z: 6},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799621"},],properties: []},
+{type: "hp4_paint:wide_planter",location: {x: 6,y: 4.5,z: 6},rotation: {x: 0,y: -79.94001770019531},dynamicProperties: [{name:"hp4_paint:slot", value:2},{name:"hp4_paint:slot0", value:"-682899799621"},{name:"hp4_paint:slot1", value:"-682899799620"},{name:"hp4_paint:slot2", value:"-682899799619"},{name:"hp4_paint:id", value:"-682899799623"},],properties: [{name:"hp4_paint:furniture_color", value:0},]},
+{type: "hp4_paint:paint_tubes",location: {x: 5,y: 4.5,z: 7},rotation: {x: 0,y: 25.593994140625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799701"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:lying_bottle_color",location: {x: 7,y: 0.5,z: 7},rotation: {x: 0,y: 89.76315307617188},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799700"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_chair",location: {x: 6,y: -0.5,z: 8},rotation: {x: 0,y: -85.70299530029297},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799699"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 0.5,z: 6},rotation: {x: 0,y: -83.09681701660156},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799698"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 1.5,z: 6},rotation: {x: 0,y: -82.87737274169922},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799697"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.496999740600586,z: 6.842010498046875},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799620"},],properties: []},
+{type: "hp4_paint:vase",location: {x: -5,y: 5.5,z: 7},rotation: {x: 0,y: 12.700775146484375},dynamicProperties: [{name:"hp4_paint:disable_interaction", value:0},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799696"},{name:"hp4_paint:slot", value:0},{name:"hp4_paint:slot0", value:"-8589934448"},],properties: [{name:"hp4_paint:furniture_color", value:0},]},
+{type: "hp4_paint:plants_holder",location: {x: -5,y: 5.5,z: 7},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799695"},],properties: []},
+{type: "hp4_paint:brush_holder_cup",location: {x: 3,y: 0.5,z: 10},rotation: {x: 0,y: -120.13446044921875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799694"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:sketchbook",location: {x: -6,y: 5.5,z: 7},rotation: {x: 0,y: 0.4281005859375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799693"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.496999740600586,z: 8.157989501953125},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799617"},],properties: []},
+{type: "hp4_paint:easel_stand",location: {x: 5,y: -0.5,z: 10},rotation: {x: 0,y: 168.40228271484375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-8589934558"},{name:"hp4_paint:id", value:"-682899799692"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:easel_stand",location: {x: 5,y: 4.5,z: 9},rotation: {x: 0,y: 86.16983032226562},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-12884901887"},{name:"hp4_paint:id", value:"-682899799691"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:window_big",location: {x: 8,y: 0.5,z: 8},rotation: {x: 0,y: 76.31500244140625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799690"},],properties: [{name:"hp4_paint:furniture_color", value:3},]},
+{type: "hp4_paint:tube_paint",location: {x: 3,y: 0.5,z: 11},rotation: {x: 0,y: -86.96077728271484},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799689"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:chalk_and_charcoal",location: {x: 7,y: 0.5,z: 9},rotation: {x: 0,y: 91.0740966796875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799688"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.494999885559082,z: 9},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799618"},],properties: []},
+{type: "hp4_paint:wide_planter",location: {x: 6,y: 4.5,z: 9},rotation: {x: 0,y: 92.29022216796875},dynamicProperties: [{name:"hp4_paint:slot1", value:"-682899799617"},{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799687"},{name:"hp4_paint:slot", value:2},{name:"hp4_paint:slot0", value:"-682899799618"},{name:"hp4_paint:slot2", value:"-682899799616"},],properties: [{name:"hp4_paint:furniture_color", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 5.5,z: 7},rotation: {x: 0,y: -65.07705688476562},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799686"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 8,y: 5.5,z: 7},rotation: {x: 0,y: 79.07763671875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799685"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:brushes_set",location: {x: 5,y: 4.5,z: 10},rotation: {x: 0,y: 80.77395629882812},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799684"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:spatula",location: {x: 7,y: 0.5,z: 10},rotation: {x: 0,y: 23.842864990234375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799683"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:spatula",location: {x: 7,y: 0.5,z: 10},rotation: {x: 0,y: 23.842864990234375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799682"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 6,y: 4.49899959564209,z: 9.852996826171875},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799616"},],properties: []},
+{type: "hp4_paint:window",location: {x: 8,y: 6.5,z: 7},rotation: {x: 0,y: 79.07763671875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799681"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 6.5,z: 7},rotation: {x: 0,y: -65.07697296142578},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799680"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:display_case",location: {x: -6,y: -0.5,z: 11},rotation: {x: 0,y: -175.33853149414062},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:babu", value:"-8589934360"},{name:"hp4_paint:id", value:"-682899799679"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},{name:"hp4_paint:paint_colors", value:0},{name:"hp4_paint:paint_installed", value:true},{name:"hp4_paint:is_glowing", value:false},{name:"hp4_paint:painting_type", value:0},{name:"hp4_paint:paint_size", value:"null"},]},
+{type: "hp4_paint:plants_holder_mp",location: {x: 7,y: -0.5,z: 11},rotation: {x: 0,y: 0},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799624"},],properties: []},
+{type: "hp4_paint:round_planter",location: {x: 7,y: -0.5,z: 11},rotation: {x: 0,y: 54.849639892578125},dynamicProperties: [{name:"hp4_paint:slot", value:0},{name:"hp4_paint:slot0", value:"-682899799624"},{name:"hp4_paint:id", value:"-682899799626"},],properties: [{name:"hp4_paint:furniture_color", value:0},]},
+{type: "hp4_paint:cabinet",location: {x: 2,y: -0.5,z: 13},rotation: {x: 0,y: -9.967254638671875},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799615"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 8,y: 5.5,z: 9},rotation: {x: 0,y: 105.7584228515625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799676"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 5.5,z: 9},rotation: {x: 0,y: -81.85765075683594},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799675"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:brush_cleaner_jar",location: {x: 1,y: 5.5,z: 12},rotation: {x: 0,y: -85.18731689453125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799674"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -6,y: 0.5,z: 12},rotation: {x: 0,y: 11.9849853515625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799673"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -6,y: 1.5,z: 12},rotation: {x: 0,y: 9.544189453125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799672"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: -8,y: 6.5,z: 9},rotation: {x: 0,y: -81.85765075683594},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799671"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 8,y: 6.5,z: 9},rotation: {x: 0,y: 105.7584228515625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799670"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_bench",location: {x: 1,y: -0.5,z: 14},rotation: {x: 0,y: -85.43997192382812},dynamicProperties: [{name:"hp4_paint:id", value:"-682899799614"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:chalk_and_charcoal",location: {x: 5,y: 5.5,z: 12},rotation: {x: 0,y: 77.92010498046875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799669"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:sewing_kit",location: {x: 1,y: 5.5,z: 13},rotation: {x: 0,y: -83.31539916992188},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799668"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:spray_can",location: {x: 5,y: 5.5,z: 13},rotation: {x: 0,y: 90.928955078125},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799667"},],properties: [{name:"hp4_paint:furniture_model", value:1},]},
+{type: "hp4_paint:unfinished_wooden_block",location: {x: 1,y: 5.5,z: 14},rotation: {x: 0,y: -91.67424774169922},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799666"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:art_chair",location: {x: 2,y: 4.5,z: 16},rotation: {x: 0,y: -78.00839233398438},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799665"},],properties: [{name:"hp4_paint:furniture_color", value:0},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:color_swatch",location: {x: 5,y: 5.5,z: 16},rotation: {x: 0,y: 75.76637268066406},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799664"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:pencil_set",location: {x: 5,y: 5.5,z: 17},rotation: {x: 0,y: 72.54399108886719},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799663"},],properties: [{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 6,y: 0.5,z: 18},rotation: {x: 0,y: -86.99479675292969},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799662"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 6,y: 1.5,z: 18},rotation: {x: 0,y: -82.93328094482422},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799661"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 4,y: 0.5,z: 21},rotation: {x: 0,y: 18.350494384765625},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799660"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 4,y: 1.5,z: 21},rotation: {x: 0,y: 18.3504638671875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799659"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 2,y: 4.5,z: 21},rotation: {x: 0,y: -35.588470458984375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799658"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 2,y: 5.5,z: 21},rotation: {x: 0,y: -35.588470458984375},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799657"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 4,y: 4.5,z: 21},rotation: {x: 0,y: 15.959197998046875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799656"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+{type: "hp4_paint:window",location: {x: 4,y: 5.5,z: 21},rotation: {x: 0,y: 15.959197998046875},dynamicProperties: [{name:"hp4_paint:langsung", value:true},{name:"hp4_paint:id", value:"-682899799655"},],properties: [{name:"hp4_paint:furniture_color", value:3},{name:"hp4_paint:furniture_model", value:0},]},
+
+
+{type: "hp4_paint:artist_villager_painting_spot_loc",location: {x: 4,y: -0.5,z: 1},rotation: {x: 0,y: -105.72462463378906},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765752"},],properties: []},
+{type: "hp4_paint:artist_villager_painting_spot_loc",location: {x: -1,y: -0.5,z: 8},rotation: {x: 0,y: 168.35107421875},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765751"},],properties: []},
+{type: "hp4_paint:artist_villager_hiding_spot_loc",location: {x: -6,y: -0.5,z: 6},rotation: {x: 0,y: 43.78070068359375},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765747"},],properties: []},
+{type: "hp4_paint:artist_villager_painting_spot_loc",location: {x: 5,y: 0.5,z: 9},rotation: {x: 0,y: 166.5826416015625},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765750"},],properties: []},
+{type: "hp4_paint:artist_villager_painting_spot_loc",location: {x: 4,y: 5.5,z: 9},rotation: {x: 0,y: 98.21621704101562},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765749"},],properties: []},
+{type: "hp4_paint:artist_villager_hiding_spot_loc",location: {x: 2,y: -0.5,z: 14},rotation: {x: 0,y: -123.6905288696289},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765746"},],properties: []},
+{type: "hp4_paint:artist_villager_hiding_spot_loc",location: {x: 2,y: 4.5,z: 20},rotation: {x: 0,y: -102.16357421875},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765745"},],properties: []},
+{type: "hp4_paint:artist_villager",location: {x: -1,y: -0.5,z: 8},rotation: {x: 0,y: 35.53108215332031},dynamicProperties: [],properties: []},
+{type: "hp4_paint:artist_villager_sleeping_spot",location: {x: 2,y: 5.5,z: 18},rotation: {x: 0,y: -90},dynamicProperties: [{name:"hp4_paint:id", value:"-687194765748"},],properties: []},
+]
+                furnish.forEach(furni=>{
+                    const furniture = entity.dimension.spawnEntity(furni.type,
+                        {
+                            x: entity.location.x,
+                            y: entity.location.y,
+                            z: entity.location.z
+                        }
+                    )
+                    furniture.setDynamicProperty(`hp4_paint:langsung`, true)
+                    furniture.addTag(`hp4_paint:${furniture.id}`)
+                    entity.runCommand(`tp @e[type=${furni.type},tag=hp4_paint:${furniture.id}] ^${furni.location.x}^${furni.location.y}^${furni.location.z} ~~ false`)
+                    const rots = {
+                        x: furni.rotation.x + entity.getRotation().x,
+                        y: furni.rotation.y + entity.getRotation().y
+                    }
+                    furniture.setRotation(
+                        rots
+                    )
+                    mc.system.runTimeout(()=>{
+                        if(furni.properties.length > 0) {
+                            furni.properties.forEach(property=>{
+                                furniture.setProperty(property.name, property.value)
+                                //console.warn(`${property.name}: ${property.value}`)
+                            })
+                        }
+                        if(furni.dynamicProperties.length > 0) {
+                            furni.dynamicProperties.forEach(dp=>{
+                                try {
+                                furniture.setDynamicProperty(dp.name, dp.value)
+                                if(dp.name==`hp4_paint:babu`){
+                                    mc.system.runTimeout(()=>{
+                                    mc.world.getDimension('overworld').getEntities().filter(e=>e.getDynamicProperty(`hp4_paint:id`) == dp.value).forEach(f=>{
+                                        //console.warn(`${f.typeId} babunya ${furniture.typeId}`)
+                                        f.teleport(furniture.location)
+                                        f.setRotation(
+                                            {
+                                                x:furniture.getRotation().x,
+                                                y:furniture.getRotation().y
+                                            }
+                                        )
+                                    })
+                                    },3*20)
+                                }
+                                } catch (error) {
+                                    
+                                }
+                            })
+                        }
+                    },1)
+
+                    if(furni.type.endsWith(`_painting`) && !furni.type.includes(`statue`)) {
+                        console.warn('ngentot')
+                        const rots = [
+                            0, 90, 180, -90
+                        ]
+                        let newRotation = main.findClosestNumber(rots, furniture.getRotation().y)
+                        main.hitBoxManager(furniture, main.paintingTypeChoose(furniture).models[furniture.getProperty(`hp4_paint:paint_models`)], newRotation)
+                    }
+                })
+            })
+            //CLOSURE
+            mc.system.runTimeout(()=>{
+                console.warn('asu')
+                entity.runCommand(`setblock ~~~ air`)
+                entity.runCommand(`setblock ~~-1~ oak_planks`)
+            },1*20)
+        })
     }
 })
 mc.system.afterEvents.scriptEventReceive.subscribe(data => {
@@ -232,3 +499,161 @@ function getTimeOfDayForQuest() {
         return 'night';
     }
 }
+function parseValue(value) {
+    if (typeof value !== "string") return value
+    return `"${value}"`
+}
+mc.world.afterEvents.itemUse.subscribe(arg=>{
+    const player = arg.source
+    const item = arg.itemStack
+    player.dimension.getEntities({type:`hp4_paint:artist_villager_house1_executor`, closest:1, location: player.location}).forEach(executor=>{
+        if(item.typeId == `minecraft:iron_ingot`) {
+            console.warn(
+                `\nx: ${executor.location.x}\ny: ${executor.location.y}\nz: ${executor.location.z}`
+            )
+        }
+        if(item.typeId == `minecraft:copper_ingot`) {
+            let text = ``
+            executor.dimension.getEntities({families:[
+                `hp4_paint_furniture`
+            ], maxDistance:30, location:executor.location}).sort((a, b) => {
+  const aPainting = a.typeId.endsWith('_painting');
+  const bPainting = b.typeId.endsWith('_painting');
+
+  if (aPainting && !bPainting) return -1; // a duluan
+  if (!aPainting && bPainting) return 1;  // b duluan
+  return 0; // sama kategori
+}).filter(e=> e.typeId.includes(`artist_villager`)).forEach(furni=>{
+                furni.setDynamicProperty(`hp4_paint:id`, furni.id)
+                if(furni.typeId=='hp4_paint:window' || furni.typeId=='hp4_paint:window_big') {
+                    furni.setProperty(`hp4_paint:furniture_color`, 3)
+                }
+                //VARIABLES
+                let dp = ``
+                let prop = ``
+                {
+                    const dynamicProperties = furni.getDynamicPropertyIds()
+                    dynamicProperties.forEach(dynamicP=>{
+                        const value = parseValue(furni.getDynamicProperty(dynamicP))
+                        dp = dp + `{name:"${dynamicP}", value:${value}},`
+                    })
+                    {
+                        const properties = [
+`hp4_paint:furniture_color`,
+`hp4_paint:furniture_model`,
+`hp4_paint:statue_pose`,
+`hp4_paint:frame_type`,
+`hp4_paint:size`,
+`hp4_paint:displayer_active`,
+`hp4_paint:displayer`,
+`hp4_paint:paint_colors`,
+`hp4_paint:paint_models`,
+`hp4_paint:paint_materials`,
+`hp4_paint:paint_installed`,
+`hp4_paint:is_glowing`,
+`hp4_paint:painting_type`,
+`hp4_paint:paint_size`,
+`hp4_paint:visible`
+                        ]
+                        properties.forEach(property=>{
+                            try {
+                                if(furni.getProperty(property) != undefined) {
+                                    const value = parseValue(furni.getProperty(property))
+                                    prop = prop + `{name:"${property}", value:${value}},`
+                                }
+                            } catch (error) {}
+                        })
+                    }
+                }
+                text = text + 
+`\n{type: "${furni.typeId}",location: {x: ${furni.location.x - executor.location.x},y: ${furni.location.y - executor.location.y},z: ${furni.location.z - executor.location.z}},rotation: {x: ${furni.getRotation().x},y: ${furni.getRotation().y}},dynamicProperties: [${dp}],properties: [${prop}]},`
+            })
+            mc.system.runTimeout(()=>{
+                console.warn(text)
+            },1)
+        }
+    })
+})
+function toNearestCardinalRotation(rot) {
+    // Normalisasi ke range -360 sampai 360
+    let normalized = rot % 360;
+
+    // Biar konsisten (optional, tapi bagus)
+    if (normalized > 360) normalized -= 360;
+    if (normalized < -360) normalized += 360;
+
+    // Round ke kelipatan 90 terdekat
+    let snapped = Math.round(normalized / 90) * 90;
+
+    return snapped;
+}
+mc.world.afterEvents.playerInteractWithBlock.subscribe(arg=>{
+    const player = arg.player
+    const item = arg.itemStack
+    const block = arg.block
+    try {
+        if(item.typeId == 'minecraft:bed') {
+    const faceLoc = {
+        x: Math.floor(arg.faceLocation.x)+0.5,
+        y: Math.floor(arg.faceLocation.y+1),
+        z: Math.floor(arg.faceLocation.z)+0.5
+    }
+    let pillowLoc = {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+    const rot = toNearestCardinalRotation(player.getRotation().y)
+    switch (rot) {
+        case 0:
+            pillowLoc.z = 1
+            break;
+        case 90:
+            pillowLoc.x = -1
+            break;
+        case 180:
+            pillowLoc.z = -1
+            break;
+        case -180:
+            pillowLoc.z = -1
+            break;
+        case -90:
+            pillowLoc.x = 1
+            break;
+        default:
+            break;
+    }
+            const artistVillager = player.dimension.getEntities({type: `hp4_paint:artist_villager`, location: player.location, maxDistance: radius})
+            if(artistVillager.length > 0) {
+                const sleepingSpot = player.dimension.spawnEntity(`hp4_paint:artist_villager_sleeping_spot`, {
+                    x: faceLoc.x + pillowLoc.x,
+                    y: faceLoc.y + pillowLoc.y,
+                    z: faceLoc.z + pillowLoc.z
+                })
+                sleepingSpot.teleport(sleepingSpot.location,
+                    {
+                        facingLocation: faceLoc
+                    }
+                )
+                mc.system.runTimeout(()=>{
+                    console.warn(`ENTSPOT\nx: ${sleepingSpot.location.x}\ny: ${sleepingSpot.location.y}\nz: ${sleepingSpot.location.z}`)
+                    console.warn(`LOOKING\nx: ${faceLoc.x}\ny: ${faceLoc.y}\nz: ${faceLoc.z}`)
+                },1*20)
+            }
+        }
+    } catch (error) {}
+
+    // console.warn(`ROT: ${toNearestCardinalRotation(player.getRotation().y)}`)
+    // console.warn(`BEDLOC\nx: ${faceLoc.x}\ny: ${faceLoc.y}\nz: ${faceLoc.z}`)
+})
+
+
+
+
+
+
+
+
+
+//STRUCTURE LOC
+//2663.64 -30.00 -78.03

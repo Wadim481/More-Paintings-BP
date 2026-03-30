@@ -47,6 +47,9 @@
             }
         },
         "components": {
+            "minecraft:type_family": {
+                "family": [ "hp4_paint_furniture" ]
+            },
             "minecraft:interact": {
                 "interactions": [
                     {
@@ -76,8 +79,8 @@
             "minecraft:custom_hit_test": {
                 "hitboxes": [
                     {
-                        "width": 1.5,
-                        "height": 2,
+                        "width": 1.1,
+                        "height": 1,
                         "pivot": [
                             0,
                             1,

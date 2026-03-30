@@ -96,6 +96,7 @@ const furnitures = [
     `hp4_paint:rose_bush`,
     `hp4_paint:window`,
     `hp4_paint:window_big`,
+    `hp4_paint:spray_table`
 ]
 const flowers = [
     "crimson_roots",
@@ -126,6 +127,10 @@ const flowers = [
 	"sunflower",
 	"wildflowers",
 	"pink_petals"
+], mpPlants = [
+    "foxglove_plant",
+    "rose_bush",
+    "grass_plant"
 ]
 world.afterEvents.entitySpawn.subscribe(arg=>{
     if(furnitures.includes(arg.entity.typeId) || displays.includes(arg.entity.typeId)) {
@@ -139,7 +144,6 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
                     woodColorful.forEach(colorful=>{
                         const name = Array.isArray(colorful) ? colorful[0] : colorful
                         if(arg.entity.typeId.includes(name)) {
-                            console.warn('filter masuk')
                             try {
                                 system.runTimeout(()=>{
                                     try {
@@ -199,6 +203,7 @@ const woodColorful = [
     `hp4_paint:easel_stand`,
     `planter`,
     `vase`,
+    `spray_table`,
     [`hp4_paint:stool`, `hp4_paint:furniture_model`],
     `hp4_paint:variant_paint_bottle`
 ]
@@ -219,11 +224,11 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     if(item.typeId==`hp4_paint:${jenis}_painting`) {
                         if(target.getProperty(`hp4_paint:paint_installed`)) {
                             target.dimension.getEntities().forEach(entity=>{
-                                if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
+                                if(entity.getDynamicProperty(`hp4_paint:id`)==target.getDynamicProperty(`hp4_paint:babu`)) {
                                     {
                                         target.setDynamicProperty(`hp4_paint:babu`, null)
                                         target.setProperty(`hp4_paint:paint_installed`, false)
-                                        //kontol.warn('remove')
+                                        //console.warn('remove')
                                         player.getGameMode() != 'creative' ? entity.triggerEvent('death') : entity.remove();
                                     }
                                 }
@@ -310,6 +315,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                         painting.setRotation({y:target.getRotation().y, x:0})
                                         painting.setProperty(`hp4_paint:displayer`, target.typeId.replace('hp4_paint:', ''));
                                         painting.setProperty(`hp4_paint:paint_models`, model.id)
+                                        painting.setDynamicProperty(`hp4_paint:id`, painting.id)
                                         const listColor = colorData.colorPaintingData[jenis][model.id]
                                         const min = Math.min(...listColor), max = Math.max(...listColor)
                                         painting.setProperty(`hp4_paint:paint_colors`, min);
@@ -346,7 +352,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             if(item.typeId==`minecraft:painting`) {
                 if(target.getProperty(`hp4_paint:paint_installed`)) {
                     target.dimension.getEntities().forEach(entity=>{
-                        if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
+                        if(entity.getDynamicProperty(`hp4_paint:id`)==target.getDynamicProperty(`hp4_paint:babu`)) {
                             {
                                 target.setDynamicProperty(`hp4_paint:babu`, null)
                                 target.setProperty(`hp4_paint:paint_installed`, false)
@@ -430,6 +436,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 painting.setRotation({y:target.getRotation().y, x:0})
                                 painting.setProperty(`hp4_paint:displayer`, target.typeId.replace('hp4_paint:', ''));
                                 painting.setProperty(`hp4_paint:paint_models`, model.id)
+                                painting.setDynamicProperty(`hp4_paint:id`, painting.id)
                                 const listColor = colorData.colorPaintingData['vanilla_pack'][model.id]
                                 const min = Math.min(...listColor), max = Math.max(...listColor)
                                 painting.setProperty(`hp4_paint:paint_colors`, min);
@@ -463,7 +470,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             }
             if(item.typeId == 'minecraft:glow_ink_sac') {
                 target.dimension.getEntities().forEach(entity=>{
-                    if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
+                    if(entity.getDynamicProperty(`hp4_paint:id`)==target.getDynamicProperty(`hp4_paint:babu`)) {
                         if(!entity.getProperty(`hp4_paint:paint_materials`)) {
                             player.runCommand(`clear @s minecraft:glow_ink_sac 0 1`);
                             entity.setProperty(`hp4_paint:paint_materials`, true);
@@ -474,7 +481,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
             }
             if(item.typeId == 'minecraft:shears') {
                 target.dimension.getEntities().forEach(entity=>{
-                    if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
+                    if(entity.getDynamicProperty(`hp4_paint:id`)==target.getDynamicProperty(`hp4_paint:babu`)) {
                         if(entity.getProperty(`hp4_paint:paint_materials`)) {
                             entity.setProperty(`hp4_paint:paint_materials`, false);
                             main.playSound(player, `mob.sheep.shear`)
@@ -506,6 +513,29 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                     object.setProperty(`hp4_paint:model`, 0)
+                    if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+                        const sound_effects = [
+                        	0.4167,
+                        	0.8333,
+                        	1.25,
+                        	1.7083,
+                        	2.125,
+                        	2.5417,
+                        	3.0,
+                        	3.4167,
+                        	3.8333
+                        ]
+                        sound_effects.forEach(dura=>{
+                            system.runTimeout(()=>{
+                                player.playSound(
+                                    `hp4_paint:hammer.hit`,
+                                    {
+                                        location: object.location
+                                    }
+                                )
+                            },dura * 20)
+                        })
+                    }
                     system.runTimeout(()=>{
                         try {
                             object.remove()
@@ -532,7 +562,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             target.setProperty(`hp4_paint:furniture_model`, 0)
                         }
                         target.dimension.getEntities().forEach(arg=>{
-                            if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
+                            if(arg.getDynamicProperty(`hp4_paint:id`) == target.getDynamicProperty(`hp4_paint:babu`)) {
                                 system.runTimeout(()=>{
                                     arg.setProperty(`hp4_paint:furniture_model`, target.getProperty(`hp4_paint:furniture_model`))
                                 },1)
@@ -561,6 +591,23 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                     object.setProperty(`hp4_paint:model`, 2)
+                    if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+                        const sound_effects = [
+                        	0.4167,
+                        	1.2083,
+                        	2.0
+                        ]
+                        sound_effects.forEach(dura=>{
+                            system.runTimeout(()=>{
+                                player.playSound(
+                                    `hp4_paint:brushing`,
+                                    {
+                                        location: object.location
+                                    }
+                                )
+                            },dura * 20)
+                        })
+                    }
                     system.runTimeout(()=>{
                         try {
                             object.remove()
@@ -589,7 +636,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                             target.setProperty(`hp4_paint:furniture_color`, 0)
                         }
                         target.dimension.getEntities().forEach(arg=>{
-                            if(arg.id == target.getDynamicProperty(`hp4_paint:babu`)) {
+                            if(arg.getDynamicProperty(`hp4_paint:id`) == target.getDynamicProperty(`hp4_paint:babu`)) {
                                 system.runTimeout(()=>{
                                     arg.setProperty(`hp4_paint:furniture_color`, target.getProperty(`hp4_paint:furniture_color`))
                                 },1)
@@ -601,7 +648,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         }
         else {
             target.dimension.getEntities().forEach(entity=>{
-                if(entity.id==target.getDynamicProperty(`hp4_paint:babu`)) {
+                if(entity.getDynamicProperty(`hp4_paint:id`)==target.getDynamicProperty(`hp4_paint:babu`)) {
                     if(player.isSneaking) {
                         target.setDynamicProperty(`hp4_paint:babu`, null)
                         target.setProperty(`hp4_paint:paint_installed`, false)
@@ -624,7 +671,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 flowers.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = flowers.indexOf(flower);
-                        //kontol.warn(itemNumber)
+                        //console.warn(itemNumber)
                         main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'flower', height, player, item)
@@ -646,7 +693,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 doublePlants.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = doublePlants.indexOf(flower);
-                        //kontol.warn(itemNumber)
+                        //console.warn(itemNumber)
                         main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'double_plant', height, player, item)
@@ -668,7 +715,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 customPlants.forEach(flower=>{
                     if(item.typeId==`minecraft:${flower}`) {
                         const itemNumber = customPlants.indexOf(flower);
-                        //kontol.warn(itemNumber)
+                        //console.warn(itemNumber)
                         main.playSound(player, `use.grass`)
                         if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                             plantsHolderAddProperty(target, itemNumber, 4, 'custom_plant', height, player, item)
@@ -687,6 +734,41 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         }
                     }
                 })
+                mpPlants.forEach(flower=>{
+                    if(item.typeId.includes(flower)) {
+                    console.warn('masuk')
+                        const itemNumber = mpPlants.indexOf(flower);
+                        let color = 0
+                        let variant = Number(getVariant(item))
+                        if(itemNumber == 0) {
+                            if(item.typeId.includes(`orange`)) {color = 0}
+                            if(item.typeId.includes(`pink`)) {color = 1}
+                            if(item.typeId.includes(`purple`)) {color = 2}
+                            if(item.typeId.includes(`white`)) {color = 3}
+                        } else if(itemNumber == 1) {
+                            if(item.typeId.includes(`pink`)) {color = 0}
+                            if(item.typeId.includes(`red`)) {color = 1}
+                            if(item.typeId.includes(`white`)) {color = 2}
+                            if(item.typeId.includes(`yellow`)) {color = 3}
+                        }
+                        main.playSound(player, `use.grass`)
+                        if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
+                            plantsHolderMPAddProperty(target, itemNumber, 4, 'flower', height, player, item, color, variant)
+                        }
+                        if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 == undefined && slot4 == undefined) {
+                            plantsHolderMPAddProperty(target, itemNumber, 3, 'flower', height, player, item, color, variant)
+                        }
+                        if(slot0 != undefined && slot1 != undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
+                            plantsHolderMPAddProperty(target, itemNumber, 2, 'flower', height, player, item, color, variant)
+                        }
+                        if(slot0 != undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
+                            plantsHolderMPAddProperty(target, itemNumber, 1, 'flower', height, player, item, color, variant)
+                        }
+                        if(slot0 == undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
+                            plantsHolderMPAddProperty(target, itemNumber, 0, 'flower', height, player, item, color, variant)
+                        }
+                    }
+                })
             }
         }
 
@@ -694,11 +776,11 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         if(target.typeId == furniture) {
             if(!item && target.typeId.startsWith(`hp4_paint:window`)) {
                 try {
-                    if(target.getProperty(`hp4_paint:window_open`)) {
-                        target.setProperty(`hp4_paint:window_open`, false)
-                    } else {
-                        target.setProperty(`hp4_paint:window_open`, true)
-                    }
+                    // if(target.getProperty(`hp4_paint:window_open`)) {
+                    //     target.setProperty(`hp4_paint:window_open`, false)
+                    // } else {
+                    //     target.setProperty(`hp4_paint:window_open`, true)
+                    // }
                 } catch (error) {
                     
                 }
@@ -728,6 +810,29 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                     object.setProperty(`hp4_paint:model`, 0)
+                    if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+                        const sound_effects = [
+                        	0.4167,
+                        	0.8333,
+                        	1.25,
+                        	1.7083,
+                        	2.125,
+                        	2.5417,
+                        	3.0,
+                        	3.4167,
+                        	3.8333
+                        ]
+                        sound_effects.forEach(dura=>{
+                            system.runTimeout(()=>{
+                                player.playSound(
+                                    `hp4_paint:hammer.hit`,
+                                    {
+                                        location: object.location
+                                    }
+                                )
+                            },dura * 20)
+                        })
+                    }
                     target.playAnimation(`animation.hp4_paint.on_hammer`)
                     system.runTimeout(()=>{
                         try {
@@ -793,6 +898,23 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                     const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                     object.setProperty(`hp4_paint:model`, 2)
+                    if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+                        const sound_effects = [
+                        	0.4167,
+                        	1.2083,
+                        	2.0
+                        ]
+                        sound_effects.forEach(dura=>{
+                            system.runTimeout(()=>{
+                                player.playSound(
+                                    `hp4_paint:brushing`,
+                                    {
+                                        location: object.location
+                                    }
+                                )
+                            },dura * 20)
+                        })
+                    }
                     system.runTimeout(()=>{
                         try {
                             object.remove()
@@ -850,6 +972,29 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 }
                 const object = target.dimension.spawnEntity(`hp4_paint:particle_objects`, objectLoc)
                 object.setProperty(`hp4_paint:model`, 1)
+                if(player.getDynamicProperty(`hp4_paint:sfx`)) {
+                    const sound_effects = [
+	                    0.3333,
+	                    0.75,
+	                    1.1667,
+	                    1.625,
+	                    2.0417,
+	                    2.4583,
+	                    2.9167,
+	                    3.3333,
+	                    3.75
+                    ]
+                    sound_effects.forEach(dura=>{
+                        system.runTimeout(()=>{
+                            player.playSound(
+                                `hp4_paint:chiseling`,
+                                {
+                                    location: object.location
+                                }
+                            )
+                        },dura * 20)
+                    })
+                }
                 system.runTimeout(()=>{
                     try {
                         object.remove()
@@ -877,6 +1022,19 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
         }
     })
 })
+function getVariant(item) {
+    let variant = item.typeId.replace(
+        `hp4_paint:foxglove_plant`, ``).replace(
+        `hp4_paint:rose_bush`, ``).replace(
+        `hp4_paint:grass_plant`, ``).replace(
+            `_orange`, ``).replace(
+            `_pink`, ``).replace(
+            `_purple`, ``).replace(
+            `_white`, ``).replace(
+            `_yellow`, ``).replace(
+            `_red`, ``)
+    return variant
+}
 function getHeight(furniture, item) {
     let height
     switch (furniture) {
@@ -909,9 +1067,30 @@ function plantsHolderAddProperty(entity, itemNumber, slot, type, height, player,
     loc = getSlotLocations(entity, slot)
     const plantsHolder = entity.dimension.spawnEntity(`hp4_paint:plants_holder`, loc)
     entity.setDynamicProperty(`hp4_paint:slot${slot}`, plantsHolder.id)
+    plantsHolder.setDynamicProperty(`hp4_paint:id`, plantsHolder.id)
     plantsHolder.setProperty('hp4_paint:height', height)
-    //kontol.warn(`slot${slot} id: ${entity.getDynamicProperty(`hp4_paint:slot${slot}`)}`)
+    //console.warn(`slot${slot} id: ${entity.getDynamicProperty(`hp4_paint:slot${slot}`)}`)
     try {plantsHolder.setProperty(`hp4_paint:${type}`, itemNumber);} catch (error) {}
+    player.getGameMode() != 'creative' ? player.runCommand(`clear @s ${item.typeId} 0 1`) : null;
+}
+function plantsHolderMPAddProperty(entity, itemNumber, slot, type, height, player, item, color, variant) {
+    let loc
+    if(entity.getDynamicProperty('hp4_paint:slot') < slot) return;
+    loc = getSlotLocations(entity, slot)
+    const plantsHolder = entity.dimension.spawnEntity(`hp4_paint:plants_holder_mp`, loc)
+    entity.setDynamicProperty(`hp4_paint:slot${slot}`, plantsHolder.id)
+    plantsHolder.setDynamicProperty(`hp4_paint:id`, plantsHolder.id)
+    plantsHolder.setProperty('hp4_paint:height', height)
+    console.warn(variant)
+    try {
+        plantsHolder.setProperty(`hp4_paint:${type}`, itemNumber);
+    } catch (error) {}
+    try {
+        plantsHolder.setProperty(`hp4_paint:color`, color);
+    } catch (error) {}
+    try {
+        plantsHolder.setProperty(`hp4_paint:variant`, variant - 1);
+    } catch (error) {}
     player.getGameMode() != 'creative' ? player.runCommand(`clear @s ${item.typeId} 0 1`) : null;
 }
 function getSlotLocations(entity, slot) {
@@ -1046,28 +1225,28 @@ function getSlotLocations(entity, slot) {
 function getXZfromRotation(entity, xz, direction, offset = 0) {
     let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
     if(newRotation == 0) {
-        //kontol.warn(newRotation)
+        //console.warn(newRotation)
         if(xz == 'x') {
             return direction == 'left' ? -1 : direction == 'right' ? 1 : 0;
         } else if(xz == 'z') {
             return offset;
         }
     } else if(newRotation == 180 || newRotation == -180) {
-        //kontol.warn(newRotation)
+        //console.warn(newRotation)
         if(xz == 'x') {
             return direction == 'left' ? 1 : direction == 'right' ? -1 : 0;
         } else if(xz == 'z') {
             return Math.abs(offset);
         }
     } else if(newRotation == 90) {
-        //kontol.warn(newRotation)
+        //console.warn(newRotation)
         if(xz == 'x') {
             return Math.abs(offset);
         } else if(xz == 'z') {
             return direction == 'left' ? -1 : direction == 'right' ? 1 : 0;
         }
     } else if(newRotation == -90) {
-        //kontol.warn(newRotation)
+        //console.warn(newRotation)
         if(xz == 'x') {
             return offset;
         } else if(xz == 'z') {
@@ -1092,10 +1271,10 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     cancelRemove = true
                 }
                 try {
-                    if(paint.id==entity.getDynamicProperty(`hp4_paint:babu`)) {
+                    if(entity.getDynamicProperty(`hp4_paint:babu`) != undefined && paint.getDynamicProperty(`hp4_paint:id`)==entity.getDynamicProperty(`hp4_paint:babu`)) {
                         cancelRemove = true
                         if(paint.getProperty('hp4_paint:frame_type')=='none') {
-                            //kontol.warn('hit')
+                            //console.warn('hit')
                             gamemode != 'creative' ? (paint.runCommand(`give @p ${paint.typeId}`), paint.remove()) : paint.remove();
                             entity.setProperty(`hp4_paint:paint_installed`, false)
                         } else {
@@ -1105,6 +1284,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     }
                 } catch (error) {}
             })
+            console.warn(cancelRemove)
             if(!cancelRemove) {
                 gamemode != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
                 resetCollision(entity, true, false, false)
@@ -1127,11 +1307,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 return
             }
             entity.dimension.getEntities().filter(plant => 
-                plant.typeId == 'hp4_paint:plants_holder'
+                plant.typeId == 'hp4_paint:plants_holder' || plant.typeId == 'hp4_paint:plants_holder_mp'
             ).forEach(plant=>{
                 if(slot0 != undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
                     //slot0
-                    if(plant.id == slot0) {
+                    if(plant.getDynamicProperty(`hp4_paint:id`) == slot0) {
                         plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
@@ -1142,7 +1322,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined) {
                     //slot1
-                    if(plant.id == slot1) {
+                    if(plant.getDynamicProperty(`hp4_paint:id`) == slot1) {
                         plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
@@ -1153,7 +1333,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 == undefined && slot4 == undefined) {
                     //slot2
-                    if(plant.id == slot2) {
+                    if(plant.getDynamicProperty(`hp4_paint:id`) == slot2) {
                         plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
@@ -1164,7 +1344,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 == undefined) {
                     //slot3
-                    if(plant.id == slot3) {
+                    if(plant.getDynamicProperty(`hp4_paint:id`) == slot3) {
                         plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
@@ -1175,7 +1355,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                 }
                 if(slot0 != undefined && slot1 != undefined && slot2 != undefined && slot3 != undefined && slot4 != undefined) {
                     //slot4
-                    if(plant.id == slot4) {
+                    if(plant.getDynamicProperty(`hp4_paint:id`) == slot4) {
                         plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
                         plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
@@ -1197,7 +1377,7 @@ world.afterEvents.entityDie.subscribe(arg=>{
 })
 function getFrontPos(entity, distance) {
     let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
-    //kontol.warn(newRotation)
+    //console.warn(newRotation)
     if(newRotation == 0) {
         return {
             x: Math.floor(entity.location.x) + 0.5,
@@ -1253,6 +1433,9 @@ function getEntitySize(entity, isNext = false) {
                 blockDetect(entity, newRotation, {radius: 7, height: 4})
                 break;
             //Furnitures
+            case `hp4_paint:spray_table`:
+                blockDetect(entity, newRotation, {radius: 1, height: 1})
+                break;
             case `hp4_paint:cabinet`:
                 blockDetect(entity, newRotation, {radius: 3, height: 3})
                 break;
@@ -1438,7 +1621,7 @@ function getEntitySize(entity, isNext = false) {
             default:
                 break;
         }
-    },1)
+    },8)
 }
 function getEntityHeight(entity) {
     const type = entity.typeId
@@ -1520,6 +1703,7 @@ function getEntityHeight(entity) {
         case `hp4_paint:color_bucket_red`:
         case `hp4_paint:color_bucket_white`:
         case `hp4_paint:color_bucket_yellow`:
+        case `hp4_paint:spray_table`:
              return 1
         // Planters
         case `hp4_paint:large_planter`: return 1
@@ -1771,7 +1955,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == 90) {
                 for (let index = 0; index < 10; index++) {
@@ -1798,7 +1982,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == -90) {
                 for (let index = 0; index < 10; index++) {
@@ -1825,7 +2009,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
             if(rot == 180 || rot == -180) {
                 for (let index = 0; index < 10; index++) {
@@ -1852,7 +2036,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                         break;
                     }
                 }
-                //kontol.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
+                //console.warn(`rightSide: ${rightSide}, leftSide: ${leftSide}`)
             }
         }
         availableRadius = rightSide + leftSide - 1
@@ -1952,7 +2136,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
     } else {
         heightCheck = false;
     }
-    if(!radiusCheck || !heightCheck) {
+    if((!radiusCheck || !heightCheck) && !entity.getDynamicProperty(`hp4_paint:id`)) {
             entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
                 main.playSound(player, `note.bass`)
                 player.runCommand(`title @s actionbar §cNot enough space!`)
@@ -1992,7 +2176,7 @@ function resetCollision(entity, removing, noReplace, isNext) {
     } else if(rotation_y == 270 || rotation_y == -90) {
         direction = 'west'
     }
-    //kontol.warn(direction)
+    //console.warn(direction)
     if(!noReplace) {
     collisionData.filter(c=>entity.typeId.includes(c.id)).some(c=>{
         c.blocks.forEach(b=>{
@@ -2060,6 +2244,12 @@ function blockDirectionBasedCoords(dir, x, y, z) {
 }
 const collisionData = [
     {
+        id: `hp4_paint:spray_table`,
+        blocks: [
+            {x:0,y:0,z:0,name:'collision_full'},
+        ]
+    },
+    {
         id: `hp4_paint:window`,
         blocks: [
             {x:0,y:0,z:0,name:'collision_full'},
@@ -2076,10 +2266,7 @@ const collisionData = [
             {x:1,y:1,z:0,name:'collision_full'},
             {x:-1,y:2,z:0,name:'collision_full'},
             {x:0,y:2,z:0,name:'collision_full'},
-            {x:1,y:2,z:0,name:'collision_full'},
-            {x:-1,y:3,z:0,name:'collision_full'},
-            {x:0,y:3,z:0,name:'collision_full'},
-            {x:1,y:3,z:0,name:'collision_full'},
+            {x:1,y:2,z:0,name:'collision_full'}
         ]
     },
     {

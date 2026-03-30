@@ -100,7 +100,7 @@ function gameplaySettings(player) {
 	.title({translate:'settings'})
     .toggle('Additional Furnitures', defaultValue.additionalFurnitures)
     .toggle('Particles', defaultValue.particles)
-    .toggle('SFX', defaultValue.sfx)
+    .toggle('Sound Effects', defaultValue.sfx)
     .toggle('Outlines', defaultValue.outlines)
     .toggle('Painting size choose UI', defaultValue.paintingsSizeUI)
     .dropdown('Default Color',
@@ -138,7 +138,7 @@ function paintingFilterSettings(player) {
         buttons.push({
             text: ({
                 rawtext: [
-                    {translate:`item.hp4_paint:${p}`},
+                    {translate:`setting.hp4_paint:${p}`},
                     {text:` ${mc.world.getDynamicProperty(`hp4_paint:painting_filter.${p}`) ? `§2ON§r` : `§4OFF§r`}`}
                 ]
             }),

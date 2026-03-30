@@ -1,2 +1,3 @@
 particle test:ring_up ~~~
-playanimation @s animation.hp4_paint.on_damage
+
+playsound hp4_paint:ring.sound @a[r=10] 

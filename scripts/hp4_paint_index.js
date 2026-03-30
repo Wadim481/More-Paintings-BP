@@ -6,6 +6,7 @@ import './vanilla_features'
 import './settings'
 import './artist_villager'
 import './spray_can_feature'
+import './brush_paint_fx'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []
@@ -16,7 +17,7 @@ function chooseSize(player, modelAvailable, models, entity) {
             text: `(${models[model].height}x${models[model].width})`,
             image: ``,
             command: () =>{
-                //kontol.warn(`tombol ${models[model].height}X${models[model].width} ditekan`)
+                //console.warn(`tombol ${models[model].height}X${models[model].width} ditekan`)
                 paintSpawned(entity, false, true, model)
             }
         }
@@ -54,7 +55,7 @@ export function instanceMenu(player, title, body, buttons, cancelation) {
         })
     })
     if(FormCancelationReason == 'UserClosed') {
-        //kontol.warn('ditutup')
+        //console.warn('ditutup')
     }
     return UI
 }
@@ -116,7 +117,7 @@ export function checkOutlineFilter(e, item) {
 }
 const outLineFilters = {
     'hp4_paint:special_tool': [
-        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`, `window`
+        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`, `window`, `window_big`, `rose_bush`, `grass_plant`, `foxglove_plant`, `spray_table`
     ],
     'hp4_paint:brush': [
         `canvas`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `stencil`, `spray_paint`, `soft_pastel`, `sculpture_stand`, `pencil_set`, `paint_tubes`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `drafting_tool`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `brush_cleaner_jar`, `chalk_and_charcoal`, `spatula`, `tube_paint`, `sketchbook`, `brushes_set`, `spray_can`, `hp4_paint:grass_plant`
@@ -132,7 +133,15 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
         if(world.getDynamicProperty(`hp4_paint:painting_filter.${arg.entity.typeId.replace(`hp4_paint:`,``)}`)) {
             system.runTimeout(()=>{
                 entity.setDynamicProperty(`hp4_paint:rotation_attempt`, 0)
-                if(entity.getProperty(`hp4_paint:displayer`)==`none`){paintSpawned(entity)}
+                if(entity.getProperty(`hp4_paint:displayer`)==`none` && !entity.getDynamicProperty(`hp4_paint:id`)){
+                    if(!entity.getDynamicProperty(`hp4_paint:langsung`)) {
+                        console.warn('console')
+                        paintSpawned(entity)
+                    }
+                } else {
+                    // console.warn('check')
+                    // paintSpawned(entity, false, true, 0)
+                }
             },1)
         } else {
             arg.entity.runCommand(`tell @p This entity is deactivated, check Paintings Filter Settings to activate.`)
@@ -172,9 +181,9 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
         const vertical = blockCheck(entity, newRotation).verticalAvailable
         const upOffset = blockCheck(entity, newRotation).upOffset
         const rightOffset = blockCheck(entity, newRotation).rightOffset
-        //kontol.warn(`newRotation: ${newRotation}`)
-        //kontol.warn(`up: ${up.front}, ${up.back}, down: ${down.front}, ${down.back}, right: ${right.front}, ${right.back}, left: ${left.front}, ${left.back}`)
-        //kontol.warn(`horizontal: ${horizontal}, vertical: ${vertical}`)
+        //console.warn(`newRotation: ${newRotation}`)
+        //console.warn(`up: ${up.front}, ${up.back}, down: ${down.front}, ${down.back}, right: ${right.front}, ${right.back}, left: ${left.front}, ${left.back}`)
+        //console.warn(`horizontal: ${horizontal}, vertical: ${vertical}`)
         const models = paintingTypeChoose(entity).models;
         const type = paintingTypeChoose(entity).jenis
         const modelPossibility = detectPossibleModels(models, horizontal, vertical);
@@ -257,8 +266,8 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[model], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             if(type == 2) {
                 if(choosenModel == 0) {
@@ -334,8 +343,8 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[8], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             if(type == 3) {
                 if(choosenModel == 0) {
@@ -383,8 +392,8 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[5], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             if(type == 4) {
                 if (choosenModel == 0) {
@@ -442,8 +451,8 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[5], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             if(type == 5) {
                 if(choosenModel == 0) {
@@ -498,8 +507,8 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     rightOffset == 0 ? entity.runCommand(`tp @s ${horizontalOffsetControl(0,newRotation,model)}`) : null
                     hitBoxManager(entity, models[6], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             if(type == 6) {
                 if (choosenModel == 0) {
@@ -565,16 +574,16 @@ function paintSpawned(entity, inisiasi = true, langsung = false, modelJadi) {
                     upOffset == 0 ? entity.runCommand(`tp @s ~~-1~`) : null
                     hitBoxManager(entity, models[model], newRotation)
                 }
-                //kontol.warn(`model: ${model}`)
-                //kontol.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
+                //console.warn(`model: ${model}`)
+                //console.warn(`upOffset: ${upOffset}, rightOffset: ${rightOffset}`)
             }
             system.runTimeout(()=>{
                 entity.setProperty(`hp4_paint:visible`, true)
-            },0.1*20)
+            },0.4*20)
         }
     }
 }
-function hitBoxManager(entity, model, rot) {
+export function hitBoxManager(entity, model, rot) {
     if(rot == 0) {
         //z positive front, x positive right
         for (let iv = 0; iv < model.height; iv++) {
@@ -591,7 +600,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-                //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+                //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
             }
             const vloc = {
                 x: entity.location.x,
@@ -605,7 +614,7 @@ function hitBoxManager(entity, model, rot) {
                     hitBox.triggerEvent('death')
                 }
             })
-            //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+            //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
         }
     }
     if(rot == 90) {
@@ -624,7 +633,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-                //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+                //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
             }
             const vloc = {
                 x: entity.location.x,
@@ -638,7 +647,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-            //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+            //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
         }
     }
     if(rot == 180) {
@@ -657,7 +666,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-                //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+                //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
             }
             const vloc = {
                 x: entity.location.x,
@@ -671,7 +680,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-            //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+            //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
         }
     }
     if(rot == -90) {
@@ -690,7 +699,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-                //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+                //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
             }
             const vloc = {
                 x: entity.location.x,
@@ -704,7 +713,7 @@ function hitBoxManager(entity, model, rot) {
                         hitBox.triggerEvent('death')
                     }
                 })
-            //2//kontol.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
+            //2//console.warn(`x: ${hitBox.location.x}, y: ${hitBox.location.y}, z: ${hitBox.location.z}`)
         }
     }
 }
@@ -790,6 +799,67 @@ function horizontalOffsetControl(rightOffset, rot, model) {
             }
         }
     }
+}
+function spawnPaintDeathParticles(hitbox) {
+    const owner = hitbox.getDynamicProperty("hp4_paint:owner")
+    if (!owner) return
+    
+    // Cari paint entity utama
+    world.getDimension('overworld').getEntities().forEach(paintEntity => {
+        if (paintEntity.id == owner.replace('hp4_point:owner/', '')) {
+            // Ambil informasi model
+            const modelIndex = paintEntity.getProperty('hp4_paint:paint_models')
+            const models = paintingTypeChoose(paintEntity).models
+            
+            if (!models || modelIndex === undefined) return
+            
+            const model = models[modelIndex]
+            if (!model) return
+            
+            const width = model.width
+            const height = model.height
+            
+            // Ambil rotasi
+            const rots = [0, 90, 180, -90]
+            let rotation = findClosestNumber(rots, paintEntity.getRotation().y)
+            if (paintEntity.getRotation().y <= -135) {
+                rotation = 180
+            }
+            
+            // Spawn particles berdasarkan dimensi dan rotasi - ambil dari paint entity, bukan hitbox
+            const baseLoc = paintEntity.location
+            
+            for (let w = 0; w < width; w++) {
+                for (let h = 0; h < height; h++) {
+                    let particleLoc = { x: baseLoc.x, y: baseLoc.y, z: baseLoc.z }
+                    
+                    // Hitung offset berdasarkan rotasi
+                    if (rotation == 0) {
+                        // Menghadap south (Z+)
+                        particleLoc.x += w
+                        particleLoc.y += h
+                    } else if (rotation == 90) {
+                        // Menghadap west (X-)
+                        particleLoc.z += w
+                        particleLoc.y += h
+                    } else if (rotation == 180) {
+                        // Menghadap north (Z-)
+                        particleLoc.x -= w
+                        particleLoc.y += h
+                    } else if (rotation == -90) {
+                        // Menghadap east (X+)
+                        particleLoc.z -= w
+                        particleLoc.y += h
+                    }
+                    
+                    // Spawn particle di setiap posisi grid
+                    hitbox.dimension.runCommand(
+                        `particle test:d_painting16x16 ${particleLoc.x} ${particleLoc.y} ${particleLoc.z}`
+                    )
+                }
+            }
+        }
+    })
 }
 export function findClosestNumber(arr, target) {
     if (arr.length === 0) {
@@ -1399,7 +1469,7 @@ function blockCheck(entity, rot) {
     //             });
 
     //             if (!block.isAir) {
-    //                 //kontol.warn(`upClamp: ${indexUp}, rightClamp: ${indexRight}`);
+    //                 //console.warn(`upClamp: ${indexUp}, rightClamp: ${indexRight}`);
     //                 break;
     //             }
     //         }
@@ -1514,7 +1584,7 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
     }
     if (id == "hp4_paint:change_image") {
         const owner = source.getDynamicProperty("hp4_paint:owner")
-        //kontol.warn('image change')
+        //console.warn('image change')
         world.getDimension('overworld').getEntities().forEach(entity=>{
             if (entity.id == owner.replace('hp4_point:owner/', '')) {
                 const model = entity.getProperty(`hp4_paint:paint_models`)
@@ -1636,7 +1706,7 @@ export function paintingTypeChoose(entity) {
     ]
     type1.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type1: ${type}`)
+            //console.warn(`type1: ${type}`)
             models = [
                 { id: 0, width: 1, height: 1 },
                 { id: 1, width: 2, height: 1 },
@@ -1651,7 +1721,7 @@ export function paintingTypeChoose(entity) {
     })
     type2.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type2: ${type}`)
+            //console.warn(`type2: ${type}`)
             models = [
                 { id: 0, width: 1, height: 1 },
                 { id: 1, width: 2, height: 1 },
@@ -1668,7 +1738,7 @@ export function paintingTypeChoose(entity) {
     })
     type3.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type3: ${type}`)
+            //console.warn(`type3: ${type}`)
             models = [
                 { id: 0, width: 1, height: 1 },
                 { id: 1, width: 2, height: 1 },
@@ -1682,7 +1752,7 @@ export function paintingTypeChoose(entity) {
     })
     type4.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type4: ${type}`)
+            //console.warn(`type4: ${type}`)
             models = [
                 { id: 0, width: 2, height: 2 },
                 { id: 1, width: 4, height: 2 },
@@ -1696,7 +1766,7 @@ export function paintingTypeChoose(entity) {
     })
     type5.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type4: ${type}`)
+            //console.warn(`type4: ${type}`)
             models = [
                 { id: 0, width: 1, height: 1 },
                 { id: 1, width: 2, height: 1 },
@@ -1711,7 +1781,7 @@ export function paintingTypeChoose(entity) {
     })
     type6.forEach(type => {
         if(entity.typeId == `hp4_paint:${type}_painting`) {
-            //kontol.warn(`type4: ${type}`)
+            //console.warn(`type4: ${type}`)
             models = [
                 { id: 0, width: 2, height: 1 },
                 { id: 1, width: 2, height: 2 },
@@ -1748,9 +1818,10 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
     const player = arg.damagingEntity
     const paint = arg.hitEntity
     if(paint.typeId == 'hp4_paint:hitboxes') {
-        playSound(entity, `hp4_paint:display.furniture_remove`)
         const gamemode = player.getGameMode()
+        spawnPaintDeathParticles(paint)
         paint.dimension.getEntities({type:'hp4_paint:hitboxes'}).forEach(entity => {
+            playSound(entity, `hp4_paint:display.furniture_remove`)
             if(entity == paint) return
             if (entity.getDynamicProperty("hp4_paint:owner") == paint.getDynamicProperty("hp4_paint:owner")) {
                 if(player.getDynamicProperty(`hp4_paint:particles`)) {

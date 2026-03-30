@@ -10,10 +10,12 @@
         "hp4_paint:camouflage": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:is_painting": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:is_hiding": {"client_sync": true, "type": "bool", "default": false},
+        "hp4_paint:using_shield": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:sleeping": {"client_sync": true, "type": "bool", "default": false},
         "hp4_paint:cloth": {"client_sync": true, "type": "int", "default": 0, "range": [0, 4]},
         "hp4_paint:skin": {"client_sync": true, "type": "int", "default": 0, "range": [0, 3]},
-        "hp4_paint:colors": {"client_sync": true, "type": "int", "default": 0, "range": [0, 3]}
+        "hp4_paint:colors": {"client_sync": true, "type": "int", "default": 0, "range": [0, 3]},
+        "hp4_paint:rot": {"client_sync": true, "type": "int", "default": 0, "range": [-99999, 99999]}
       },
       "animations": {
         "death": "controller.animation.hp4_paint.death"
@@ -30,9 +32,10 @@
           "value": 0.23
         },
         "minecraft:behavior.nearest_attackable_target": {
-          "priority": 1,
+          "priority": 5,
           "within_radius": 100,
-          "reselect_targets": true,
+          "reselect_targets": false,
+          "must_reach": false,
           "entity_types": [
             {
               "filters": {
@@ -56,9 +59,10 @@
           "value": 0.3
         },
         "minecraft:behavior.nearest_attackable_target": {
-          "priority": 1,
+          "priority": 5,
           "within_radius": 100,
-          "reselect_targets": true,
+          "reselect_targets": false,
+          "must_reach": false,
           "entity_types": [
             {
               "filters": {
@@ -82,9 +86,10 @@
           "value": 0.3
         },
         "minecraft:behavior.nearest_attackable_target": {
-          "priority": 1,
+          "priority": 5,
           "within_radius": 100,
-          "reselect_targets": true,
+          "reselect_targets": false,
+          "must_reach": false,
           "entity_types": [
             {
               "filters": {
@@ -100,7 +105,7 @@
         "minecraft:behavior.melee_attack": {
           "priority": 3,
           "speed_multiplier": 1,
-          "track_target": true
+          "track_target": false
         }
       },
       "static": {
@@ -160,16 +165,30 @@
       "minecraft:movement.basic": {
       },
       "minecraft:navigation.walk": {
+        "is_amphibious": true,
+        "can_path_over_water": true,
         "can_pass_doors": true,
+        "can_open_doors": true,
         "can_walk": true,
-        "can_break_doors": true
+        "avoid_water": true
+      },
+      "minecraft:annotation.open_door": {
+      },
+      "minecraft:behavior.open_door": {
+        "priority": 1,
+        "close_door_after": true
+      },
+      "minecraft:behavior.restrict_open_door": {
+        "priority": 1
+      },
+      "minecraft:can_climb": {
       },
       "minecraft:jump.static": {
       },
       "minecraft:nameable": {
       },
       "minecraft:type_family": {
-        "family": [ "hp4_paint", "npc", "mob" ]
+        "family": [ "hp4_paint", "npc", "mob", "hp4_paint_artist_villager", "hp4_paint_furniture" ]
       },
       "minecraft:collision_box": {
         "width": 0.6,
@@ -183,7 +202,7 @@
       "minecraft:physics": {
       },
       "minecraft:pushable": {
-        "is_pushable": true,
+        "is_pushable": false,
         "is_pushable_by_piston": true
       }
     },

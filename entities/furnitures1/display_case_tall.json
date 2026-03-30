@@ -78,6 +78,9 @@
             }
         },
         "components": {
+            "minecraft:type_family": {
+                "family": [ "hp4_paint_furniture" ]
+            },
             "minecraft:knockback_resistance": {
                 "value": 1000
             },

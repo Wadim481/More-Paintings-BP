@@ -89,7 +89,6 @@
                             "hp4_paint:sewing_kit",
                             "hp4_paint:unfinished_wooden_block",
                             "hp4_paint:stencil",
-                            "hp4_paint:spray_can",
                             "hp4_paint:soft_pastel_box",
                             "hp4_paint:sculpture_stand",
                             "hp4_paint:pencil_set",
@@ -197,6 +196,37 @@
                     "hp4_paint:rose_bush3_red",
                     "hp4_paint:rose_bush3_white",
                     "hp4_paint:rose_bush3_yellow"
+                  ]
+                }
+              ]
+            },
+            {
+              "category_name": "items",
+              "groups": [
+                {
+                  "group_identifier": {
+                    "icon": "hp4_paint:spray_can",
+                    "name": "item.hp4_paint:spray_can"
+                  },
+                  "items": [
+                    "hp4_paint:spray_can",
+                    "hp4_paint:spray_can_black",
+                    "hp4_paint:spray_can_blue",
+                    "hp4_paint:spray_can_brown",
+                    "hp4_paint:spray_can_cyan",
+                    "hp4_paint:spray_can_gray",
+                    "hp4_paint:spray_can_green",
+                    "hp4_paint:spray_can_light_blue",
+                    "hp4_paint:spray_can_light_gray",
+                    "hp4_paint:spray_can_lime",
+                    "hp4_paint:spray_can_magenta",
+                    "hp4_paint:spray_can_orange",
+                    "hp4_paint:spray_can_pink",
+                    "hp4_paint:spray_can_purple",
+                    "hp4_paint:spray_can_red",
+                    "hp4_paint:spray_can_tool",
+                    "hp4_paint:spray_can_white",
+                    "hp4_paint:spray_can_yellow"
                   ]
                 }
               ]

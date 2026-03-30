@@ -1,0 +1,11 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:structure_template_feature": {
+    "description": {
+      "identifier": "hp4_paint:artist_villager_house_feature"
+    },
+    "structure_name": "mystructure:artist_villager_house1",
+    "facing_direction": "south",
+    "constraints": {}
+  }
+}
