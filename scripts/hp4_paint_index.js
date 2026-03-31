@@ -7,6 +7,7 @@ import './settings'
 import './artist_villager'
 import './spray_can_feature'
 import './brush_paint_fx'
+import './spray_can_stencil_feature'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []

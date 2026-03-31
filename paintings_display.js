@@ -1076,6 +1076,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
     }
 })
 function getFrontPos(entity, distance) {
+    if (!entity.isValid()) return undefined
     let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
     //kontol.warn(newRotation)
     if(newRotation == 0) {
@@ -1106,6 +1107,7 @@ function getFrontPos(entity, distance) {
 }
 function getEntitySize(entity, isNext = false) {
     system.runTimeout(()=>{
+        if (!entity.isValid()) return
         resetCollision(entity, true, false, isNext)
         let newRotation = entity.getRotation().y+(-entity.getRotation().y+(Math.round(entity.getRotation().y/90)*90))
         switch (entity.typeId) {

@@ -2,7 +2,7 @@
     "format_version": "1.16.0",
     "minecraft:entity": {
         "description": {
-            "identifier": "hp4_paint:color_splash",
+            "identifier": "hp4_paint:stencil_spray1",
             "is_spawnable": false,
             "is_summonable": true,
             "is_experimental": false,
@@ -71,6 +71,19 @@
                 "height": -0.1,
                 "width": -0.1
             },
+            "minecraft:custom_hit_test": {
+                "hitboxes": [
+                    {
+                        "width": 0.7,
+                        "height": 0.7,
+                        "pivot": [
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                ]
+            },
             "minecraft:health": {
                 "value": 1,
                 "max": 1
@@ -96,77 +109,11 @@
             }
         },
         "component_groups": {
-            "hp4_paint:color_splash_hitbox_floor": {
-                "minecraft:custom_hit_test": {
-                    "hitboxes": [
-                        {
-                            "width": 0.9,
-                            "height": 0.9,
-                            "pivot": [
-                                0,
-                                0,
-                                0
-                            ]
-                        }
-                    ]
-                }
-            },
-            "hp4_paint:color_splash_hitbox_wall": {
-                "minecraft:custom_hit_test": {
-                    "hitboxes": [
-                        {
-                            "width": 0.9,
-                            "height": 0.9,
-                            "pivot": [
-                                0,
-                                0.5,
-                                0
-                            ]
-                        }
-                    ]
-                }
-            },
             "death": {
                 "minecraft:instant_despawn": {}
             }
         },
         "events": {
-            "minecraft:entity_spawned": {
-                "add": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_floor"
-                    ]
-                },
-                "remove": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_wall"
-                    ]
-                }
-            },
-            "hp4_paint:color_splash_hitbox_floor": {
-                "add": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_floor"
-                    ]
-                },
-                "remove": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_wall"
-                    ]
-                }
-            },
-            "hp4_paint:color_splash_hitbox_wall": {
-                "add": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_wall"
-                    ]
-                },
-                "remove": {
-                    "component_groups": [
-                        "hp4_paint:color_splash_hitbox_floor"
-                    ]
-                }
-            },
             "death": {
                 "sequence": [
                     {

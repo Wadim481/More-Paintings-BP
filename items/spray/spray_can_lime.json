@@ -20,7 +20,11 @@
       "minecraft:hand_equipped": true,
       "minecraft:use_animation": "none",
       "minecraft:durability": {
-        "max_durability": 16
+        "max_durability": 256
+      },
+      "minecraft:use_modifiers": {
+        "movement_modifier": 1.0,
+        "use_duration": 0.7
       },
       "minecraft:repairable": {
         "repair_items": []

@@ -1,4 +1,4 @@
-import { world, EquipmentSlot, MolangVariableMap } from "@minecraft/server";
+import { world, EquipmentSlot, MolangVariableMap, system } from "@minecraft/server";
 
 // ============================================================
 // brush_paint_fx.js
@@ -9,6 +9,11 @@ import { world, EquipmentSlot, MolangVariableMap } from "@minecraft/server";
 //   0  → furniture facing north/south (rotY 0° / ±180°)
 //   90 → furniture facing east/west   (rotY ±90°)
 // ============================================================
+
+// Cooldown tracker: prevents duplicate particles from rapid event firing.
+// Key = "playerId:entityId", value = game tick when the last particle was spawned.
+const _paintCooldown = new Map();
+const PAINT_COOLDOWN_TICKS = 5; // ~0.25 s — adjust if needed
 
 // Tools that trigger the paint particle effect
 const PAINT_TOOLS = [
@@ -25,13 +30,26 @@ const PAINT_TOOLS = [
 const FURNITURE_PARTICLE_MAP = {
     // Display Cases
     //                                      p1                              p2                   vx    vy
-    'hp4_paint:easel_stand':       { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:easel_stand':        { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:art_chair':          { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:stool':              { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:statue_painting':             { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
     'hp4_paint:display_case':       { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
     'hp4_paint:display_case_wide':  { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:cabinet':            { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
     'hp4_paint:display_case_huge':  { p1: 'test:light_ring_bottom_yellow4b', p2: 'test:hammer_emmit3b', vx: 3.0, vy: 1.0 },
     'hp4_paint:display_case_tall':  { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
     'hp4_paint:display_case_wide2': { p1: 'test:light_ring_bottom_yellow5b', p2: 'test:hammer_emmit3b', vx: 4.0, vy: 0.5 },
     'hp4_paint:display_case_big':   { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    // Planters & Vase
+    'hp4_paint:round_planter':      { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:large_planter':      { p1: 'test:light_ring_bottom_yellow', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:wide_planter':       { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:thin_planter':       { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:vase':               { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    // Windows
+    'hp4_paint:window':             { p1: 'test:light_ring_bottom_yellow', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:window_big':         { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
 };
 
 /**
@@ -83,6 +101,15 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     // Guard: target must be a mapped furniture
     const particleEntry = FURNITURE_PARTICLE_MAP[target.typeId];
     if (!particleEntry) return;
+
+    // Cooldown guard — prevent duplicate particles from rapid event firing
+    const cooldownKey = `${player.id}:${target.id}`;
+    const now = system.currentTick;
+    if (_paintCooldown.has(cooldownKey) && now - _paintCooldown.get(cooldownKey) < PAINT_COOLDOWN_TICKS) return;
+    _paintCooldown.set(cooldownKey, now);
+
+    // Auto-clean the map entry after the cooldown expires to avoid memory leaks
+    system.runTimeout(() => { _paintCooldown.delete(cooldownKey); }, PAINT_COOLDOWN_TICKS + 1);
 
     try {
         const rotY    = target.getRotation().y;

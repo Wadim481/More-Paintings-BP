@@ -132,14 +132,14 @@ const SPRAY_SETTINGS_LORE_PREFIX = 'Heropixel Games';
 const SPRAY_SETTINGS_DISPLAY_PREFIX = '[Spray]';
 const DEFAULT_SHAPE_SETTINGS = Object.freeze({ shape: 'square', size: MIN_BRUSH_SIZE });
 const SHAPE_LORE_LABELS = {
-    square: '■ Square',
-    hollow_square: '□ Hollow Square',
-    circle: '● Circle',
-    hollow_circle: '○ Hollow Circle',
-    star: '★ Star',
-    abstract: '✦ Abstract',
-    fill: '⬛ Fill',
-    line: '/ Line'
+    square: 'Square',
+    hollow_square: 'Hollow Square',
+    circle: 'Circle',
+    hollow_circle: 'Hollow Circle',
+    star: 'Star',
+    abstract: 'Abstract',
+    fill: 'Fill',
+    line: 'Line'
 };
 
 function stripFormattingCodes(str) {
@@ -201,7 +201,7 @@ function writeShapeSettingsToItem(itemStack, settings) {
     });
 
     const shapeLabel = SHAPE_LORE_LABELS[next.shape] ?? next.shape;
-    lore.push(`§3${SPRAY_SETTINGS_DISPLAY_PREFIX} ${shapeLabel} • ${next.size}x${next.size}`);
+    lore.push(`§3${SPRAY_SETTINGS_DISPLAY_PREFIX} ${shapeLabel} ${next.size}x${next.size}`);
     lore.push(`§8${SPRAY_SETTINGS_LORE_PREFIX} s=${next.shape};z=${next.size}`);
     itemStack.setLore?.(lore);
 }
@@ -486,7 +486,7 @@ function applyLine(player, dimension, originBlock, face, applyFn) {
         try { if (applyFn(originBlock)) painted = 1; } catch (_) {}
         // Jadwalkan pesan setelah tick ini agar tidak tertimpa update action bar durability
         mc.system.run(() => {
-            player.onScreenDisplay.setActionBar('§e✏ Line start set! Spray again for end point.');
+            player.onScreenDisplay.setActionBar('§eLine start set! Spray again for end point.');
         });
         return painted; // konsumsi durability jika blok berhasil dicat
     }
@@ -564,6 +564,82 @@ Object.keys(dyeColorMap).forEach(dyeType => {
     sprayCanToDye[dyeColorMap[dyeType].item] = dyeType;
 });
 
+function extractColorFromDyeType(dyeTypeId) {
+    return dyeTypeId.replace('minecraft:', '').replace(/_dye$/, '');
+}
+
+const sprayCanParticleByItem = {};
+Object.entries(sprayCanToDye).forEach(([sprayItemId, dyeTypeId]) => {
+    const colorName = extractColorFromDyeType(dyeTypeId);
+    sprayCanParticleByItem[sprayItemId] = `test:spray_${colorName}`;
+});
+
+function getFrontRightSprayLocation(player) {
+    const view = player.getViewDirection();
+    let forwardX = view.x;
+    let forwardY = view.y;
+    let forwardZ = view.z;
+    let len = Math.hypot(forwardX, forwardY, forwardZ);
+    if (len < 0.0001) {
+        forwardX = 0;
+        forwardY = 0;
+        forwardZ = 1;
+        len = 1;
+    }
+    forwardX /= len;
+    forwardY /= len;
+    forwardZ /= len;
+
+    // Right vector projected on XZ plane, with fallback for near-vertical look.
+    let rightX = -forwardZ;
+    let rightZ = forwardX;
+    let rightLen = Math.hypot(rightX, rightZ);
+    if (rightLen < 0.0001) {
+        rightX = 1;
+        rightZ = 0;
+        rightLen = 1;
+    }
+    rightX /= rightLen;
+    rightZ /= rightLen;
+
+    const base = player.location;
+    return {
+        x: base.x + (forwardX * 1.5) + (rightX * 0.3),
+        y: base.y + 1.3 + (forwardY * 1.5),
+        z: base.z + (forwardZ * 1.5) + (rightZ * 0.3)
+    };
+}
+
+function spawnSprayParticleAtBlock(player, dimension, blockLocation, particleId) {
+    if (!player || !particleId || !dimension || !blockLocation) return;
+    try {
+        const frontRight = getFrontRightSprayLocation(player);
+        dimension.spawnParticle(particleId, {
+            x: blockLocation.x + 0.5,
+            y: blockLocation.y + 0.6,
+            z: blockLocation.z + 0.5
+        });
+        dimension.spawnParticle(particleId, frontRight);
+    } catch (_) {
+        // Ignore invalid particle identifier or transient engine errors.
+    }
+}
+
+function spawnSprayParticleAtEntity(player, dimension, entityLocation, particleId) {
+    if (!player || !particleId || !dimension || !entityLocation) return;
+    try {
+        const frontRight = getFrontRightSprayLocation(player);
+        dimension.spawnParticle(particleId, {
+            x: entityLocation.x,
+            y: entityLocation.y + 1.0,
+            z: entityLocation.z
+        });
+        dimension.spawnParticle(particleId, frontRight);
+    } catch (_) {
+        // Ignore invalid particle identifier or transient engine errors.
+    }
+}
+
 // Fungsi untuk mendapatkan dye yang ada di inventory
 function getAvailableDyes(player) {
     const inventory = player.getComponent('minecraft:inventory').container;
@@ -633,6 +709,28 @@ function consumeMultipleDye(player, typeId, amount) {
 // Strip §x color codes from string (for dropdown labels)
 function stripCodes(str) { return str.replace(/§./g, ''); }
 
+// Helper: cek spray can setting player
+function getPlayerSpraySetting(player, settingKey) {
+    const stored = player?.getDynamicProperty?.("hp4_paint:spray_settings");
+    if (!stored) {
+        // Default jika belum ada setting
+        const defaults = {
+            spray_to_sheep: true,
+            sound_enabled: true,
+            particles_enabled: true,
+            spray_to_stencil: true,
+            preview_shape: false
+        };
+        return defaults[settingKey] ?? true;
+    }
+    try {
+        const settings = JSON.parse(stored);
+        return settings[settingKey] !== undefined ? settings[settingKey] : true;
+    } catch (_) {
+        return true;
+    }
+}
+
 // Main menu UI — entry point when sneak + use any spray can
 function openMainUI(player, sprayCanSlot) {
     if (uiOpenPlayers.has(player.id)) return;
@@ -643,20 +741,17 @@ function openMainUI(player, sprayCanSlot) {
     const isLoaded = currentItem && currentItem.typeId !== 'hp4_paint:spray_can_tool';
 
     const { shape, size } = getShapeSettings(player, sprayCanSlot);
-    const shapeLabel = {
-        square: '■', hollow_square: '□', circle: '●', star: '★',
-        abstract: '✦', fill: '⬛', line: '/'
-    }[shape] ?? '■';
     const sizeLabel  = `${size}x${size}`;
 
     const form = new ui.ActionFormData()
         .title('§0§l Spray Can')
         .body(
             
-            `§7Shape: §e${shapeLabel} ${shape}  §7Size: §e${sizeLabel}\n` 
+            `§7Shape: §e${shape}  §7Size: §e${sizeLabel}\n` 
             
         )
         .button('§0 Color', 'textures/hp/more_paintings/items/variant_paint_bottle')
+        .button('§0 Shape', 'textures/hp/more_paintings/items/settings_gear')
         .button('§0 Settings', 'textures/hp/more_paintings/items/settings_gear');
 
     if (isLoaded) {
@@ -667,8 +762,9 @@ function openMainUI(player, sprayCanSlot) {
         uiOpenPlayers.delete(player.id);
         if (response.canceled) return;
         if (response.selection === 0) openColorPageUI(player, sprayCanSlot);
-        else if (response.selection === 1) openSettingsPageUI(player, sprayCanSlot);
-        else if (response.selection === 2 && isLoaded) {
+        else if (response.selection === 1) openShapePageUI(player, sprayCanSlot);
+        else if (response.selection === 2) openSpraySettingsUI(player);
+        else if (response.selection === 3 && isLoaded) {
             // Confirm empty
             new ui.MessageFormData()
                 .title('§0 Empty Spray Can')
@@ -716,24 +812,24 @@ function openColorPageUI(player, sprayCanSlot) {
     // Step 1: color buttons
     const entries = [];
     const colorForm = new ui.ActionFormData()
-        .title('§eSelect Color')
+        .title('§l§0Select Color')
         .body(`§7Pick a color, then set the amount.`);
 
     availableDyes.forEach(dye => {
         const count = getDyeCount(player, dye.typeId);
-        colorForm.button(`${dye.color.displayName}§7 (${count}x)`, dye.color.icon);
+        colorForm.button(`${dye.color.displayName}§0§o (${count}x)`, dye.color.icon);
         entries.push({ type: 'color', dye });
     });
 
     if (hasGlowDust) {
-        colorForm.button(`§e§l☀ Brighten§r §7(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_white');
+        colorForm.button(`§e§lBrighten§r §0§o(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_white');
         entries.push({ type: 'brightness', direction: 'brighter' });
-        colorForm.button(`§8§l☾ Darken§r §7(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_black');
+        colorForm.button(`§8§lDarken§r §0§o(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_black');
         entries.push({ type: 'brightness', direction: 'darker' });
     }
 
     colorForm.show(player).then(colorResp => {
-        if (colorResp.canceled) { openMainUI(player, sprayCanSlot); return; }
+        if (colorResp.canceled) { mc.system.run(() => openMainUI(player, sprayCanSlot)); return; }
 
         const entry = entries[colorResp.selection];
 
@@ -750,17 +846,17 @@ function openColorPageUI(player, sprayCanSlot) {
 
         // Step 2: amount slider
         const entryLabel = entry.type === 'brightness'
-            ? (entry.direction === 'brighter' ? '§e☀ Brighten' : '§8☾ Darken')
+            ? (entry.direction === 'brighter' ? '§eBrighten' : '§8Darken')
             : entry.dye.color.displayName;
 
         new ui.ModalFormData()
-            .title(`§eAmount`)
+            .title(`§l§0Amount`)
             .slider(
-                `§7${entryLabel}§r  §8(1 item = ${USES_PER_DYE} uses, max ${MAX_USES})`,
+                `§7${entryLabel}§r  (1 item = ${USES_PER_DYE} uses)\namount dye you want to use §e`,
                 1, sliderMax, 1, 1
             )
             .show(player).then(sliderResp => {
-                if (sliderResp.canceled) { openColorPageUI(player, sprayCanSlot); return; }
+                if (sliderResp.canceled) { mc.system.run(() => openColorPageUI(player, sprayCanSlot)); return; }
 
                 const amount    = Math.round(sliderResp.formValues[0]);
                 const inventory = player.getComponent('minecraft:inventory').container;
@@ -777,7 +873,7 @@ function openColorPageUI(player, sprayCanSlot) {
                         const durComp = newItem.getComponent('minecraft:durability');
                         if (durComp) durComp.damage = startDmg;
                         inventory.setItem(sprayCanSlot, newItem);
-                        const label = entry.direction === 'brighter' ? '§e☀ Brighten' : '§8☾ Darken';
+                        const label = entry.direction === 'brighter' ? '§eBrighten' : '§8Darken';
                         player.sendMessage(`§aSpray Can set to ${label}§a mode! §7(${uses} uses)`);
                         player.playSound('random.orb');
                     } else {
@@ -812,17 +908,17 @@ function openColorPageUI(player, sprayCanSlot) {
     }); // end colorForm.show
 }
 
-// Settings page — shape and size in a single ModalFormData
-function openSettingsPageUI(player, sprayCanSlot) {
+// Shape page — shape and size in a single ModalFormData (renamed from openSettingsPageUI)
+function openShapePageUI(player, sprayCanSlot) {
     const { shape, size } = getShapeSettings(player, sprayCanSlot);
-    const shapeOptions = ['■ Square', '□ Hollow Square', '● Circle', '○ Hollow Circle', '★ Star', '✦ Abstract', '⬛ Fill', '/ Line'];
+    const shapeOptions = ['Square', 'Hollow Square', 'Circle', 'Hollow Circle', 'Star', 'Abstract', 'Fill', 'Line'];
     const shapeKeys    = ['square', 'hollow_square', 'circle', 'hollow_circle', 'star', 'abstract', 'fill', 'line'];
     const shapeIndex   = Math.max(0, shapeKeys.indexOf(shape));
 
     const form = new ui.ModalFormData()
-        .title('§0Settings')
+        .title('§0Shape Settings')
         .dropdown('§7Shape:', shapeOptions, shapeIndex)
-        .slider('§7Size (Line: ignored):', MIN_BRUSH_SIZE, MAX_BRUSH_SIZE, 1, clampBrushSize(size));
+        .slider('§7Size (Line: ignored)', MIN_BRUSH_SIZE, MAX_BRUSH_SIZE, 1, clampBrushSize(size));
 
     form.show(player).then(response => {
         if (response.canceled) { openMainUI(player, sprayCanSlot); return; }
@@ -831,17 +927,73 @@ function openSettingsPageUI(player, sprayCanSlot) {
         const newSize  = clampBrushSize(response.formValues[1]);
         setShapeSettings(player, sprayCanSlot, { shape: newShape, size: newSize });
 
-        const sl  = { square: '■', hollow_square: '□', circle: '●', hollow_circle: '○', star: '★', abstract: '✦', fill: '⬛', line: '/' }[newShape] ?? '?';
+        const sl = SHAPE_LORE_LABELS[newShape] ?? newShape;
         const szl = `${newSize}x${newSize}`;
-        player.sendMessage(`§aSettings saved! §7Shape: §e${sl} ${newShape}§7  Size: §e${szl}`);
+        player.sendMessage(`§aShape saved! §7Shape: §e${sl}§7  Size: §e${szl}`);
         player.playSound('random.orb');
         openMainUI(player, sprayCanSlot);
     });
 }
 
+// New comprehensive spray can settings menu
+function openSpraySettingsUI(player) {
+    if (uiOpenPlayers.has(player.id)) return;
+    uiOpenPlayers.add(player.id);
+
+    const settings = getSprayCanSettings(player);
+    const blockFilter = getEffectiveBlockFilter(settings);
+
+    const currentTrigger = getTriggerSetting(player);
+    const triggerOptions = [
+        'Right-click Spray Table',
+        'Right-click Crafting Table',
+        'Sneak + Right-click',
+        'Left-click',
+    ];
+    const triggerKeys  = ['spray_table', 'crafting_table', 'sneak_use', 'left_click'];
+    const triggerIndex = Math.max(0, triggerKeys.indexOf(currentTrigger));
+
+    const form = new ui.ModalFormData()
+        .title('§0Spray Settings')
+        .toggle('§7Spray to Stencil', settings.spray_to_stencil)
+        .toggle('§7Particles', settings.particles_enabled)
+        .toggle('§7Sound Effect', settings.sound_enabled)
+        .toggle('§7Spray to Sheep', settings.spray_to_sheep)
+        .toggle('§7SpraySand', blockFilter.sand)
+        .toggle('§7SprayConcrete Powder', blockFilter.concrete_powder)
+        .toggle('§7SprayConcrete Block', blockFilter.concrete_block)
+        .toggle('§7SprayWool', blockFilter.wool)
+        .dropdown('§7Open UI with:', triggerOptions, triggerIndex);
+
+    form.show(player).then(response => {
+        uiOpenPlayers.delete(player.id);
+        if (response.canceled) { return; }
+
+        const newSettings = {
+            spray_to_stencil: response.formValues[0],
+            particles_enabled: response.formValues[1],
+            sound_enabled: response.formValues[2],
+            preview_shape: settings.preview_shape,
+            spray_to_sheep: response.formValues[3],
+            block_filter: {
+                sand: response.formValues[4],
+                concrete_powder: response.formValues[5],
+                concrete_block: response.formValues[6],
+                wool: response.formValues[7]
+            }
+        };
+
+        setSprayCanSettings(player, newSettings);
+        const triggerIdx = response.formValues[8];
+        playerTriggerSettings.set(player.id, triggerKeys[triggerIdx]);
+        player.sendMessage('§aSpray settings saved!');
+        player.playSound('random.orb');
+    });
+}
+
 // =============================================================
 // TRIGGER SETTINGS — konfigurasi input untuk membuka UI spray can
-// Options: 'crafting_table' | 'sneak_use' | 'left_click'
+// Options: 'spray_table' | 'crafting_table' | 'sneak_use' | 'left_click'
 // =============================================================
 const playerTriggerSettings = new Map();
 
@@ -849,7 +1001,76 @@ const playerTriggerSettings = new Map();
 const uiOpenPlayers = new Set();
 
 function getTriggerSetting(player) {
-    return playerTriggerSettings.get(player.id) ?? 'crafting_table';
+    return playerTriggerSettings.get(player.id) ?? 'spray_table';
+}
+
+// Default spray can settings per player
+const DEFAULT_SPRAY_SETTINGS = Object.freeze({
+    spray_to_stencil: true,
+    particles_enabled: true,
+    sound_enabled: true,
+    preview_shape: false,
+    spray_to_sheep: true,
+    block_filter: { sand: true, concrete_powder: true, concrete_block: true, wool: true }
+});
+
+function getEffectiveBlockFilter(settings) {
+    return {
+        sand: settings?.block_filter?.sand !== false,
+        concrete_powder: settings?.block_filter?.concrete_powder !== false,
+        concrete_block: settings?.block_filter?.concrete_block !== false,
+        wool: settings?.block_filter?.wool !== false
+    };
+}
+
+function getSprayableBlockCategory(typeId) {
+    if (typeId === 'minecraft:sand') return 'sand';
+    if (typeId.endsWith('_concrete_powder')) return 'concrete_powder';
+    if (typeId.endsWith('_concrete') && !typeId.endsWith('_concrete_powder')) return 'concrete_block';
+    if (typeId.endsWith('_wool')) return 'wool';
+    return null;
+}
+
+function isBlockAllowedByFilter(typeId, blockFilter) {
+    const category = getSprayableBlockCategory(typeId);
+    if (!category) return false;
+    return blockFilter?.[category] !== false;
+}
+
+function getSprayCanSettings(player) {
+    const stored = player.getDynamicProperty('hp4_paint:spray_settings');
+    if (!stored) {
+        return {
+            ...DEFAULT_SPRAY_SETTINGS,
+            block_filter: { ...DEFAULT_SPRAY_SETTINGS.block_filter }
+        };
+    }
+    try {
+        const parsed = JSON.parse(stored);
+        return {
+            spray_to_stencil: parsed?.spray_to_stencil !== false,
+            particles_enabled: parsed?.particles_enabled !== false,
+            sound_enabled: parsed?.sound_enabled !== false,
+            preview_shape: parsed?.preview_shape === true,
+            spray_to_sheep: parsed?.spray_to_sheep !== false,
+            block_filter: getEffectiveBlockFilter(parsed)
+        };
+    } catch (_) {
+        return {
+            ...DEFAULT_SPRAY_SETTINGS,
+            block_filter: { ...DEFAULT_SPRAY_SETTINGS.block_filter }
+        };
+    }
+}
+
+function setSprayCanSettings(player, settings) {
+    player.setDynamicProperty('hp4_paint:spray_settings', JSON.stringify(settings));
+}
+
+function updateSprayCanSetting(player, key, value) {
+    const settings = getSprayCanSettings(player);
+    settings[key] = value;
+    setSprayCanSettings(player, settings);
 }
 
 // UI pengaturan trigger — dibuka lewat art_bench
@@ -859,14 +1080,16 @@ function openTriggerSettingsUI(player) {
 
     const current  = getTriggerSetting(player);
     const options  = [
+        'Right-click Spray Table',
         'Right-click Crafting Table',
         'Sneak + Right-click',
         'Left-click',
     ];
-    const keys     = ['crafting_table', 'sneak_use', 'left_click'];
+    const keys     = ['spray_table', 'crafting_table', 'sneak_use', 'left_click'];
     const curIndex = Math.max(0, keys.indexOf(current));
 
     const descriptions = [
+        '§7Open the UI by right-clicking the Spray Table entity while holding a spray can.',
         '§7Open the UI by right-clicking a Crafting Table while holding a spray can.',
         '§7Open the UI by Sneaking + right-clicking while holding a spray can.',
         '§7Open the UI by left-clicking (attack) a block while holding a spray can.',
@@ -919,12 +1142,13 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
             let sprayCount = 0; // jumlah blok/entitas yang berhasil diwarnai
 
             // --- 1. Cek entity dari arah pandang ---
+            const canSprayToSheep = getPlayerSpraySetting(player, 'spray_to_sheep');
             const entityHits = player.getEntitiesFromViewDirection({ maxDistance: 5 });
             if (entityHits && entityHits.length > 0) {
                 const hitEntity = entityHits[0].entity;
 
                 // Mewarnai Sheep (area sesuai shape/size)
-                if (hitEntity.typeId === 'minecraft:sheep') {
+                if (canSprayToSheep && hitEntity.typeId === 'minecraft:sheep') {
                     const { shape, size } = shapeSettings;
                     // fill/line tidak berlaku untuk sheep — gunakan target tunggal
                     const effectiveSize = (shape === 'fill' || shape === 'line') ? 1 : size;
@@ -944,7 +1168,12 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                         }
                     }
                     if (count > 0) {
-                        player.dimension.playSound('hp4_paint:spray_can_use', hitEntity.location);
+                        if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                            player.dimension.playSound('hp4_paint:spray_can_use', hitEntity.location);
+                        }
+                        if (getPlayerSpraySetting(player, 'particles_enabled')) {
+                            spawnSprayParticleAtEntity(player, player.dimension, hitEntity.location, sprayCanParticleByItem[item.typeId]);
+                        }
                         const msg = count === 1
                             ? `§aSheep dyed ${colorData.displayName}§a!`
                             : `§a${count} sheep dyed ${colorData.displayName}§a!`;
@@ -963,20 +1192,25 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                     const originBlock = blockHit.block;
                     const face = blockHit.face;
                     const { shape, size } = shapeSettings;
+                    const blockFilter = getEffectiveBlockFilter(getSprayCanSettings(player));
 
                     const count = applySprayToBlocks(player, player.dimension, originBlock, face, shape, size, (b) => {
-                        const isSandOrPowder = b.typeId === 'minecraft:sand' || b.typeId.endsWith('_concrete_powder');
-                        const isConcreteBlock = b.typeId.endsWith('_concrete') && !b.typeId.endsWith('_concrete_powder');
-                        const isWool = b.typeId.endsWith('_wool');
-                        if (!isSandOrPowder && !isConcreteBlock && !isWool) return false;
-                        const newType = isConcreteBlock ? colorData.concreteBlock
-                            : isWool ? colorData.wool : colorData.concrete;
+                        const category = getSprayableBlockCategory(b.typeId);
+                        if (!category || !isBlockAllowedByFilter(b.typeId, blockFilter)) return false;
+                        const newType = (category === 'concrete_block') ? colorData.concreteBlock
+                            : (category === 'wool') ? colorData.wool
+                            : colorData.concrete;
                         b.setType(newType);
                         return true;
                     });
 
                     if (count > 0) {
-                        player.dimension.playSound('hp4_paint:spray_can_use', originBlock.location);
+                        if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                            player.dimension.playSound('hp4_paint:spray_can_use', originBlock.location);
+                        }
+                        if (getPlayerSpraySetting(player, 'particles_enabled')) {
+                            spawnSprayParticleAtBlock(player, player.dimension, originBlock.location, sprayCanParticleByItem[item.typeId]);
+                        }
                         sprayUsed = true;
                         sprayCount = count;
                     }
@@ -995,7 +1229,9 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                             // Jangan set damage >= max (engine akan destroy otomatis),
                             // jadwalkan penggantian ke tick berikutnya
                             player.sendMessage('§eSpray can empty! Select a new color.');
-                            player.playSound('random.break');
+                            if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                                player.playSound('random.break');
+                            }
                             mc.system.run(() => {
                                 const emptySpray = new mc.ItemStack('hp4_paint:spray_can_tool', 1);
                                 copyShapeSettings(currentItem, emptySpray);
@@ -1018,8 +1254,9 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
             let brightnessCount = 0; // jumlah entitas/blok yang berhasil diubah brightness
 
             // --- 1. Cek apakah mengarah ke sheep ---
+            const canSprayToSheepBrightness = getPlayerSpraySetting(player, 'spray_to_sheep');
             const entityHits = player.getEntitiesFromViewDirection({ maxDistance: 5 });
-            if (entityHits && entityHits.length > 0 && entityHits[0].entity.typeId === 'minecraft:sheep') {
+            if (canSprayToSheepBrightness && entityHits && entityHits.length > 0 && entityHits[0].entity.typeId === 'minecraft:sheep') {
                 const hitEntity = entityHits[0].entity;
                 const { shape: bShape, size } = shapeSettings;
                 // fill/line tidak berlaku untuk sheep
@@ -1044,10 +1281,16 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                 }
                 if (count > 0) {
                     const colorLabel = lastTargetName ? (colorDisplayNames[lastTargetName] ?? `§7${lastTargetName}`) : '';
-                    player.dimension.playSound('hp4_paint:spray_can_use', hitEntity.location);
+                    if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                        player.dimension.playSound('hp4_paint:spray_can_use', hitEntity.location);
+                    }
+                    if (getPlayerSpraySetting(player, 'particles_enabled')) {
+                        const brightnessParticle = direction === 'brighter' ? 'test:spray_white' : 'test:spray_black';
+                        spawnSprayParticleAtEntity(player, player.dimension, hitEntity.location, brightnessParticle);
+                    }
                     const actionMsg = direction === 'brighter'
-                        ? `§e☀ ${count} sheep brightened → ${colorLabel}`
-                        : `§8☾ ${count} sheep darkened → ${colorLabel}`;
+                        ? `§e${count} sheep brightened → ${colorLabel}`
+                        : `§8${count} sheep darkened → ${colorLabel}`;
                     player.onScreenDisplay.setActionBar(actionMsg);
                     sprayUsed = true;
                     brightnessCount = count;
@@ -1065,23 +1308,23 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                     const originBlock = blockHit.block;
                     const face = blockHit.face;
                     const { shape, size } = shapeSettings;
+                    const blockFilter = getEffectiveBlockFilter(getSprayCanSettings(player));
+                    const originCategory = getSprayableBlockCategory(originBlock.typeId);
 
                     // Cek apakah blok asal memang bisa di-brightness (untuk feedback)
                     const originColorable =
-                        originBlock.typeId.endsWith('_wool') ||
-                        originBlock.typeId.endsWith('_concrete_powder') ||
-                        (originBlock.typeId.endsWith('_concrete') && !originBlock.typeId.endsWith('_concrete_powder'));
+                        !!originCategory
+                        && originCategory !== 'sand'
+                        && isBlockAllowedByFilter(originBlock.typeId, blockFilter);
 
                     if (originColorable) {
                         let lastResult = 'no_color';
                         let atLimit = false;
 
                         const count = applySprayToBlocks(player, player.dimension, originBlock, face, shape, size, (b) => {
-                            const isColorable =
-                                b.typeId.endsWith('_wool') ||
-                                b.typeId.endsWith('_concrete_powder') ||
-                                (b.typeId.endsWith('_concrete') && !b.typeId.endsWith('_concrete_powder'));
-                            if (!isColorable) return false;
+                            const category = getSprayableBlockCategory(b.typeId);
+                            const isColorable = !!category && category !== 'sand';
+                            if (!isColorable || !isBlockAllowedByFilter(b.typeId, blockFilter)) return false;
                             const result = applyBrightness(b, direction);
                             if (result === 'at_limit') { atLimit = true; return false; }
                             if (result !== 'no_color') { lastResult = result; return true; }
@@ -1090,11 +1333,17 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
 
                         if (count > 0) {
                             const colorLabel = colorDisplayNames[lastResult] ?? `§7${lastResult}`;
-                            player.dimension.playSound('hp4_paint:spray_can_use', originBlock.location);
+                            if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                                player.dimension.playSound('hp4_paint:spray_can_use', originBlock.location);
+                            }
+                            const brightnessParticle = direction === 'brighter' ? 'test:spray_white' : 'test:spray_black';
+                            if (getPlayerSpraySetting(player, 'particles_enabled')) {
+                                spawnSprayParticleAtBlock(player, player.dimension, originBlock.location, brightnessParticle);
+                            }
                             player.onScreenDisplay.setActionBar(
                                 direction === 'brighter'
-                                    ? `§e☀ Brightened → ${colorLabel}`
-                                    : `§8☾ Darkened → ${colorLabel}`
+                                    ? `§eBrightened → ${colorLabel}`
+                                    : `§8Darkened → ${colorLabel}`
                             );
                             sprayUsed = true;
                             brightnessCount = count;
@@ -1116,7 +1365,9 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                         const newDamage = durabilityComp.damage + Math.max(1, brightnessCount);
                         if (newDamage >= durabilityComp.maxDurability) {
                             player.sendMessage('\u00a7eSpray can empty! Select a new mode.');
-                            player.playSound('random.break');
+                            if (getPlayerSpraySetting(player, 'sound_enabled')) {
+                                player.playSound('random.break');
+                            }
                             mc.system.run(() => {
                                 const emptySpray = new mc.ItemStack('hp4_paint:spray_can_tool', 1);
                                 copyShapeSettings(currentItem, emptySpray);
@@ -1138,13 +1389,6 @@ mc.world.beforeEvents.itemUseOn.subscribe(arg => {
     const blockType = arg.block.typeId;
     const item      = arg.itemStack;
     const player    = arg.source;
-
-    // --- Art Bench: buka trigger settings (untuk siapa saja) ---
-    if (blockType === 'minecraft:fletching_table') {
-        arg.cancel = true;
-        mc.system.run(() => openTriggerSettingsUI(player));
-        return;
-    }
 
     // --- Crafting Table: buka spray can UI jika trigger = crafting_table ---
     if (blockType !== 'minecraft:crafting_table') return;
@@ -1191,6 +1435,34 @@ mc.world.beforeEvents.playerBreakBlock.subscribe(arg => {
 
     const sprayCanSlot = getActiveSpraySlot(player, item.typeId);
 
+    if (sprayCanSlot !== -1) {
+        mc.system.run(() => openMainUI(player, sprayCanSlot));
+    }
+});
+
+// Buka UI saat klik kanan entity spray_table dengan trigger = spray_table
+mc.world.afterEvents.playerInteractWithEntity.subscribe(arg => {
+    const player = arg.player;
+    const target = arg.target;
+
+    if (target.typeId !== 'hp4_paint:spray_table') return;
+
+    const inv = player.getComponent('minecraft:inventory').container;
+    const selectedSlot = player.selectedSlotIndex;
+    const item = inv.getItem(selectedSlot);
+
+    if (!item) return;
+
+    const isAnySprayCan =
+        item.typeId === 'hp4_paint:spray_can_tool' ||
+        !!sprayCanToDye[item.typeId] ||
+        item.typeId === SPRAY_BRIGHTEN ||
+        item.typeId === SPRAY_DARKEN;
+
+    if (!isAnySprayCan) return;
+    if (getTriggerSetting(player) !== 'spray_table') return;
+
+    const sprayCanSlot = getActiveSpraySlot(player, item.typeId);
     if (sprayCanSlot !== -1) {
         mc.system.run(() => openMainUI(player, sprayCanSlot));
     }
