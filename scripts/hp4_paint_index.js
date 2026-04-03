@@ -1900,6 +1900,8 @@ export function gantiGambar(entity, model) {
 }
 export function playSound(player, sound, vector3) {
     if(player.getDynamicProperty(`hp4_paint:sfx`)) {
-        vector3 ? player.runCommand(`playsound ${sound} @s ${vector3.x} ${vector3.y} ${vector3.z}`) : player.runCommand(`playsound ${sound} @s`)
+        try {
+            vector3 ? player.runCommand(`playsound ${sound} @s ${vector3.x} ${vector3.y} ${vector3.z}`) : player.runCommand(`playsound ${sound} @s`)
+        } catch (error) {}
     }
 }

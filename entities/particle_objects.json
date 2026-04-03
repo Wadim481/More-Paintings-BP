@@ -15,7 +15,12 @@
                         -1,
                         2
                     ]
-                }
+                },
+				"hp4_paint:withpar": {
+					"client_sync": true,
+					"default": false,
+					"type": "bool"
+				}
             }
 		},
         "component_groups": {

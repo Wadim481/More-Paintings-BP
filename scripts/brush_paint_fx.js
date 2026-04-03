@@ -100,7 +100,7 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
 
     // Guard: target must be a mapped furniture
     const particleEntry = FURNITURE_PARTICLE_MAP[target.typeId];
-    if (!particleEntry) return;
+    if (!particleEntry || !player.getDynamicProperty(`hp4_paint:particles`)) return;
 
     // Cooldown guard — prevent duplicate particles from rapid event firing
     const cooldownKey = `${player.id}:${target.id}`;

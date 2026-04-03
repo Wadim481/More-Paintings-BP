@@ -4,8 +4,8 @@
     "description": {
       "identifier": "hp4_paint:artist_villager_house_feature"
     },
-    "structure_name": "mystructure:artist_villager_house1",
-    "facing_direction": "south",
+    "structure_name": "mystructure:summoner",
+    "facing_direction": "north",
     "constraints": {}
   }
 }
