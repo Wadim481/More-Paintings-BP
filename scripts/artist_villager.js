@@ -212,7 +212,7 @@ mc.world.afterEvents.entityHitEntity.subscribe(arg=>{
             if(!entity.getDynamicProperty(`hp4_paint:isHiding`)) {
                 entity.playAnimation(attack[Math.floor(Math.random() * (2 - 0) + 0)])
                 mc.system.runTimeout(()=>{
-                    //player.runCommand(`camera @s fade time 0 1 1 color ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)}`)
+                    player.runCommand(`camera @s fade time 0 1 1 color ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)}`)
                     entity.setProperty(`hp4_paint:is_hiding`, true)
                 },0.7*20)
                 {
@@ -234,7 +234,7 @@ mc.world.afterEvents.entityHitEntity.subscribe(arg=>{
         } else {
             entity.playAnimation(attack[Math.floor(Math.random() * (2 - 0) + 0)])
             mc.system.runTimeout(()=>{
-                // player.runCommand(`camera @s fade time 0 1 1 color ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)}`)
+                player.runCommand(`camera @s fade time 0 1 1 color ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)} ${Math.round(Math.random() * (255-0) + 0)}`)
                 entity.remove()
             },2*20)
         }
