@@ -126,7 +126,7 @@
                 "max": 1
             },
             "minecraft:loot": {
-                "table": "loot_tables/heropixels/more_paintings/biomes_painting.json"
+                "table": "loot_tables/hp/mp/biomes_painting.json"
             },
             "minecraft:pushable": {
                 "is_pushable": false,

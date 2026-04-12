@@ -135,7 +135,7 @@
                 "max": 1
             },
             "minecraft:loot": {
-                "table": "loot_tables/heropixels/more_paintings/vanilla_pack.json"
+                "table": "loot_tables/hp/mp/vanilla_pack.json"
             },
             "minecraft:pushable": {
                 "is_pushable": false,

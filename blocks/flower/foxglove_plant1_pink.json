@@ -15,7 +15,7 @@
       }
     },
     "components": {
-      "minecraft:loot": "loot_tables/heropixels/more_paintings/plants/custom_flower/foxglove_plant1_pink.json",
+      "minecraft:loot": "loot_tables/hp/mp/plants2/foxglove_plant1_pink.json",
       "minecraft:placement_filter": {
         "conditions": [
           {

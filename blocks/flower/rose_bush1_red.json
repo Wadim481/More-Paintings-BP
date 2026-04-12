@@ -15,7 +15,7 @@
       }
     },
     "components": {
-      "minecraft:loot": "loot_tables/heropixels/more_paintings/plants/custom_flower/rose_bush1_red.json",
+      "minecraft:loot": "loot_tables/hp/mp/plants2/rose_bush1_red.json",
       "minecraft:placement_filter": {
         "conditions": [
           {

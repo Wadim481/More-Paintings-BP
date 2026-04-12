@@ -15,7 +15,7 @@
       }
     },
     "components": {
-      "minecraft:loot": "loot_tables/heropixels/more_paintings/plants/custom_flower/grass_plant3.json",
+      "minecraft:loot": "loot_tables/hp/mp/plants2/grass_plant3.json",
       "minecraft:placement_filter": {
         "conditions": [
           {

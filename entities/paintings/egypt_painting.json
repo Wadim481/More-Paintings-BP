@@ -126,7 +126,7 @@
                 "max": 1
             },
             "minecraft:loot": {
-                "table": "loot_tables/heropixels/more_paintings/egypt.json"
+                "table": "loot_tables/hp/mp/egypt.json"
             },
             "minecraft:pushable": {
                 "is_pushable": false,

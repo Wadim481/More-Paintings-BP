@@ -126,7 +126,7 @@
                 "width": 0.1
             },
             "minecraft:loot": {
-                "table": "loot_tables/heropixels/more_paintings/candy1_painting.json"
+                "table": "loot_tables/hp/mp/candy1_painting.json"
             },
             "minecraft:pushable": {
                 "is_pushable": false,

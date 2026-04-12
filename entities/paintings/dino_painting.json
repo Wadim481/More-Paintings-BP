@@ -126,7 +126,7 @@
                 "max": 1
             },
             "minecraft:loot": {
-                "table": "loot_tables/heropixels/more_paintings/dino.json"
+                "table": "loot_tables/hp/mp/dino.json"
             },
             "minecraft:pushable": {
                 "is_pushable": false,

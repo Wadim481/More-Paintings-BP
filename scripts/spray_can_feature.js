@@ -751,7 +751,7 @@ function openMainUI(player, sprayCanSlot) {
             
         )
         .button('§0 Color', 'textures/hp/more_paintings/items/variant_paint_bottle')
-        .button('§0 Shape', 'textures/hp/more_paintings/items/settings_gear')
+        .button('§0 Shape', 'textures/hp/more_paintings/items/shape_settings')
         .button('§0 Settings', 'textures/hp/more_paintings/items/settings_gear');
 
     if (isLoaded) {
