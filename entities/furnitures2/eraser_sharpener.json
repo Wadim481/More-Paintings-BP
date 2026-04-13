@@ -100,7 +100,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": "particle test:d_purple_wool ~ ~0.2 ~"
+                            "command": "particle hp4_paint:d_purple_wool ~ ~0.2 ~"
                         }
                     },
                     {

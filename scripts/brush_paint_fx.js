@@ -30,26 +30,26 @@ const PAINT_TOOLS = [
 const FURNITURE_PARTICLE_MAP = {
     // Display Cases
     //                                      p1                              p2                   vx    vy
-    'hp4_paint:easel_stand':        { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:art_chair':          { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:stool':              { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:statue_painting':             { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:display_case':       { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:display_case_wide':  { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:cabinet':            { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:display_case_huge':  { p1: 'test:light_ring_bottom_yellow4b', p2: 'test:hammer_emmit3b', vx: 3.0, vy: 1.0 },
-    'hp4_paint:display_case_tall':  { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:display_case_wide2': { p1: 'test:light_ring_bottom_yellow5b', p2: 'test:hammer_emmit3b', vx: 4.0, vy: 0.5 },
-    'hp4_paint:display_case_big':   { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:easel_stand':        { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:art_chair':          { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:stool':              { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:statue_painting':             { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:display_case':       { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:display_case_wide':  { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:cabinet':            { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:display_case_huge':  { p1: 'hp4_paint:light_ring_bottom_yellow4b', p2: 'hp4_paint:hammer_emmit3b', vx: 3.0, vy: 1.0 },
+    'hp4_paint:display_case_tall':  { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:display_case_wide2': { p1: 'hp4_paint:light_ring_bottom_yellow5b', p2: 'hp4_paint:hammer_emmit3b', vx: 4.0, vy: 0.5 },
+    'hp4_paint:display_case_big':   { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
     // Planters & Vase
-    'hp4_paint:round_planter':      { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:large_planter':      { p1: 'test:light_ring_bottom_yellow', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:wide_planter':       { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:thin_planter':       { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
-    'hp4_paint:vase':               { p1: 'test:light_ring_bottom_yellow',   p2: 'test:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:round_planter':      { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:large_planter':      { p1: 'hp4_paint:light_ring_bottom_yellow', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:wide_planter':       { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:thin_planter':       { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
+    'hp4_paint:vase':               { p1: 'hp4_paint:light_ring_bottom_yellow',   p2: 'hp4_paint:hammer_emmit3b', vx: 1.0, vy: 0.5 },
     // Windows
-    'hp4_paint:window':             { p1: 'test:light_ring_bottom_yellow', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
-    'hp4_paint:window_big':         { p1: 'test:light_ring_bottom_yellow3b', p2: 'test:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:window':             { p1: 'hp4_paint:light_ring_bottom_yellow', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
+    'hp4_paint:window_big':         { p1: 'hp4_paint:light_ring_bottom_yellow3b', p2: 'hp4_paint:hammer_emmit3b', vx: 2.0, vy: 0.5 },
 };
 
 /**

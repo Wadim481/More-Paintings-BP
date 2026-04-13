@@ -93,21 +93,21 @@
                         "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 0 },
                         
                         "queue_command": {
-                            "command": ["particle test:db_pot_0 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                            "command": ["particle hp4_paint:db_pot_0 ~ ~0.5 ~","particle hp4_paint:db_dirt~ ~0.75 ~"]
                         }
                     },
                     {
                         "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 1 },
                         
                         "queue_command": {
-                            "command": ["particle test:db_pot_1 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                            "command": ["particle hp4_paint:db_pot_1 ~ ~0.5 ~","particle hp4_paint:db_dirt~ ~0.75 ~"]
                         }
                     },
                     {
                         "filters": { "test": "int_property", "domain": "hp4_paint:furniture_color", "value": 2 },
                         
                         "queue_command": {
-                            "command": ["particle test:db_pot_2 ~ ~0.5 ~","particle test:db_dirt~ ~0.75 ~"]
+                            "command": ["particle hp4_paint:db_pot_2 ~ ~0.5 ~","particle hp4_paint:db_dirt~ ~0.75 ~"]
                         }
                     },
                     {

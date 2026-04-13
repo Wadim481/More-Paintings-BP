@@ -81,7 +81,7 @@ function getSprayCanColorValue(itemTypeId) {
 function getSprayCanParticleId(itemTypeId) {
     if (!itemTypeId || getSprayCanColorValue(itemTypeId) === undefined) return undefined;
     const colorName = itemTypeId.replace("hp4_paint:spray_can_", "");
-    return `test:spray_${colorName}`;
+    return `hp4_paint:spray_${colorName}`;
 }
 
 function spawnStencilSprayParticle(player, dimension, stencilLocation, itemTypeId, particlesEnabled) {

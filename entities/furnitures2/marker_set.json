@@ -100,7 +100,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": ["particle test:d_black_wool ~ ~0.5 ~", "particle test:d_rainbow2 ~ ~0.5 ~"]
+                            "command": ["particle hp4_paint:d_black_wool ~ ~0.5 ~", "particle hp4_paint:d_rainbow2 ~ ~0.5 ~"]
                         }
                     },
                     {

@@ -855,7 +855,7 @@ function spawnPaintDeathParticles(hitbox) {
                     
                     // Spawn particle di setiap posisi grid
                     hitbox.dimension.runCommand(
-                        `particle test:d_painting16x16 ${particleLoc.x} ${particleLoc.y} ${particleLoc.z}`
+                        `particle hp4_paint:d_painting16x16 ${particleLoc.x} ${particleLoc.y} ${particleLoc.z}`
                     )
                 }
             }

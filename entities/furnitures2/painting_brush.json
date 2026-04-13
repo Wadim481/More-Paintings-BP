@@ -100,7 +100,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": "particle test:d_plank_oak ~ ~ ~"
+                            "command": "particle hp4_paint:d_plank_oak ~ ~ ~"
                         }
                     },
                     {

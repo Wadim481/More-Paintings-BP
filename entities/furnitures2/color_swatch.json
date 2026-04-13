@@ -100,7 +100,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": "particle test:d_brush ~ ~0.3 ~"
+                            "command": "particle hp4_paint:d_brush ~ ~0.3 ~"
                         }
                     },
                     {

@@ -112,12 +112,12 @@
                         
                         "queue_command": {
                            "command": [
-                            "particle test:d_pot ~ ~2 ~",
-                            "particle test:d_plank_jungle ~ ~0.5 ~",
-                            "particle test:d_plank_jungle ~ ~1.5 ~",
-                            "particle test:d_plank_jungle ~ ~2.5 ~",
-                            "particle test:d_rainbow2 ~ ~2 ~",
-                            "particle test:d_rainbow ~ ~2 ~"
+                            "particle hp4_paint:d_pot ~ ~2 ~",
+                            "particle hp4_paint:d_plank_jungle ~ ~0.5 ~",
+                            "particle hp4_paint:d_plank_jungle ~ ~1.5 ~",
+                            "particle hp4_paint:d_plank_jungle ~ ~2.5 ~",
+                            "particle hp4_paint:d_rainbow2 ~ ~2 ~",
+                            "particle hp4_paint:d_rainbow ~ ~2 ~"
 
                         ]
                         }
@@ -127,12 +127,12 @@
                         
                         "queue_command": {
                            "command": [
-                            "particle test:d_purple_wool ~ ~2 ~",
-                            "particle test:d_plank_cherry ~ ~0.5 ~",
-                            "particle test:d_plank_cherry ~ ~1.5 ~",
-                            "particle test:d_plank_cherry ~ ~2.5 ~",
-                            "particle test:d_rainbow2 ~ ~2 ~",
-                            "particle test:d_rainbow ~ ~2 ~"
+                            "particle hp4_paint:d_purple_wool ~ ~2 ~",
+                            "particle hp4_paint:d_plank_cherry ~ ~0.5 ~",
+                            "particle hp4_paint:d_plank_cherry ~ ~1.5 ~",
+                            "particle hp4_paint:d_plank_cherry ~ ~2.5 ~",
+                            "particle hp4_paint:d_rainbow2 ~ ~2 ~",
+                            "particle hp4_paint:d_rainbow ~ ~2 ~"
                         ]
                         }
                     },
@@ -141,12 +141,12 @@
                         
                         "queue_command": {
                            "command": [
-                            "particle test:d_black_wool ~ ~2 ~",
-                            "particle test:d_plank_pale ~ ~0.5 ~",
-                            "particle test:d_plank_pale ~ ~1.5 ~",
-                            "particle test:d_plank_pale ~ ~2.5 ~",
-                            "particle test:d_rainbow2 ~ ~2 ~",
-                            "particle test:d_rainbow ~ ~2 ~"
+                            "particle hp4_paint:d_black_wool ~ ~2 ~",
+                            "particle hp4_paint:d_plank_pale ~ ~0.5 ~",
+                            "particle hp4_paint:d_plank_pale ~ ~1.5 ~",
+                            "particle hp4_paint:d_plank_pale ~ ~2.5 ~",
+                            "particle hp4_paint:d_rainbow2 ~ ~2 ~",
+                            "particle hp4_paint:d_rainbow ~ ~2 ~"
                         
                         ]
                         }

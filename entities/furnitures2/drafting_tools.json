@@ -102,14 +102,14 @@
                         "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 0 },
                         "queue_command": {
 
-                            "command": "particle test:d_c15~ ~0.2 ~"
+                            "command": "particle hp4_paint:d_c15~ ~0.2 ~"
                         }
                     },
                     {
                         "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 1 },
                         "queue_command": {
 
-                            "command": "particle test:d_c16~ ~0.2 ~"
+                            "command": "particle hp4_paint:d_c16~ ~0.2 ~"
                         }
                     },
 

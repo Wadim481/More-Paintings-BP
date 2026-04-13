@@ -100,7 +100,7 @@
                 "sequence": [
                     {
                         "queue_command": {
-                            "command": ["particle test:d_stone ~ ~0.25 ~","particle test:d_c15 ~ ~0.25 ~"]
+                            "command": ["particle hp4_paint:d_stone ~ ~0.25 ~","particle hp4_paint:d_c15 ~ ~0.25 ~"]
                         }
                     },
                     {

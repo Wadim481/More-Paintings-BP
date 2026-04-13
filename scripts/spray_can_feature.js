@@ -571,7 +571,7 @@ function extractColorFromDyeType(dyeTypeId) {
 const sprayCanParticleByItem = {};
 Object.entries(sprayCanToDye).forEach(([sprayItemId, dyeTypeId]) => {
     const colorName = extractColorFromDyeType(dyeTypeId);
-    sprayCanParticleByItem[sprayItemId] = `test:spray_${colorName}`;
+    sprayCanParticleByItem[sprayItemId] = `hp4_paint:spray_${colorName}`;
 });
 
 function getFrontRightSprayLocation(player) {
@@ -1285,7 +1285,7 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                         player.dimension.playSound('hp4_paint:spray_can_use', hitEntity.location);
                     }
                     if (getPlayerSpraySetting(player, 'particles_enabled')) {
-                        const brightnessParticle = direction === 'brighter' ? 'test:spray_white' : 'test:spray_black';
+                        const brightnessParticle = direction === 'brighter' ? 'hp4_paint:spray_white' : 'hp4_paint:spray_black';
                         spawnSprayParticleAtEntity(player, player.dimension, hitEntity.location, brightnessParticle);
                     }
                     const actionMsg = direction === 'brighter'
@@ -1336,7 +1336,7 @@ mc.world.afterEvents.itemUse.subscribe(arg => {
                             if (getPlayerSpraySetting(player, 'sound_enabled')) {
                                 player.dimension.playSound('hp4_paint:spray_can_use', originBlock.location);
                             }
-                            const brightnessParticle = direction === 'brighter' ? 'test:spray_white' : 'test:spray_black';
+                            const brightnessParticle = direction === 'brighter' ? 'hp4_paint:spray_white' : 'hp4_paint:spray_black';
                             if (getPlayerSpraySetting(player, 'particles_enabled')) {
                                 spawnSprayParticleAtBlock(player, player.dimension, originBlock.location, brightnessParticle);
                             }

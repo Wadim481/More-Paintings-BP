@@ -534,7 +534,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         z: target.location.z
                     }
                     
-                    target.dimension.spawnParticle(`test:loading`, parLoc)
+                    target.dimension.spawnParticle(`hp4_paint:loading`, parLoc)
                     target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).filter(e=>e.getDynamicProperty(`hp4_paint:owner`)==target.id).some(e=>{
                         e.remove()
                     })
@@ -616,7 +616,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         y: target.location.y + getEntityHeight(target),
                         z: target.location.z
                     }
-                    target.dimension.spawnParticle(`test:loading`, parLoc)
+                    target.dimension.spawnParticle(`hp4_paint:loading`, parLoc)
                     
                     target.playAnimation(`animation.hp4_paint.on_brush`)
                     target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).filter(e=>e.getDynamicProperty(`hp4_paint:owner`)==target.id).some(e=>{
@@ -832,7 +832,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         z: target.location.z
                     }
                     if(!isSmallFurnitures) {
-                        target.dimension.spawnParticle(`test:loading`, parLoc)
+                        target.dimension.spawnParticle(`hp4_paint:loading`, parLoc)
                     }
                     target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).filter(e=>e.getDynamicProperty(`hp4_paint:owner`)==target.id).some(e=>{
                         e.remove()
@@ -962,7 +962,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     },2.6*20
                     )
                     if(!isSmallFurnitures) {
-                        target.dimension.spawnParticle(`test:loading`, parLoc)
+                        target.dimension.spawnParticle(`hp4_paint:loading`, parLoc)
                     }
                     if(player.getDynamicProperty(`hp4_paint:particles`)) {
                         object.setProperty(`hp4_paint:withpar`, true)
@@ -997,7 +997,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     y: target.location.y + getEntityHeight(target),
                     z: target.location.z
                 }
-                target.dimension.spawnParticle(`test:loading`, parLoc)
+                target.dimension.spawnParticle(`hp4_paint:loading`, parLoc)
                 target.dimension.getEntities({type:`hp4_paint:particle_objects`, closest:1}).filter(e=>e.getDynamicProperty(`hp4_paint:owner`)==target.id).some(e=>{
                     e.remove()
                 })

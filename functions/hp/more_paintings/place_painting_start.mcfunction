@@ -1,1 +1,1 @@
-particle test:dust_painting
+particle hp4_paint:dust_painting

@@ -1,4 +1,4 @@
 
 
-particle test:light_ring_bottom_green
-particle test:hammer_emmit 
+particle hp4_paint:light_ring_bottom_green
+particle hp4_paint:hammer_emmit 
