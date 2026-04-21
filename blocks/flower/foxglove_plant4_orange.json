@@ -1,5 +1,5 @@
 {
-  "format_version": "1.21.0",
+  "format_version": "1.21.80",
   "minecraft:block": {
     "description": {
       "identifier": "hp4_paint:foxglove_plant4_orange",
@@ -15,6 +15,9 @@
       }
     },
     "components": {
+      "minecraft:destruction_particles": {
+        "texture": "hp4_paint.p_foxglove_plant_orange"
+      },
       "minecraft:loot": "loot_tables/hp/mp/plants2/foxglove_plant4_orange.json",
       "minecraft:placement_filter": {
         "conditions": [

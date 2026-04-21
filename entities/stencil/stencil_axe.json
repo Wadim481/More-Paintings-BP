@@ -2,14 +2,14 @@
     "format_version": "1.16.0",
     "minecraft:entity": {
         "description": {
-            "identifier": "hp4_paint:stencil",
+            "identifier": "hp4_paint:stencil_axe",
             "is_spawnable": false,
             "is_summonable": true,
             "is_experimental": false,
             "properties": {
                 "hp4_paint:furniture_model": {
                     "client_sync": true,
-                    "default": 0,
+                    "default": 2,
                     "type": "int",
                     "range": [
                         -99999,
@@ -161,21 +161,12 @@
                     ]
                 }
             },
-            "death": {
+           "death": {
                 "sequence": [
                     
                     {
-                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 0 },
-                        
                         "queue_command": {
-                           "command": ["particle hp4_paint:d_stencil ~ ~0.4 ~"]
-                        }
-                    },
-                    {
-                        "filters": { "test": "int_property", "domain": "hp4_paint:furniture_model", "value": 1 },
-                        
-                        "queue_command": {
-                           "command": ["particle hp4_paint:d_plank_pale ~ ~0.4 ~"]
+                           "command": ["particle hp4_paint:d_stencils ~ ~0.4 ~"]
                         }
                     },
                     {

@@ -1,5 +1,5 @@
 {
-  "format_version": "1.21.0",
+  "format_version": "1.21.80",
   "minecraft:block": {
     "description": {
       "identifier": "hp4_paint:rose_bush3_red",
@@ -15,6 +15,9 @@
       }
     },
     "components": {
+      "minecraft:destruction_particles": {
+        "texture": "hp4_paint.p_rose_bush_red"
+      },
       "minecraft:loot": "loot_tables/hp/mp/plants2/rose_bush3_red.json",
       "minecraft:placement_filter": {
         "conditions": [

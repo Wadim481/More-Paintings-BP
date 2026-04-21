@@ -1,9 +1,18 @@
 import { system, world } from "@minecraft/server";
 
-const STENCIL_ENTITY_ID = "hp4_paint:stencil";
+const STENCIL_ENTITY_ID = [
+    
+    "hp4_paint:stencil",
+    "hp4_paint:stencil_love", 
+    "hp4_paint:stencil_axe",
+    "hp4_paint:stencil_hoe",
+    "hp4_paint:stencil_pickaxe",
+    "hp4_paint:stencil_shovel",
+    "hp4_paint:stencil_sword",
+    "hp4_paint:stencil_creeper"
+
+];
 const COLOR_SPLASH_WALL_ENTITY_ID = "hp4_paint:color_splash";
-const COLOR_SPLASH_ENTITY_ID = "hp4_paint:stencil_spray1";
-const COLOR_SPLASH_ENTITY_ID_ALT = "hp4_paint:stencil_spray2";
 const ROTATION_SYNC_TICKS = 1;
 const STENCIL_AUTO_ROTATION_TICKS = 2;
 const COLOR_SPLASH_AUTO_ROTATION_TICKS = 5;
@@ -11,6 +20,36 @@ const STENCIL_COLLISION_SYNC_DELAY_TICKS = 1;
 const STENCIL_VERTICAL_WALL_ROTATION_X = 90;
 const STENCIL_WALL_ATTACH_OFFSET = 0.495;
 const STENCIL_SPRAY_WALL_EXTRA_OFFSET = -0.01;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAPPING: furniture_model value → color splash entity ID
+// Tambah tipe stencil baru cukup tambah satu baris di sini.
+// ─────────────────────────────────────────────────────────────────────────────
+const STENCIL_COLOR_SPLASH_MAP = new Map([
+    [0, "hp4_paint:stencil_spray_default"],
+    [1, "hp4_paint:stencil_spray_love"],
+    [2, "hp4_paint:stencil_spray_axe"],
+    [3, "hp4_paint:stencil_spray_hoe"],
+    [4, "hp4_paint:stencil_spray_pickaxe"],
+    [5, "hp4_paint:stencil_spray_shovel"],
+    [6, "hp4_paint:stencil_spray_sword"],
+    [7, "hp4_paint:stencil_spray_creeper"],
+]);
+
+// Set semua entity ID color splash yang valid (untuk cleanup & cek validitas)
+const ALL_COLOR_SPLASH_ENTITY_IDS = new Set(STENCIL_COLOR_SPLASH_MAP.values());
+
+/**
+ * Mendapatkan entity ID color splash berdasarkan nilai furniture_model pada stencil.
+ * Fallback ke value 0 jika model tidak dikenali.
+ */
+function getColorSplashEntityId(stencil) {
+    const model = stencil.getProperty("hp4_paint:furniture_model") ?? 0;
+    return STENCIL_COLOR_SPLASH_MAP.get(model) ?? STENCIL_COLOR_SPLASH_MAP.get(0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const activeRotationSyncByEntityId = new Map();
 const activeStencilAutoRotationByEntityId = new Map();
 const activeColorSplashAutoRotationByEntityId = new Map();
@@ -203,7 +242,6 @@ function getWallAttachedLocation(location, wallOffset, attachOffset = STENCIL_WA
 
     return {
         x: centered.x + (wallOffset.x * attachOffset),
-        // Lock to block-center vertically so wall stencil doesn't land on block seams.
         y: Math.floor(location.y) + 0.5,
         z: centered.z + (wallOffset.z * attachOffset)
     };
@@ -464,7 +502,7 @@ function applyRotationFromStencil(entity, stencil) {
     }
 
     let targetLocation = entity.location;
-    const isStencilSprayEntity = entity.typeId === COLOR_SPLASH_ENTITY_ID || entity.typeId === COLOR_SPLASH_ENTITY_ID_ALT;
+    const isStencilSprayEntity = ALL_COLOR_SPLASH_ENTITY_IDS.has(entity.typeId);
     if (isStencilSprayEntity && stencilVerticalRotation === STENCIL_VERTICAL_WALL_ROTATION_X) {
         const adjacentWall = getAdjacentWall(stencil);
         if (adjacentWall) {
@@ -476,7 +514,6 @@ function applyRotationFromStencil(entity, stencil) {
         }
     }
 
-    // Teleport with rotation helps avoid first-render facing glitches on freshly spawned entities.
     try {
         entity.teleport(targetLocation, { rotation: stencilRotation });
     } catch (_) {
@@ -487,8 +524,7 @@ world.afterEvents.entitySpawn.subscribe((event) => {
     const entity = event.entity;
     if (!entity) return;
 
-    if (entity.typeId === STENCIL_ENTITY_ID) {
-        // Hide stencil briefly on placement, then fade in.
+    if (STENCIL_ENTITY_ID.includes(entity.typeId)) {
         try {
             const scaleComp = entity.getComponent("minecraft:scale");
             if (scaleComp) scaleComp.value = 0;
@@ -501,9 +537,8 @@ world.afterEvents.entitySpawn.subscribe((event) => {
                     if (scaleComp) scaleComp.value = 1;
                 } catch (_) {}
             }
-        }, 6); // ~0.3 s at 20 ticks/s
+        }, 6);
 
-        // Delay one tick so the initial placement transform is available.
         system.runTimeout(() => {
             try {
                 syncAutoStencilWallRotation(entity);
@@ -525,9 +560,8 @@ world.afterEvents.entitySpawn.subscribe((event) => {
 world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const player = event.player;
     const target = event.target;
-    if (!target || target.typeId !== STENCIL_ENTITY_ID) return;
+    if (!target || !STENCIL_ENTITY_ID.includes(target.typeId)) return;
 
-    // Keep stencil vertical orientation in sync when it is attached to a wall.
     applyAutoStencilWallRotation(target);
 
     const settings = getPlayerSpraySettings(player);
@@ -540,8 +574,8 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const colorValue = getSprayCanColorValue(item?.typeId);
     if (colorValue === undefined) return;
 
-    const stencilModel = target.getProperty("hp4_paint:furniture_model");
-    const colorSplashEntityId = stencilModel === 1 ? COLOR_SPLASH_ENTITY_ID_ALT : COLOR_SPLASH_ENTITY_ID;
+    // Gunakan fungsi lookup — cukup ubah STENCIL_COLOR_SPLASH_MAP untuk tipe baru
+    const colorSplashEntityId = getColorSplashEntityId(target);
 
     const dimension = target.dimension;
     const stencilLocation = target.location;
@@ -557,13 +591,9 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const colorSplash = existedSplash ?? dimension.spawnEntity(colorSplashEntityId, stencilLocation);
 
     if (isNewSpawn) {
-        // Newly spawned entities default to rotation y=0. If the stencil also faces y=0 (north/-z),
-        // applyRotationFromStencil becomes a no-op and Bedrock's renderer never receives a state
-        // change signal. Pre-jolt to y=1 so the correction to y=0 is always a real change.
         try { colorSplash.setRotation({ x: 0, y: 1 }); } catch (_) {}
     }
 
-    // Force initial rotation before applying visual/state changes.
     applyRotationFromStencil(colorSplash, target);
 
     try {
@@ -585,7 +615,8 @@ world.afterEvents.entityDie.subscribe((event) => {
     const deadEntity = event.deadEntity;
     if (!deadEntity) return;
 
-    if (deadEntity.typeId !== STENCIL_ENTITY_ID) {
+    // BUG FIX: typo "deadentity" → "deadEntity"
+    if (STENCIL_ENTITY_ID.includes(deadEntity.typeId)) {
         if (deadEntity.typeId === COLOR_SPLASH_WALL_ENTITY_ID) {
             activeColorSplashAutoRotationByEntityId.delete(deadEntity.id);
             activeColorSplashHitboxModeByEntityId.delete(deadEntity.id);

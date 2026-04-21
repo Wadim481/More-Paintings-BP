@@ -62,9 +62,24 @@ const furnitures = [
     `hp4_paint:powderjar`,
     `hp4_paint:sewing_kit`,
     `hp4_paint:unfinished_wooden_block`,
-    `hp4_paint:stencil`,
+        'hp4_paint:stencil', //
+        'hp4_paint:stencil_creeper',
+        'hp4_paint:stencil_love', //
+        'hp4_paint:stencil_axe',
+        'hp4_paint:stencil_hoe',
+        'hp4_paint:stencil_pickaxe',
+        'hp4_paint:stencil_shovel',
+        'hp4_paint:stencil_sword' ,
     `hp4_paint:stencil_spray1`,
     `hp4_paint:stencil_spray2`,
+        'hp4_paint:stencil_spray_default', //
+        'hp4_paint:stencil_spray_creeper',
+        'hp4_paint:stencil_spray_love', //
+        'hp4_paint:stencil_spray_axe',
+        'hp4_paint:stencil_spray_hoe',
+        'hp4_paint:stencil_spray_pickaxe',
+        'hp4_paint:stencil_spray_shovel',
+        'hp4_paint:stencil_spray_sword' ,
     `hp4_paint:spray_can`,
     `hp4_paint:soft_pastel_box`,
     `hp4_paint:sculpture_stand`,
@@ -805,7 +820,27 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                 })
             }
         }
-
+         let nospecialtool= 
+        [
+            'hp4_paint:stencil_spray1',
+            'hp4_paint:stencil_spray2',
+            'hp4_paint:stencil_spray_default', //
+            'hp4_paint:stencil_spray_creeper',
+            'hp4_paint:stencil_spray_love', //
+            'hp4_paint:stencil_spray_axe',
+            'hp4_paint:stencil_spray_hoe',
+            'hp4_paint:stencil_spray_pickaxe',
+            'hp4_paint:stencil_spray_shovel',
+            'hp4_paint:stencil_spray_sword' ,
+            'hp4_paint:stencil', //
+            'hp4_paint:stencil_creeper',
+            'hp4_paint:stencil_love', //
+            'hp4_paint:stencil_axe',
+            'hp4_paint:stencil_hoe',
+            'hp4_paint:stencil_pickaxe',
+            'hp4_paint:stencil_shovel',
+            'hp4_paint:stencil_sword'        
+        ]
         //NEW FURNITURE VARIANT MANAGER
         if(target.typeId == furniture) {
             if(!item) {
@@ -819,8 +854,12 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     
                 }
             } else {
-            if(item.typeId == 'hp4_paint:special_tool' && !main.checkOutlineFilter(target, 'hp4_paint:special_tool') && target.typeId !== 'hp4_paint:stencil_spray1' && target.typeId !== 'hp4_paint:stencil_spray2') {
-                try {
+                         if (
+                        item.typeId == 'hp4_paint:special_tool' &&
+                        !main.checkOutlineFilter(target, 'hp4_paint:special_tool') &&
+                        !nospecialtool.includes(target.typeId)
+                        ) {
+                            try {
                     let isSmallFurnitures = false
                     if(smallFurnitures.includes(furniture)) {
                         isSmallFurnitures = true

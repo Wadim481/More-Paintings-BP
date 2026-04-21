@@ -118,7 +118,7 @@ export function checkOutlineFilter(e, item) {
 }
 const outLineFilters = {
     'hp4_paint:special_tool': [
-        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`, `window`, `window_big`, `rose_bush`, `grass_plant`, `foxglove_plant`, `spray_table`
+        `display`, `planter`, `vase`, `cabinet`, `unfinished_wooden_block`, `lying_bottle_color`, `jewellery_components`, `powderjar`,`stencil`, `sewing_kit`, `unfinished_wooden_block`, `soft_pastel_box`, `sculpture_stand`, `pencil_set`, `paint_brush`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `chalk_and_charcoal`, `sketchbook`, `window`, `window_big`, `rose_bush`, `grass_plant`, `foxglove_plant`, `spray_table`
     ],
     'hp4_paint:brush': [
         `canvas`, `lying_bottle_color`, `jewellery_components`, `powderjar`, `sewing_kit`, `unfinished_wooden_block`, `stencil`, `spray_paint`, `soft_pastel`, `sculpture_stand`, `pencil_set`, `paint_tubes`, `marker_set`, `eraser_sharpener`, `drawing_tube`, `drafting_tool`, `color_swatch`, `brush_holder_cup`, `brush_cleaner_cup`, `artist_box`, `art_knives`, `brush_cleaner_jar`, `chalk_and_charcoal`, `spatula`, `tube_paint`, `sketchbook`, `brushes_set`, `spray_can`, `hp4_paint:grass_plant`
@@ -1639,6 +1639,13 @@ system.afterEvents.scriptEventReceive.subscribe(data => {
             "hp4_paint:spray_can",
             "hp4_paint:statue_painting",
             "hp4_paint:stencil", //
+            "hp4_paint:stencil_creeper",
+            "hp4_paint:stencil_love", //
+            "hp4_paint:stencil_axe",
+            "hp4_paint:stencil_hoe",
+            "hp4_paint:stencil_pickaxe",
+            "hp4_paint:stencil_shovel",
+            "hp4_paint:stencil_sword",
             "hp4_paint:stool",
             "hp4_paint:thin_planter",
             "hp4_paint:tube_paint",

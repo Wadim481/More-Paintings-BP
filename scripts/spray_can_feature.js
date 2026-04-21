@@ -3,22 +3,22 @@ import * as ui from "@minecraft/server-ui";
 //AFANDIv5 - membuat fitur spray can
 // Mapping dye colors ke concrete powder, concrete block, spray texture, dan item ID
 const dyeColorMap = {
-    'minecraft:white_dye':      { concrete: 'minecraft:white_concrete_powder',      concreteBlock: 'minecraft:white_concrete',      wool: 'minecraft:white_wool',      sheepColor: 0,  item: 'hp4_paint:spray_can_white',      icon: 'textures/hp/more_paintings/items/spray_can_white',      displayName: '§fWhite' },
-    'minecraft:light_gray_dye': { concrete: 'minecraft:light_gray_concrete_powder', concreteBlock: 'minecraft:light_gray_concrete', wool: 'minecraft:light_gray_wool', sheepColor: 8,  item: 'hp4_paint:spray_can_light_gray', icon: 'textures/hp/more_paintings/items/spray_can_lightgray', displayName: '§7Light Gray' },
-    'minecraft:gray_dye':       { concrete: 'minecraft:gray_concrete_powder',       concreteBlock: 'minecraft:gray_concrete',       wool: 'minecraft:gray_wool',       sheepColor: 7,  item: 'hp4_paint:spray_can_gray',       icon: 'textures/hp/more_paintings/items/spray_can_gray',      displayName: '§8Gray' },
-    'minecraft:black_dye':      { concrete: 'minecraft:black_concrete_powder',      concreteBlock: 'minecraft:black_concrete',      wool: 'minecraft:black_wool',      sheepColor: 15, item: 'hp4_paint:spray_can_black',      icon: 'textures/hp/more_paintings/items/spray_can_black',     displayName: '§0Black' },
-    'minecraft:brown_dye':      { concrete: 'minecraft:brown_concrete_powder',      concreteBlock: 'minecraft:brown_concrete',      wool: 'minecraft:brown_wool',      sheepColor: 12, item: 'hp4_paint:spray_can_brown',      icon: 'textures/hp/more_paintings/items/spray_can_brown',     displayName: '§6Brown' },
-    'minecraft:red_dye':        { concrete: 'minecraft:red_concrete_powder',        concreteBlock: 'minecraft:red_concrete',        wool: 'minecraft:red_wool',        sheepColor: 14, item: 'hp4_paint:spray_can_red',        icon: 'textures/hp/more_paintings/items/spray_can_red',       displayName: '§cRed' },
-    'minecraft:orange_dye':     { concrete: 'minecraft:orange_concrete_powder',     concreteBlock: 'minecraft:orange_concrete',     wool: 'minecraft:orange_wool',     sheepColor: 1,  item: 'hp4_paint:spray_can_orange',     icon: 'textures/hp/more_paintings/items/spray_can_orange',    displayName: '§6Orange' },
-    'minecraft:yellow_dye':     { concrete: 'minecraft:yellow_concrete_powder',     concreteBlock: 'minecraft:yellow_concrete',     wool: 'minecraft:yellow_wool',     sheepColor: 4,  item: 'hp4_paint:spray_can_yellow',     icon: 'textures/hp/more_paintings/items/spray_can_yellow',    displayName: '§eYellow' },
-    'minecraft:lime_dye':       { concrete: 'minecraft:lime_concrete_powder',       concreteBlock: 'minecraft:lime_concrete',       wool: 'minecraft:lime_wool',       sheepColor: 5,  item: 'hp4_paint:spray_can_lime',       icon: 'textures/hp/more_paintings/items/spray_can_lime',      displayName: '§aLime' },
-    'minecraft:green_dye':      { concrete: 'minecraft:green_concrete_powder',      concreteBlock: 'minecraft:green_concrete',      wool: 'minecraft:green_wool',      sheepColor: 13, item: 'hp4_paint:spray_can_green',      icon: 'textures/hp/more_paintings/items/spray_can_green',     displayName: '§2Green' },
-    'minecraft:cyan_dye':       { concrete: 'minecraft:cyan_concrete_powder',       concreteBlock: 'minecraft:cyan_concrete',       wool: 'minecraft:cyan_wool',       sheepColor: 9,  item: 'hp4_paint:spray_can_cyan',       icon: 'textures/hp/more_paintings/items/spray_can_cyan',      displayName: '§bCyan' },
-    'minecraft:light_blue_dye': { concrete: 'minecraft:light_blue_concrete_powder', concreteBlock: 'minecraft:light_blue_concrete', wool: 'minecraft:light_blue_wool', sheepColor: 3,  item: 'hp4_paint:spray_can_light_blue', icon: 'textures/hp/more_paintings/items/spray_can_lightblue', displayName: '§9Light Blue' },
-    'minecraft:blue_dye':       { concrete: 'minecraft:blue_concrete_powder',       concreteBlock: 'minecraft:blue_concrete',       wool: 'minecraft:blue_wool',       sheepColor: 11, item: 'hp4_paint:spray_can_blue',       icon: 'textures/hp/more_paintings/items/spray_can_blue',      displayName: '§1Blue' },
-    'minecraft:purple_dye':     { concrete: 'minecraft:purple_concrete_powder',     concreteBlock: 'minecraft:purple_concrete',     wool: 'minecraft:purple_wool',     sheepColor: 10, item: 'hp4_paint:spray_can_purple',     icon: 'textures/hp/more_paintings/items/spray_can_purple',    displayName: '§5Purple' },
-    'minecraft:magenta_dye':    { concrete: 'minecraft:magenta_concrete_powder',    concreteBlock: 'minecraft:magenta_concrete',    wool: 'minecraft:magenta_wool',    sheepColor: 2,  item: 'hp4_paint:spray_can_magenta',    icon: 'textures/hp/more_paintings/items/spray_can_magenta',  displayName: '§dMagenta' },
-    'minecraft:pink_dye':       { concrete: 'minecraft:pink_concrete_powder',       concreteBlock: 'minecraft:pink_concrete',       wool: 'minecraft:pink_wool',       sheepColor: 6,  item: 'hp4_paint:spray_can_pink',       icon: 'textures/hp/more_paintings/items/spray_can_pink',      displayName: '§dPink' }
+    'minecraft:white_dye':      { concrete: 'minecraft:white_concrete_powder',      concreteBlock: 'minecraft:white_concrete',      wool: 'minecraft:white_wool',      sheepColor: 0,  item: 'hp4_paint:spray_can_white',      icon: 'textures/hp/mp/items/spray_can_white',      displayName: '§fWhite' },
+    'minecraft:light_gray_dye': { concrete: 'minecraft:light_gray_concrete_powder', concreteBlock: 'minecraft:light_gray_concrete', wool: 'minecraft:light_gray_wool', sheepColor: 8,  item: 'hp4_paint:spray_can_light_gray', icon: 'textures/hp/mp/items/spray_can_lightgray', displayName: '§7Light Gray' },
+    'minecraft:gray_dye':       { concrete: 'minecraft:gray_concrete_powder',       concreteBlock: 'minecraft:gray_concrete',       wool: 'minecraft:gray_wool',       sheepColor: 7,  item: 'hp4_paint:spray_can_gray',       icon: 'textures/hp/mp/items/spray_can_gray',      displayName: '§8Gray' },
+    'minecraft:black_dye':      { concrete: 'minecraft:black_concrete_powder',      concreteBlock: 'minecraft:black_concrete',      wool: 'minecraft:black_wool',      sheepColor: 15, item: 'hp4_paint:spray_can_black',      icon: 'textures/hp/mp/items/spray_can_black',     displayName: '§0Black' },
+    'minecraft:brown_dye':      { concrete: 'minecraft:brown_concrete_powder',      concreteBlock: 'minecraft:brown_concrete',      wool: 'minecraft:brown_wool',      sheepColor: 12, item: 'hp4_paint:spray_can_brown',      icon: 'textures/hp/mp/items/spray_can_brown',     displayName: '§6Brown' },
+    'minecraft:red_dye':        { concrete: 'minecraft:red_concrete_powder',        concreteBlock: 'minecraft:red_concrete',        wool: 'minecraft:red_wool',        sheepColor: 14, item: 'hp4_paint:spray_can_red',        icon: 'textures/hp/mp/items/spray_can_red',       displayName: '§cRed' },
+    'minecraft:orange_dye':     { concrete: 'minecraft:orange_concrete_powder',     concreteBlock: 'minecraft:orange_concrete',     wool: 'minecraft:orange_wool',     sheepColor: 1,  item: 'hp4_paint:spray_can_orange',     icon: 'textures/hp/mp/items/spray_can_orange',    displayName: '§6Orange' },
+    'minecraft:yellow_dye':     { concrete: 'minecraft:yellow_concrete_powder',     concreteBlock: 'minecraft:yellow_concrete',     wool: 'minecraft:yellow_wool',     sheepColor: 4,  item: 'hp4_paint:spray_can_yellow',     icon: 'textures/hp/mp/items/spray_can_yellow',    displayName: '§eYellow' },
+    'minecraft:lime_dye':       { concrete: 'minecraft:lime_concrete_powder',       concreteBlock: 'minecraft:lime_concrete',       wool: 'minecraft:lime_wool',       sheepColor: 5,  item: 'hp4_paint:spray_can_lime',       icon: 'textures/hp/mp/items/spray_can_lime',      displayName: '§aLime' },
+    'minecraft:green_dye':      { concrete: 'minecraft:green_concrete_powder',      concreteBlock: 'minecraft:green_concrete',      wool: 'minecraft:green_wool',      sheepColor: 13, item: 'hp4_paint:spray_can_green',      icon: 'textures/hp/mp/items/spray_can_green',     displayName: '§2Green' },
+    'minecraft:cyan_dye':       { concrete: 'minecraft:cyan_concrete_powder',       concreteBlock: 'minecraft:cyan_concrete',       wool: 'minecraft:cyan_wool',       sheepColor: 9,  item: 'hp4_paint:spray_can_cyan',       icon: 'textures/hp/mp/items/spray_can_cyan',      displayName: '§bCyan' },
+    'minecraft:light_blue_dye': { concrete: 'minecraft:light_blue_concrete_powder', concreteBlock: 'minecraft:light_blue_concrete', wool: 'minecraft:light_blue_wool', sheepColor: 3,  item: 'hp4_paint:spray_can_light_blue', icon: 'textures/hp/mp/items/spray_can_lightblue', displayName: '§9Light Blue' },
+    'minecraft:blue_dye':       { concrete: 'minecraft:blue_concrete_powder',       concreteBlock: 'minecraft:blue_concrete',       wool: 'minecraft:blue_wool',       sheepColor: 11, item: 'hp4_paint:spray_can_blue',       icon: 'textures/hp/mp/items/spray_can_blue',      displayName: '§1Blue' },
+    'minecraft:purple_dye':     { concrete: 'minecraft:purple_concrete_powder',     concreteBlock: 'minecraft:purple_concrete',     wool: 'minecraft:purple_wool',     sheepColor: 10, item: 'hp4_paint:spray_can_purple',     icon: 'textures/hp/mp/items/spray_can_purple',    displayName: '§5Purple' },
+    'minecraft:magenta_dye':    { concrete: 'minecraft:magenta_concrete_powder',    concreteBlock: 'minecraft:magenta_concrete',    wool: 'minecraft:magenta_wool',    sheepColor: 2,  item: 'hp4_paint:spray_can_magenta',    icon: 'textures/hp/mp/items/spray_can_magenta',  displayName: '§dMagenta' },
+    'minecraft:pink_dye':       { concrete: 'minecraft:pink_concrete_powder',       concreteBlock: 'minecraft:pink_concrete',       wool: 'minecraft:pink_wool',       sheepColor: 6,  item: 'hp4_paint:spray_can_pink',       icon: 'textures/hp/mp/items/spray_can_pink',      displayName: '§dPink' }
 };
 
 // =============================================================
@@ -750,12 +750,12 @@ function openMainUI(player, sprayCanSlot) {
             `§7Shape: §e${shape}  §7Size: §e${sizeLabel}\n` 
             
         )
-        .button('§0 Color', 'textures/hp/more_paintings/items/variant_paint_bottle')
-        .button('§0 Shape', 'textures/hp/more_paintings/items/shape_settings')
-        .button('§0 Settings', 'textures/hp/more_paintings/items/settings_gear');
+        .button('§0 Color', 'textures/hp/mp/items/variant_paint_bottle')
+        .button('§0 Shape', 'textures/hp/mp/items/settings_gear')
+        .button('§0 Settings', 'textures/hp/mp/items/settings_gear');
 
     if (isLoaded) {
-        form.button('§c§l Empty Spray Can', 'textures/hp/more_paintings/items/color_bucket');
+        form.button('§c§l Empty Spray Can', 'textures/hp/mp/items/color_bucket');
     }
 
     form.show(player).then(response => {
@@ -788,10 +788,18 @@ function openMainUI(player, sprayCanSlot) {
 
 // Color page — step 1: amount slider; step 2: color buttons
 function openColorPageUI(player, sprayCanSlot) {
+    const isCreative = player.getGameMode() === mc.GameMode.creative;
     const availableDyes = getAvailableDyes(player);
-    const hasGlowDust   = hasItem(player, 'minecraft:glowstone_dust');
+    const hasGlowDust   = isCreative || hasItem(player, 'minecraft:glowstone_dust');
 
-    if (availableDyes.length === 0 && !hasGlowDust) {
+    // Di creative, tampilkan semua warna; di survival harus punya dye
+    const allDyes = Object.keys(dyeColorMap).map(typeId => ({
+        typeId,
+        color: dyeColorMap[typeId]
+    }));
+    const displayDyes = isCreative ? allDyes : availableDyes;
+
+    if (displayDyes.length === 0 && !hasGlowDust) {
         player.sendMessage('§cYou need dye or glowstone dust in your inventory!');
         openMainUI(player, sprayCanSlot);
         return;
@@ -799,7 +807,9 @@ function openColorPageUI(player, sprayCanSlot) {
 
     // Count glowstone dust
     let dustCount = 0;
-    if (hasGlowDust) {
+    if (isCreative) {
+        dustCount = Math.floor(MAX_USES / USES_PER_DYE); // simulasi unlimited
+    } else if (hasGlowDust) {
         const inv = player.getComponent('minecraft:inventory').container;
         for (let i = 0; i < inv.size; i++) {
             const s = inv.getItem(i);
@@ -813,18 +823,26 @@ function openColorPageUI(player, sprayCanSlot) {
     const entries = [];
     const colorForm = new ui.ActionFormData()
         .title('§l§0Select Color')
-        .body(`§7Pick a color, then set the amount.`);
+        .body(isCreative
+            ? `§bCreative Mode §7— All colors available, no items consumed.`
+            : `§7Pick a color, then set the amount.`
+        );
 
-    availableDyes.forEach(dye => {
-        const count = getDyeCount(player, dye.typeId);
-        colorForm.button(`${dye.color.displayName}§0§o (${count}x)`, dye.color.icon);
+    displayDyes.forEach(dye => {
+        const count = isCreative
+            ? maxSlider
+            : getDyeCount(player, dye.typeId);
+        const countLabel = isCreative ? '∞' : `${count}x`;
+        colorForm.button(`${dye.color.displayName}§0§o (${countLabel})`, dye.color.icon);
         entries.push({ type: 'color', dye });
     });
 
-    if (hasGlowDust) {
-        colorForm.button(`§e§lBrighten§r §0§o(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_white');
+    // Brightness: tampilkan di creative selalu, di survival hanya jika punya glowstone
+    if (isCreative || hasGlowDust) {
+        const dustLabel = isCreative ? '∞' : `${dustCount}x`;
+        colorForm.button(`§e§lBrighten§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_white');
         entries.push({ type: 'brightness', direction: 'brighter' });
-        colorForm.button(`§8§lDarken§r §0§o(${dustCount}x)`, 'textures/hp/more_paintings/items/spray_can_black');
+        colorForm.button(`§8§lDarken§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_black');
         entries.push({ type: 'brightness', direction: 'darker' });
     }
 
@@ -833,13 +851,15 @@ function openColorPageUI(player, sprayCanSlot) {
 
         const entry = entries[colorResp.selection];
 
-        // Determine available stock for this entry
-        const stockMax = entry.type === 'brightness'
-            ? dustCount
-            : getDyeCount(player, entry.dye.typeId);
+        // Tentukan stok untuk slider
+        const stockMax = isCreative
+            ? maxSlider
+            : (entry.type === 'brightness'
+                ? dustCount
+                : getDyeCount(player, entry.dye.typeId));
         const sliderMax = Math.min(maxSlider, stockMax);
 
-        if (sliderMax === 0) {
+        if (!isCreative && sliderMax === 0) {
             player.sendMessage('§cNot enough items in inventory!');
             return;
         }
@@ -849,12 +869,13 @@ function openColorPageUI(player, sprayCanSlot) {
             ? (entry.direction === 'brighter' ? '§eBrighten' : '§8Darken')
             : entry.dye.color.displayName;
 
+        const sliderNote = isCreative
+            ? `§bCreative: items won't be consumed.\namount to load §e`
+            : `§7${entryLabel}§r  (1 item = ${USES_PER_DYE} uses)\namount dye you want to use §e`;
+
         new ui.ModalFormData()
             .title(`§l§0Amount`)
-            .slider(
-                `§7${entryLabel}§r  (1 item = ${USES_PER_DYE} uses)\namount dye you want to use §e`,
-                1, sliderMax, 1, 1
-            )
+            .slider(sliderNote, 1, sliderMax, 1, 1)
             .show(player).then(sliderResp => {
                 if (sliderResp.canceled) { mc.system.run(() => openColorPageUI(player, sprayCanSlot)); return; }
 
@@ -862,11 +883,13 @@ function openColorPageUI(player, sprayCanSlot) {
                 const inventory = player.getComponent('minecraft:inventory').container;
 
                 if (entry.type === 'brightness') {
-                    const chosenGlowstone = Math.min(amount, dustCount);
-                    const uses     = Math.min(chosenGlowstone * USES_PER_DYE, MAX_USES);
+                    const uses     = Math.min(amount * USES_PER_DYE, MAX_USES);
                     const startDmg = MAX_USES - uses;
 
-                    if (consumeMultipleDye(player, 'minecraft:glowstone_dust', chosenGlowstone)) {
+                    // Hanya konsumsi glowstone di survival
+                    const canProceed = isCreative || consumeMultipleDye(player, 'minecraft:glowstone_dust', amount);
+
+                    if (canProceed) {
                         const brightnessItem = entry.direction === 'brighter' ? SPRAY_BRIGHTEN : SPRAY_DARKEN;
                         const newItem = new mc.ItemStack(brightnessItem, 1);
                         copyShapeSettings(inventory.getItem(sprayCanSlot), newItem);
@@ -881,18 +904,14 @@ function openColorPageUI(player, sprayCanSlot) {
                     }
                 } else {
                     // Color dye
-                    const dyeEntry  = entry.dye;
-                    const chosenDye = Math.min(amount, getDyeCount(player, dyeEntry.typeId));
-
-                    if (chosenDye === 0) {
-                        player.sendMessage(`§cNo ${dyeEntry.color.displayName}§c dye in inventory!`);
-                        return;
-                    }
-
-                    const uses     = Math.min(chosenDye * USES_PER_DYE, MAX_USES);
+                    const dyeEntry = entry.dye;
+                    const uses     = Math.min(amount * USES_PER_DYE, MAX_USES);
                     const startDmg = MAX_USES - uses;
 
-                    if (consumeMultipleDye(player, dyeEntry.typeId, chosenDye)) {
+                    // Hanya konsumsi dye di survival
+                    const canProceed = isCreative || consumeMultipleDye(player, dyeEntry.typeId, amount);
+
+                    if (canProceed) {
                         const coloredSprayCan = new mc.ItemStack(dyeEntry.color.item, 1);
                         copyShapeSettings(inventory.getItem(sprayCanSlot), coloredSprayCan);
                         const durComp = coloredSprayCan.getComponent('minecraft:durability');
@@ -901,7 +920,7 @@ function openColorPageUI(player, sprayCanSlot) {
                         player.sendMessage(`§aSpray Can ${dyeEntry.color.displayName}§a ready! §7(${uses} uses)`);
                         player.playSound('random.orb');
                     } else {
-                        player.sendMessage('§cFailed to take dye!');
+                        player.sendMessage(`§cNo ${dyeEntry.color.displayName}§c dye in inventory!`);
                     }
                 }
             }); // end sliderForm.show
@@ -1462,6 +1481,7 @@ mc.world.afterEvents.playerInteractWithEntity.subscribe(arg => {
     if (!isAnySprayCan) return;
     if (getTriggerSetting(player) !== 'spray_table') return;
 
+    
     const sprayCanSlot = getActiveSpraySlot(player, item.typeId);
     if (sprayCanSlot !== -1) {
         mc.system.run(() => openMainUI(player, sprayCanSlot));
