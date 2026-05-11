@@ -33,6 +33,17 @@
             }
         },
         "components": {
+            "minecraft:rideable": {
+                "seat_count": 1,
+                "crouching_skip_interact": true,
+                "family_types": [
+                    "player"
+                ],
+                "interact_text": "Sit",
+                "seats": {
+                    "position": [ 0.0, 1.1, -0.2 ]
+                }
+            },
             "minecraft:type_family": {
                 "family": [ "hp4_paint_furniture" ]
             },

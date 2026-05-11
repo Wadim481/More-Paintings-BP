@@ -220,6 +220,11 @@
             "hang_around",
             "find_bed"
           ]
+        },
+        "queue_command": {
+          "command": [
+            "scriptevent hp4_paint:check_painting_spot"
+          ]
         }
       },
       "find_bed": {

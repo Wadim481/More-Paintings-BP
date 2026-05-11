@@ -53,6 +53,7 @@ mc.world.afterEvents.playerSpawn.subscribe((arg)=>{
         arg.player.setDynamicProperty(`hp4_paint:outlines`, true)
         arg.player.setDynamicProperty(`hp4_paint:onlyCutePaintings`, false)
         arg.player.setDynamicProperty(`hp4_paint:paintingSizeUI`, true)
+        arg.player.setDynamicProperty(`hp4_paint:defaultGeneralColor`, 0)
         arg.player.addTag('hp4_paint')
     }
 })
@@ -101,15 +102,19 @@ function gameplaySettings(player) {
     .toggle('Additional Furnitures', defaultValue.additionalFurnitures)
     .toggle('Particles', defaultValue.particles)
     .toggle('Sound Effects', defaultValue.sfx)
-    .toggle('Outlines', defaultValue.outlines)
+    .toggle('Outlines\n§3Not working in deferred mode', defaultValue.outlines)
     .toggle('Painting size choose UI', defaultValue.paintingsSizeUI)
-    .dropdown('Default Color',
+    .dropdown('Default Wood Color',
         [
             'Brown / Gold',
             'Pink',
             'White'
         ],
         player.getDynamicProperty(`hp4_paint:defaultColor`)
+    )
+    .dropdown('Default General Color',
+        colors,
+        player.getDynamicProperty(`hp4_paint:defaultGeneralColor`)
     )
 	.show(player)
 	.then((r) => {
@@ -119,7 +124,8 @@ function gameplaySettings(player) {
             const sfx = r.formValues[2];
             const outlines = r.formValues[3];
             const paintingSizeUI = r.formValues[4];
-            const defaultColor = r.formValues[5]
+            const defaultColor = r.formValues[5];
+            const defaultGeneralColor = r.formValues[6];
 
             player.setDynamicProperty(`hp4_paint:additionalFurniture`, additionalFurnitures)
             player.setDynamicProperty(`hp4_paint:particles`, particles)
@@ -127,11 +133,30 @@ function gameplaySettings(player) {
             player.setDynamicProperty(`hp4_paint:outlines`, outlines)
             player.setDynamicProperty(`hp4_paint:paintingSizeUI`, paintingSizeUI)
             player.setDynamicProperty(`hp4_paint:defaultColor`, defaultColor)
+            player.setDynamicProperty(`hp4_paint:defaultGeneralColor`, defaultGeneralColor)
         } catch (error) {
             
         }
 	});
 }
+const colors = [
+    `Black -§0 |||`,
+    `Blue -§1 |||`,
+    `Brown -§j |||`,
+    `Cyan -§b |||`,
+    `Green -§2 |||`,
+    `Grey -§8 |||`,
+    `Light Blue -§3 |||`,
+    `Light Grey -§7 |||`,
+    `Lime -§a |||`,
+    `Magenta -§d |||`,
+    `Orange -§6 |||`,
+    `Pink -§d |||`,
+    `Purple -§9 |||`,
+    `Red -§c |||`,
+    `White -§f |||`,
+    `Yellow -§g |||`,
+]
 function paintingFilterSettings(player) {
     let buttons = []
     paintings.forEach((p, i)=>{

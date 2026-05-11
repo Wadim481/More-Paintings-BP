@@ -1,236 +1,258 @@
 {
-    "format_version": "1.21.70",
-    "minecraft:crafting_items_catalog": {
-        "categories": [
-            {
-                "category_name": "items",
-                "groups": [
-                    {
-                        "group_identifier": { "icon": "hp4_paint:8bit_painting", "name": "hp4_paint:paintings" },
-                        "items": [
-                            "hp4_paint:8bit_painting",
-                            "hp4_paint:alien_painting",
-                            "hp4_paint:biomes_painting",
-                            "hp4_paint:candy2_painting",
-                            "hp4_paint:candy1_painting",
-                            "hp4_paint:circus_painting",
-                            "hp4_paint:dino_painting",
-                            "hp4_paint:dino_dragons_painting",
-                            "hp4_paint:dragon_painting",
-                            "hp4_paint:egypt_painting",
-                            "hp4_paint:fantasy_painting",
-                            "hp4_paint:fog_painting",
-                            "hp4_paint:forest_painting",
-                            "hp4_paint:halloween_painting",
-                            "hp4_paint:horror_painting",
-                            "hp4_paint:kawaii_painting",
-                            "hp4_paint:magic_painting",
-                            "hp4_paint:medieval_painting",
-                            "hp4_paint:modern_painting",
-                            "hp4_paint:music_painting",
-                            "hp4_paint:nature_painting",
-                            "hp4_paint:ninja_painting",
-                            "hp4_paint:ocean_painting",
-                            "hp4_paint:pirates_painting",
-                            "hp4_paint:robot_painting",
-                            "hp4_paint:scifi_painting",
-                            "hp4_paint:snow_painting",
-                            "hp4_paint:steampunk_painting",
-                            "hp4_paint:superheroes_painting",
-                            "hp4_paint:tiny_painting",
-                            "hp4_paint:zombies_painting",
-                            "hp4_paint:animated_painting"
-                        ]
-                    }
-                ]
-            },
-            {
-                "category_name": "items",
-                "groups": [
-                    {
-                        "group_identifier": { "icon": "hp4_paint:black_modern.frame", "name": "hp4_paint:painting_frames" },
-                        "items": [
-                            "hp4_paint:black_modern.frame",
-                            "hp4_paint:burning.frame",
-                            "hp4_paint:decgold.frame",
-                            "hp4_paint:deciron.frame",
-                            "hp4_paint:diamond.frame",
-                            "hp4_paint:enchanted.frame",
-                            "hp4_paint:foliage.frame",
-                            "hp4_paint:glass.frame",
-                            "hp4_paint:glitter.frame",
-                            "hp4_paint:medieval.frame",
-                            "hp4_paint:pink.frame",
-                            "hp4_paint:white_modern.frame",
-                            "hp4_paint:wooden.frame"
-                        ]
-                    }
-                ]
-            },
-            {
-                "category_name": "items",
-                "groups": [
-                    {
-                        "group_identifier": { "icon": "hp4_paint:art_bench", "name": "hp4_paint:painting_furnitures" },
-                        "items": [
-                            "hp4_paint:cabinet",
-                            "hp4_paint:sack_of_beton",
-                            "hp4_paint:statue_painting",
-                            "hp4_paint:stool",
-                            "hp4_paint:canvas",
-                            "hp4_paint:lying_bottle_color",
-                            "hp4_paint:variant_paint_bottle",
-                            "hp4_paint:color_splash",
-                            "hp4_paint:brush_on_shelf",
-                            "hp4_paint:color_bucket",
-                            "hp4_paint:art_chair",
-                            "hp4_paint:jewellery_components",
-                            "hp4_paint:powderjar",
-                            "hp4_paint:sewing_kit",
-                            "hp4_paint:unfinished_wooden_block",
-                            "hp4_paint:stencil",
-                            "hp4_paint:soft_pastel_box",
-                            "hp4_paint:sculpture_stand",
-                            "hp4_paint:pencil_set",
-                            "hp4_paint:paint_tubes",
-                            "hp4_paint:marker_set",
-                            "hp4_paint:eraser_sharpener",
-                            "hp4_paint:drawing_tube",
-                            "hp4_paint:drafting_tools",
-                            "hp4_paint:color_swatch",
-                            "hp4_paint:brush_holder_cup",
-                            "hp4_paint:brush_cleaner_cup",
-                            "hp4_paint:artist_box",
-                            "hp4_paint:art_knives",
-                            "hp4_paint:brush_cleaner_jar",
-                            "hp4_paint:chalk_and_charcoal",
-                            "hp4_paint:spatula",
-                            "hp4_paint:tube_paint",
-                            "hp4_paint:sketchbook",
-                            "hp4_paint:brushes_set",
-                            "hp4_paint:art_bench",
-                            "hp4_paint:display_case",
-                            "hp4_paint:display_case_big",
-                            "hp4_paint:display_case_huge",
-                            "hp4_paint:display_case_tall",
-                            "hp4_paint:display_case_wide",
-                            "hp4_paint:display_case_wide2",
-                            "hp4_paint:easel_stand",
-                            "hp4_paint:large_planter",
-                            "hp4_paint:round_planter",
-                            "hp4_paint:thin_planter",
-                            "hp4_paint:vase",
-                            "hp4_paint:wide_planter",
-                            "hp4_paint:window",
-                            "hp4_paint:window_big"
-                        ]
-                    }
-                ]
-            },
-            {
-              "category_name": "items",
-              "groups": [
-                {
-                  "group_identifier": {
-                    "icon": "hp4_paint:foxglove_plant1_orange",
-                    "name": "hp4_paint:foxglove_plant"
-                  },
+  "format_version": "1.21.70",
+  "minecraft:crafting_items_catalog": {
+    "categories": [
+      {
+          "category_name": "items",
+          "groups": [
+              {
+                  "group_identifier": { "icon": "hp4_paint:8bit_painting", "name": "hp4_paint:paintings" },
                   "items": [
-                    "hp4_paint:foxglove_plant1_orange",
-                    "hp4_paint:foxglove_plant1_pink",
-                    "hp4_paint:foxglove_plant1_purple",
-                    "hp4_paint:foxglove_plant1_white",
-                    "hp4_paint:foxglove_plant2_orange",
-                    "hp4_paint:foxglove_plant2_pink",
-                    "hp4_paint:foxglove_plant2_purple",
-                    "hp4_paint:foxglove_plant2_white",
-                    "hp4_paint:foxglove_plant3_orange",
-                    "hp4_paint:foxglove_plant3_pink",
-                    "hp4_paint:foxglove_plant3_purple",
-                    "hp4_paint:foxglove_plant3_white",
-                    "hp4_paint:foxglove_plant4_orange",
-                    "hp4_paint:foxglove_plant4_pink",
-                    "hp4_paint:foxglove_plant4_purple",
-                    "hp4_paint:foxglove_plant4_white"
+                      "hp4_paint:8bit_painting",
+                      "hp4_paint:alien_painting",
+                      "hp4_paint:biomes_painting",
+                      "hp4_paint:candy2_painting",
+                      "hp4_paint:candy1_painting",
+                      "hp4_paint:circus_painting",
+                      "hp4_paint:dino_painting",
+                      "hp4_paint:dino_dragons_painting",
+                      "hp4_paint:dragon_painting",
+                      "hp4_paint:egypt_painting",
+                      "hp4_paint:fantasy_painting",
+                      "hp4_paint:fog_painting",
+                      "hp4_paint:forest_painting",
+                      "hp4_paint:halloween_painting",
+                      "hp4_paint:horror_painting",
+                      "hp4_paint:kawaii_painting",
+                      "hp4_paint:magic_painting",
+                      "hp4_paint:medieval_painting",
+                      "hp4_paint:modern_painting",
+                      "hp4_paint:music_painting",
+                      "hp4_paint:nature_painting",
+                      "hp4_paint:ninja_painting",
+                      "hp4_paint:ocean_painting",
+                      "hp4_paint:pirates_painting",
+                      "hp4_paint:robot_painting",
+                      "hp4_paint:scifi_painting",
+                      "hp4_paint:snow_painting",
+                      "hp4_paint:steampunk_painting",
+                      "hp4_paint:superheroes_painting",
+                      "hp4_paint:tiny_painting",
+                      "hp4_paint:zombies_painting",
+                      "hp4_paint:animated_painting"
                   ]
-                }
-              ]
-            },
-            {
-              "category_name": "items",
-              "groups": [
-                {
-                  "group_identifier": {
-                    "icon": "hp4_paint:grass_plant1",
-                    "name": "hp4_paint:grass_plant"
-                  },
+              }
+          ]
+      },
+      {
+          "category_name": "items",
+          "groups": [
+              {
+                  "group_identifier": { "icon": "hp4_paint:black_modern.frame", "name": "hp4_paint:painting_frames" },
                   "items": [
-                    "hp4_paint:grass_plant1",
-                    "hp4_paint:grass_plant2",
-                    "hp4_paint:grass_plant3",
-                    "hp4_paint:grass_plant4",
-                    "hp4_paint:grass_plant5",
-                    "hp4_paint:grass_plant6"
+                      "hp4_paint:black_modern.frame",
+                      "hp4_paint:burning.frame",
+                      "hp4_paint:decgold.frame",
+                      "hp4_paint:deciron.frame",
+                      "hp4_paint:diamond.frame",
+                      "hp4_paint:enchanted.frame",
+                      "hp4_paint:foliage.frame",
+                      "hp4_paint:glass.frame",
+                      "hp4_paint:glitter.frame",
+                      "hp4_paint:medieval.frame",
+                      "hp4_paint:pink.frame",
+                      "hp4_paint:white_modern.frame",
+                      "hp4_paint:wooden.frame"
                   ]
-                }
-              ]
-            },
-            {
-              "category_name": "items",
-              "groups": [
-                {
-                  "group_identifier": {
-                    "icon": "hp4_paint:rose_bush1_pink",
-                    "name": "hp4_paint:rose_bush"
-                  },
+              }
+          ]
+      },
+      {
+          "category_name": "items",
+          "groups": [
+              {
+                  "group_identifier": { "icon": "hp4_paint:art_bench", "name": "hp4_paint:painting_furnitures" },
                   "items": [
-                    "hp4_paint:rose_bush1_pink",
-                    "hp4_paint:rose_bush1_red",
-                    "hp4_paint:rose_bush1_white",
-                    "hp4_paint:rose_bush1_yellow",
-                    "hp4_paint:rose_bush2_pink",
-                    "hp4_paint:rose_bush2_red",
-                    "hp4_paint:rose_bush2_white",
-                    "hp4_paint:rose_bush2_yellow",
-                    "hp4_paint:rose_bush3_pink",
-                    "hp4_paint:rose_bush3_red",
-                    "hp4_paint:rose_bush3_white",
-                    "hp4_paint:rose_bush3_yellow"
+                      "hp4_paint:spray_can",
+                      "hp4_paint:cabinet",
+                      "hp4_paint:sack_of_beton",
+                      "hp4_paint:statue_painting",
+                      "hp4_paint:stool",
+                      "hp4_paint:canvas",
+                      "hp4_paint:lying_bottle_color",
+                      "hp4_paint:variant_paint_bottle",
+                      "hp4_paint:color_splash",
+                      "hp4_paint:brush_on_shelf",
+                      "hp4_paint:color_bucket",
+                      "hp4_paint:art_chair",
+                      "hp4_paint:jewellery_components",
+                      "hp4_paint:powderjar",
+                      "hp4_paint:sewing_kit",
+                      "hp4_paint:unfinished_wooden_block",
+                      "hp4_paint:soft_pastel_box",
+                      "hp4_paint:sculpture_stand",
+                      "hp4_paint:pencil_set",
+                      "hp4_paint:paint_tubes",
+                      "hp4_paint:marker_set",
+                      "hp4_paint:eraser_sharpener",
+                      "hp4_paint:drawing_tube",
+                      "hp4_paint:drafting_tools",
+                      "hp4_paint:color_swatch",
+                      "hp4_paint:brush_holder_cup",
+                      "hp4_paint:brush_cleaner_cup",
+                      "hp4_paint:artist_box",
+                      "hp4_paint:art_knives",
+                      "hp4_paint:brush_cleaner_jar",
+                      "hp4_paint:chalk_and_charcoal",
+                      "hp4_paint:spatula",
+                      "hp4_paint:tube_paint",
+                      "hp4_paint:sketchbook",
+                      "hp4_paint:brushes_set",
+                      "hp4_paint:art_bench",
+                      "hp4_paint:display_case",
+                      "hp4_paint:display_case_big",
+                      "hp4_paint:display_case_huge",
+                      "hp4_paint:display_case_tall",
+                      "hp4_paint:display_case_wide",
+                      "hp4_paint:display_case_wide2",
+                      "hp4_paint:easel_stand",
+                      "hp4_paint:large_planter",
+                      "hp4_paint:round_planter",
+                      "hp4_paint:thin_planter",
+                      "hp4_paint:vase",
+                      "hp4_paint:wide_planter",
+                      "hp4_paint:window",
+                      "hp4_paint:window_big"
                   ]
-                }
-              ]
+              }
+          ]
+      },
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "hp4_paint:foxglove_plant1_orange",
+              "name": "hp4_paint:foxglove_plant"
             },
-            {
-              "category_name": "items",
-              "groups": [
-                {
-                  "group_identifier": {
-                    "icon": "hp4_paint:spray_can",
-                    "name": "item.hp4_paint:spray_can"
-                  },
-                  "items": [
-                    "hp4_paint:spray_can",
-                    "hp4_paint:spray_can_black",
-                    "hp4_paint:spray_can_blue",
-                    "hp4_paint:spray_can_brown",
-                    "hp4_paint:spray_can_cyan",
-                    "hp4_paint:spray_can_gray",
-                    "hp4_paint:spray_can_green",
-                    "hp4_paint:spray_can_light_blue",
-                    "hp4_paint:spray_can_light_gray",
-                    "hp4_paint:spray_can_lime",
-                    "hp4_paint:spray_can_magenta",
-                    "hp4_paint:spray_can_orange",
-                    "hp4_paint:spray_can_pink",
-                    "hp4_paint:spray_can_purple",
-                    "hp4_paint:spray_can_red",
-                    "hp4_paint:spray_can_tool",
-                    "hp4_paint:spray_can_white",
-                    "hp4_paint:spray_can_yellow"
-                  ]
-                }
-              ]
-            }
+            "items": [
+              "hp4_paint:foxglove_plant1_orange",
+              "hp4_paint:foxglove_plant1_pink",
+              "hp4_paint:foxglove_plant1_purple",
+              "hp4_paint:foxglove_plant1_white",
+              "hp4_paint:foxglove_plant2_orange",
+              "hp4_paint:foxglove_plant2_pink",
+              "hp4_paint:foxglove_plant2_purple",
+              "hp4_paint:foxglove_plant2_white",
+              "hp4_paint:foxglove_plant3_orange",
+              "hp4_paint:foxglove_plant3_pink",
+              "hp4_paint:foxglove_plant3_purple",
+              "hp4_paint:foxglove_plant3_white",
+              "hp4_paint:foxglove_plant4_orange",
+              "hp4_paint:foxglove_plant4_pink",
+              "hp4_paint:foxglove_plant4_purple",
+              "hp4_paint:foxglove_plant4_white"
+            ]
+          }
         ]
-    }
+      },
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "hp4_paint:grass_plant1",
+              "name": "hp4_paint:grass_plant"
+            },
+            "items": [
+              "hp4_paint:grass_plant1",
+              "hp4_paint:grass_plant2",
+              "hp4_paint:grass_plant3",
+              "hp4_paint:grass_plant4",
+              "hp4_paint:grass_plant5",
+              "hp4_paint:grass_plant6"
+            ]
+          }
+        ]
+      },
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "hp4_paint:rose_bush1_pink",
+              "name": "hp4_paint:rose_bush"
+            },
+            "items": [
+              "hp4_paint:rose_bush1_pink",
+              "hp4_paint:rose_bush1_red",
+              "hp4_paint:rose_bush1_white",
+              "hp4_paint:rose_bush1_yellow",
+              "hp4_paint:rose_bush2_pink",
+              "hp4_paint:rose_bush2_red",
+              "hp4_paint:rose_bush2_white",
+              "hp4_paint:rose_bush2_yellow",
+              "hp4_paint:rose_bush3_pink",
+              "hp4_paint:rose_bush3_red",
+              "hp4_paint:rose_bush3_white",
+              "hp4_paint:rose_bush3_yellow"
+            ]
+          }
+        ]
+      },
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "hp4_paint:spray_can_black",
+              "name": "item.hp4_paint:spray_can"
+            },
+            "items": [
+              "hp4_paint:spray_can_black",
+              "hp4_paint:spray_can_blue",
+              "hp4_paint:spray_can_brown",
+              "hp4_paint:spray_can_cyan",
+              "hp4_paint:spray_can_gray",
+              "hp4_paint:spray_can_green",
+              "hp4_paint:spray_can_light_blue",
+              "hp4_paint:spray_can_light_gray",
+              "hp4_paint:spray_can_lime",
+              "hp4_paint:spray_can_magenta",
+              "hp4_paint:spray_can_orange",
+              "hp4_paint:spray_can_pink",
+              "hp4_paint:spray_can_purple",
+              "hp4_paint:spray_can_red",
+              "hp4_paint:spray_can_tool",
+              "hp4_paint:spray_can_white",
+              "hp4_paint:spray_can_yellow",
+              "hp4_paint:spray_can_brightness",
+              "hp4_paint:spray_can_darken"
+            ]
+          }
+        ]
+      },
+      {
+        "category_name": "items",
+        "groups": [
+          {
+            "group_identifier": {
+              "icon": "hp4_paint:stencil",
+              "name": "item.hp4_paint:stencil"
+            },
+            "items": [
+              "hp4_paint:stencil",
+              "hp4_paint:stencil_sword",
+              "hp4_paint:stencil_axe",
+              "hp4_paint:stencil_pickaxe",
+              "hp4_paint:stencil_shovel",
+              "hp4_paint:stencil_hoe",
+              "hp4_paint:stencil_creeper",
+              "hp4_paint:stencil_love"
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }

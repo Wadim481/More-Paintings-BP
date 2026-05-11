@@ -191,6 +191,7 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
                 arg.entity.playAnimation(`animation.hp4_paint.spawned`)
                 spawner.some(p=>{
                     const defaultColor = p.getDynamicProperty(`hp4_paint:defaultColor`)
+                    const defaultGeneralColor = p.getDynamicProperty(`hp4_paint:defaultGeneralColor`)
                     woodColorful.forEach(colorful=>{
                         const name = Array.isArray(colorful) ? colorful[0] : colorful
                         if(arg.entity.typeId.includes(name)) {
@@ -198,6 +199,18 @@ world.afterEvents.entitySpawn.subscribe(arg=>{
                                 system.runTimeout(()=>{
                                     try {
                                         arg.entity.setProperty(Array.isArray(colorful) ? colorful[1] : `hp4_paint:furniture_color`, defaultColor)
+                                    } catch (error) {}
+                                },3)
+                            } catch (error) {}
+                        }
+                    })
+                    generalColorful.forEach(generalcolorful=>{
+                        const name = Array.isArray(generalcolorful) ? generalcolorful[0] : generalcolorful
+                        if(arg.entity.typeId.includes(name)) {
+                            try {
+                                system.runTimeout(()=>{
+                                    try {
+                                        arg.entity.setProperty(Array.isArray(generalcolorful) ? generalcolorful[1] : `hp4_paint:furniture_color`, defaultGeneralColor)
                                     } catch (error) {}
                                 },3)
                             } catch (error) {}
@@ -257,6 +270,12 @@ const woodColorful = [
     [`hp4_paint:stool`, `hp4_paint:furniture_model`],
     `hp4_paint:variant_paint_bottle`
 ]
+const generalColorful = [
+    [`hp4_paint:art_chair`, `hp4_paint:furniture_color`],
+    [`hp4_paint:color_bucket`, `hp4_paint:furniture_color`],
+    [`hp4_paint:sack_of_beton`, `hp4_paint:furniture_color`],
+    [`hp4_paint:stool`, `hp4_paint:furniture_color`]
+]
 world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
     const player = arg.player;
     const item = arg.itemStack;
@@ -279,7 +298,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                         target.setDynamicProperty(`hp4_paint:babu`, null)
                                         target.setProperty(`hp4_paint:paint_installed`, false)
                                         //console.warn('remove')
-                                        player.getGameMode() != 'creative' ? entity.triggerEvent('death') : entity.remove();
+                                        if (player.getGameMode() != 'creative') {entity.triggerEvent('death')} else {entity.remove();}
                                     }
                                 }
                             })
@@ -347,7 +366,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                     text: `${width}x${height}`,
                                     image: ``,
                                     command: () => {
-                                        const delay = 0.5
+                                        const delay = 2
                                         const painting = target.dimension.spawnEntity(`hp4_paint:${jenis}_painting`, target.location);
                                         if(player.getDynamicProperty(`hp4_paint:particles`)) {
                                             main.playSound(player, `hp4_paint:display.painting_install`)
@@ -1690,7 +1709,7 @@ function getEntitySize(entity, isNext = false) {
                 blockDetect(entity, newRotation, {radius: 1, height: 1})
                 break;
             case `hp4_paint:window_big`:
-                blockDetect(entity, newRotation, {radius: 3, height: 4})
+                blockDetect(entity, newRotation, {radius: 3, height: 3})
                 break;
             //Planters
             case `hp4_paint:large_planter`:
@@ -1808,7 +1827,7 @@ function getEntityHeight(entity) {
         case `hp4_paint:wide_planter`: return 1
 
         case `hp4_paint:window`: return 1
-        case `hp4_paint:window_big`: return 4
+        case `hp4_paint:window_big`: return 3
         default:
             return 1
     }
