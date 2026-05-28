@@ -1,6 +1,5 @@
 import { system, world, EquipmentSlot, ItemStack } from "@minecraft/server";
 import { ActionFormData, FormCancelationReason } from "@minecraft/server-ui";
-import { colorPaintingData } from './color_painting_data'
 import './paintings_display'
 import './vanilla_features'
 import './settings'
@@ -8,7 +7,7 @@ import './artist_villager'
 import './spray_can_feature'
 import './brush_paint_fx'
 import './spray_can_stencil_feature'
-import './tabletIndex'
+import './tabletIndexHigh'
 //UI
 function chooseSize(player, modelAvailable, models, entity) {
     let buttonList = []
@@ -1898,13 +1897,15 @@ world.afterEvents.playerInteractWithEntity.subscribe((arg)=>{
 })
 export function gantiGambar(entity, model) {
     const color = entity.getProperty(`hp4_paint:paint_colors`)
-    const entityTypeId = entity.typeId.replace('hp4_paint:','').replace('_painting','')
-    const nilai = colorPaintingData[entityTypeId][model]
-    const min = Math.min(...nilai), max = Math.max(...nilai)
-
-    entity.setProperty(`hp4_paint:paint_colors`, 
-        color == max ? min : color + 1
-    )
+    try {
+        entity.setProperty(`hp4_paint:paint_colors`, 
+            color + 1
+        )
+    } catch (error) {
+        entity.setProperty(`hp4_paint:paint_colors`, 
+            0
+        )        
+    }
 }
 export function playSound(player, sound, vector3) {
     if(player.getDynamicProperty(`hp4_paint:sfx`)) {

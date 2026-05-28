@@ -96,6 +96,7 @@ export class TabletManager {
     });
 
     this.updateVisuals();
+    this.player.playSound(`hp4_paint:tablet_start`, { volume: 0.18, pitch: 0.9 });
 
     this.runInterval = system.runInterval(() => {
       try {
@@ -179,6 +180,7 @@ export class TabletManager {
     this.lastInputTick = currentTick;
 
     if (inputKey === "CLOSE") {
+      this.player.playSound(`hp4_paint:tablet_start`, { volume: 0.18, pitch: 0.9 });
       this.closeTablet();
     } else if (inputKey === "BACK" && this.state.focus === "categories") {
       this.transitionFocus("tabs");
@@ -200,6 +202,7 @@ export class TabletManager {
       if (this.state.pageIdx > 0) {
         this.state.pageIdx--;
         this.state.categoryIdx = 0;
+        this.player.playSound(`hp4_paint:tablet_choose`, { volume: 0.18, pitch: 0.9 })
         this.updateVisuals();
       } else {
         this.player.playSound("note.bass", { volume: 0.18, pitch: 0.9 });
@@ -208,12 +211,14 @@ export class TabletManager {
       if (this.state.pageIdx < maxPage) {
         this.state.pageIdx++;
         this.state.categoryIdx = 0;
+        this.player.playSound(`hp4_paint:tablet_choose`, { volume: 0.18, pitch: 0.9 })
         this.updateVisuals();
       } else {
         this.player.playSound("note.bass", { volume: 0.18, pitch: 0.9 });
       }
     } else if (direction === "up" && this.getCategoryCount() > 0) {
       this.transitionFocus("categories");
+      this.player.playSound(`hp4_paint:tablet_guide`, { volume: 0.18, pitch: 0.9 })
     }
   }
 
@@ -223,6 +228,7 @@ export class TabletManager {
     if (direction === "left") {
       if (this.state.categoryIdx > 0) {
         this.state.categoryIdx--;
+        this.player.playSound(`hp4_paint:tablet_choose`, { volume: 0.18, pitch: 0.9 })
         this.updateVisuals();
       } else {
         this.player.playSound("note.bass", { volume: 0.18, pitch: 0.9 });
@@ -230,6 +236,7 @@ export class TabletManager {
     } else if (direction === "right") {
       if (this.state.categoryIdx < maxCat) {
         this.state.categoryIdx++;
+        this.player.playSound(`hp4_paint:tablet_choose`, { volume: 0.18, pitch: 0.9 })
         this.updateVisuals();
       } else {
         this.player.playSound("note.bass", { volume: 0.18, pitch: 0.9 });
@@ -237,6 +244,7 @@ export class TabletManager {
     } else if (direction === "down") {
       this.state.categoryIdx = 0;
       this.transitionFocus("tabs");
+      this.player.playSound(`hp4_paint:tablet_back`, { volume: 0.18, pitch: 0.9 })
     }
   }
 

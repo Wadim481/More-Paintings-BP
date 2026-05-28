@@ -298,7 +298,9 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                         target.setDynamicProperty(`hp4_paint:babu`, null)
                                         target.setProperty(`hp4_paint:paint_installed`, false)
                                         //console.warn('remove')
-                                        if (player.getGameMode() != 'creative') {entity.triggerEvent('death')} else {entity.remove();}
+                                        try {
+                                            if (player.getGameMode() != 'creative') {entity.triggerEvent('death')} else {entity.remove();}
+                                        } catch (error) {}
                                     }
                                 }
                             })
@@ -384,9 +386,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                         painting.setProperty(`hp4_paint:displayer`, target.typeId.replace('hp4_paint:', ''));
                                         painting.setProperty(`hp4_paint:paint_models`, model.id)
                                         painting.setDynamicProperty(`hp4_paint:id`, painting.id)
-                                        const listColor = colorData.colorPaintingData[jenis][model.id]
-                                        const min = Math.min(...listColor), max = Math.max(...listColor)
-                                        painting.setProperty(`hp4_paint:paint_colors`, min);
+                                        painting.setProperty(`hp4_paint:paint_colors`, 0);
                                         target.setDynamicProperty(`hp4_paint:babu`, painting.id)
                                         player.getGameMode() != 'creative' ? player.runCommand(`clear @s hp4_paint:${jenis}_painting 0 1`) : null;
                                         system.runTimeout(()=>{

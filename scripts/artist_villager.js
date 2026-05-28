@@ -3,7 +3,7 @@ import * as main from './hp4_paint_index'
 
 //NAVIGATION SYSTEM
 const radius = 50
-const monsterRadius = 10
+const monsterRadius = 5
 const dura = 0.3
 const paintingTimer = [20, 60]
 const houseRadius = 500
@@ -103,7 +103,7 @@ mc.system.runInterval(()=>{
                 } else if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: monsterRadius}).length == 0){
                     if(entity.getDynamicProperty(`hp4_paint:isCamouflage`)) {
                         const timer = mc.system.runTimeout(()=>{
-                            if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: 30}).length > 0 || !entity.getDynamicProperty(`hp4_paint:isCamouflage`)) return
+                            if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: monsterRadius}).length > 0 || !entity.getDynamicProperty(`hp4_paint:isCamouflage`)) return
                             entity.playAnimation(`spin`)
                             entity.addEffect(`slowness`, 6*20, {amplifier:255, showParticles: false})
                             mc.system.runTimeout(()=>{
@@ -113,7 +113,7 @@ mc.system.runInterval(()=>{
                             },3*20)
                             entity.setDynamicProperty(`hp4_paint:isCamouflage`, false)
                         },5*20)
-                        if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: 30}).length > 0) {
+                        if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: monsterRadius}).length > 0) {
                             mc.system.clearRun(timer)
                         }
                     }
@@ -140,7 +140,7 @@ mc.system.runInterval(()=>{
                     entity.setDynamicProperty(`hp4_paint:is_painting`, false)
                     entity.setProperty(`hp4_paint:using_shield`, true)
                 }
-                //entity.addEffect(`invisibility`, 1*20, {showParticles: false})
+                entity.addEffect(`invisibility`, 1*20, {showParticles: false})
                 entity.addEffect(`regeneration`, 1*20, {showParticles: false})
             })
             {
@@ -180,9 +180,9 @@ mc.system.runInterval(()=>{
         } else if (getTimeOfDayForQuest() == `night`){
             //INITIATOR
             if(!entity.getDynamicProperty(`hp4_paint:night`) && !isHiding) {
+                entity.setDynamicProperty(`hp4_paint:night`, true)
                 mc.system.runTimeout(()=>{
                     entity.triggerEvent(`find_bed`)
-                    entity.setDynamicProperty(`hp4_paint:night`, true)
                 },1)
             }
             if(sleepingSpot.length > 0) {
@@ -244,6 +244,16 @@ mc.system.runInterval(()=>{
         const es = entity.getDynamicProperty(`hp4_paint:easel_stand`)
         if(entity.dimension.getEntities().filter(e=>e.id == es).length == 0) {
             entity.remove()
+        }
+    })
+    
+    mc.world.getDimension(`overworld`).getEntities().filter(e=>e.typeId == `hp4_paint:artist_villager_sleeping_spot` || e.typeId == `hp4_paint:artist_villager_hiding_spot_loc`).forEach(e=>{
+        // e.setRotation({x: 0, y: 0})
+        const cPlayers = e.dimension.getPlayers({maxDistance: 5, location: e.location}).filter(p=>p.getGameMode() == `creative`)
+        if(cPlayers.length > 0) {
+            e.setProperty(`hp4_paint:visible`, true)
+        } else {
+            e.setProperty(`hp4_paint:visible`, false)
         }
     })
 })
@@ -406,6 +416,7 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
             mc.system.runTimeout(()=>{
                 const avLoc = entity.dimension.getEntities({type:`hp4_paint:artist_villager_sleeping_spot`, location:entity.location, closest:1})[0].location
                 entity.dimension.spawnEntity(`hp4_paint:artist_villager`, avLoc)
+
             },2*20)
         } else {
             entity.remove()
@@ -478,94 +489,6 @@ function parseValue(value) {
 mc.world.afterEvents.itemUse.subscribe(arg=>{
     const player = arg.source
     const item = arg.itemStack
-    
-        if(item.typeId == 'minecraft:diamond') {
-            let num = 0
-            player.dimension.getEntities().filter(e=>(e.typeId == 'hp4_paint:window' || e.typeId == 'hp4_paint:window_big')).forEach(e=>{
-                num = num + 1
-                e.setProperty(`hp4_paint:furniture_color`,3)
-            })
-            console.warn(num)
-        }
-    player.dimension.getEntities({type:`hp4_paint:artist_villager_house2_executor`, closest:1, location: player.location}).forEach(executor=>{
-        if(item.typeId == `minecraft:iron_ingot`) {
-            console.warn(
-                `\nx: ${executor.location.x}\ny: ${executor.location.y}\nz: ${executor.location.z}`
-            )
-        }
-        if(item.typeId == `minecraft:copper_ingot`) {
-            let text = ``
-            executor.dimension.getEntities({families:[
-                `hp4_paint_furniture`
-            ], maxDistance:30, location:executor.location}).sort((a, b) => {
-  const aPainting = a.typeId.endsWith('_painting');
-  const bPainting = b.typeId.endsWith('_painting');
-
-  if (aPainting && !bPainting) return -1; // a duluan
-  if (!aPainting && bPainting) return 1;  // b duluan
-  return 0; // sama kategori
-})
-.filter(e=> e.typeId.includes(`artist_villager`))
-.forEach(furni=>{
-                furni.setDynamicProperty(`hp4_paint:id`, furni.id)
-                if(furni.typeId=='hp4_paint:window' || furni.typeId=='hp4_paint:window_big') {
-                    furni.setProperty(`hp4_paint:furniture_color`, 3)
-                }
-                //VARIABLES
-                let dp = ``
-                let prop = ``
-                {
-                    const dynamicProperties = furni.getDynamicPropertyIds()
-                    dynamicProperties.forEach(dynamicP=>{
-                        const value = parseValue(furni.getDynamicProperty(dynamicP))
-                        dp = dp + `{name:"${dynamicP}", value:${value}},`
-                    })
-                    {
-                        const properties = [
-`hp4_paint:furniture_color`,
-`hp4_paint:furniture_model`,
-`hp4_paint:statue_pose`,
-`hp4_paint:frame_type`,
-`hp4_paint:size`,
-`hp4_paint:displayer_active`,
-`hp4_paint:displayer`,
-`hp4_paint:paint_colors`,
-`hp4_paint:paint_models`,
-`hp4_paint:paint_materials`,
-`hp4_paint:paint_installed`,
-`hp4_paint:is_glowing`,
-`hp4_paint:painting_type`,
-`hp4_paint:paint_size`,
-`hp4_paint:visible`
-                        ]
-                        properties.forEach(property=>{
-                            try {
-                                if(furni.getProperty(property) != undefined) {
-                                    const value = parseValue(furni.getProperty(property))
-                                    prop = prop + `{name:"${property}", value:${value}},`
-                                }
-                            } catch (error) {}
-                        })
-                    }
-                }
-                text = text + 
-`\n{type: "${furni.typeId}",location: {x: ${furni.location.x - executor.location.x},y: ${furni.location.y - executor.location.y},z: ${furni.location.z - executor.location.z}},rotation: {x: ${furni.getRotation().x},y: ${furni.getRotation().y}},dynamicProperties: [${dp}],properties: [${prop}]},`
-            })
-            mc.system.runTimeout(()=>{
-                console.warn(text)
-            },1)
-        }
-    })
-    
-    // if(item.typeId == 'minecraft:diamond') {
-    //     const ES = player.dimension.getEntities({type:'hp4_paint:easel_stand', closest: 1, location:player.location})[0]
-    //     const frontLoc = {
-    //         x: Math.floor(ES.location.x + ES.getViewDirection().x * 1)+0.5,
-    //         y: ES.location.y,
-    //         z: Math.floor(ES.location.z + ES.getViewDirection().z * 1)+0.5
-    //     }
-    //     player.teleport(frontLoc)
-    // }
 })
 function toNearestCardinalRotation(rot) {
     // Normalisasi ke range -360 sampai 360
@@ -715,10 +638,6 @@ mc.world.afterEvents.dataDrivenEntityTrigger.subscribe(arg=>{
         //console.warn(event)
     }
 })
-
-
-
-
 
 
 

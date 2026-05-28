@@ -5,9 +5,13 @@
       "identifier": "hp4_paint:artist_villager_hiding_spot_loc",
       "is_spawnable": true,
       "is_summonable": true,
-      "is_experimental": false
+      "is_experimental": false,
+      "properties": {
+        "hp4_paint:visible": {"client_sync": true, "type": "bool", "default": false}
+      }
     },
     "components": {
+      // "minecraft:body_rotation_blocked": {},
       "minecraft:nameable": {
       },
       "minecraft:type_family": {

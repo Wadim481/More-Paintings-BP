@@ -37,5 +37,17 @@
 			"uuid": "a804623c-c5ef-4584-9b27-ce0c7cfc6177",
 			"version": [1, 0, 0]
 		}
+	],
+	"subpacks": [
+		{
+			"folder_name": "low_quality_guide",
+			"name": "Low Quality",
+			"memory_tier": 1
+		},
+		{	
+			"folder_name": "high_quality_guide",
+			"name": "High Quality",
+			"memory_tier": 2
+		}
 	]
 }

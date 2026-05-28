@@ -178,9 +178,6 @@
         "priority": 1,
         "close_door_after": true
       },
-      "minecraft:behavior.restrict_open_door": {
-        "priority": 1
-      },
       "minecraft:can_climb": {
       },
       "minecraft:jump.static": {
