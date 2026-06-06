@@ -803,7 +803,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                     }
                 })
                 mpPlants.forEach(flower=>{
-                    if(item.typeId.includes(flower)) {
+                    if(item.typeId.includes(flower) && item.typeId.startsWith('hp4_paint:')) {
                     console.warn('masuk')
                         const itemNumber = mpPlants.indexOf(flower);
                         let color = 0

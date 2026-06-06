@@ -2,26 +2,29 @@
     "format_version": "1.20.10",
     "minecraft:recipe_shaped": {
         "description": {
-            "identifier": "hp4_paint:stencil"
+            "identifier": "hp4_paint:stencil_pickaxe"
         },
         "tags": [
             "crafting_table"
         ],
         "pattern": [
             "   ",
-            "   ",
-            "aaa"
+            " a ",
+            "iii"
         ],
         "key": {
+            "i": {
+                "item": "minecraft:oak_slab"
+            },
             "a": {
-                "item": "minecraft:wooden_slab"
+                "item": "minecraft:wooden_pickaxe"
             }
         },
         "unlock": {
             "context": "AlwaysUnlocked"
         },
         "result": {
-            "item": "hp4_paint:stencil"
+            "item": "hp4_paint:stencil_pickaxe"
         }
     }
 }
