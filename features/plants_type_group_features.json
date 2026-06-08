@@ -1,0 +1,22 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "hp4_paint:plants_type_group_features"
+    },
+    "features": [
+      [
+        "hp4_paint:foxglove_group_feature",
+        1
+      ],
+      [
+        "hp4_paint:rose_bush_group_feature",
+        1
+      ],
+      [
+        "hp4_paint:grass_plant_scatter_feature",
+        1
+      ]
+    ]
+  }
+}

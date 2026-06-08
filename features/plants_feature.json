@@ -1,0 +1,19 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:single_block_feature": {
+    "description": {
+      "identifier": "hp4_paint:plants_feature"
+    },
+    "places_block": "hp4_paint:foxglove_plant1_orange",
+    "enforce_survivability_rules": true,
+    "enforce_placement_rules": true,
+    "may_attach_to": {
+      "auto_rotate": false,
+      "min_sides_must_attach": 1,
+      "south": [
+        "minecraft:grass",
+        "minecraft:dirt"
+      ]
+    }
+  }
+}

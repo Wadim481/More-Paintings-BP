@@ -239,6 +239,32 @@ mc.system.runInterval(()=>{
         } catch (error) {
             
         }
+
+        
+        const indicator = entity.dimension.getEntities({type: `hp4_paint:artist_villager_spot_indicator`}).filter(e=>entity.getDynamicProperty(`hp4_paint:indicator`) == e.id)
+        if(indicator.length == 0) {
+            const tot = entity.dimension.spawnEntity(`hp4_paint:artist_villager_spot_indicator`, entity.location)
+            entity.setDynamicProperty(`hp4_paint:indicator`, tot.id)
+            tot.setProperty(`hp4_paint:indicator_for`, `sleeping_spot`)
+            tot.teleport(
+                entity.location,
+                {rotation: { x: 0, y: 0 }}
+            )
+            // console.warn(`summoned indicator for sleeping spot`)
+        }
+    })
+    mc.world.getDimension(`overworld`).getEntities({type: `hp4_paint:artist_villager_hiding_spot_loc`}).forEach((entity)=>{
+        const indicator = entity.dimension.getEntities({type: `hp4_paint:artist_villager_spot_indicator`}).filter(e=>entity.getDynamicProperty(`hp4_paint:indicator`) == e.id)
+        if(indicator.length == 0) {
+            const tot = entity.dimension.spawnEntity(`hp4_paint:artist_villager_spot_indicator`, entity.location)
+            entity.setDynamicProperty(`hp4_paint:indicator`, tot.id)
+            tot.setProperty(`hp4_paint:indicator_for`, `hiding_spot`)
+            tot.teleport(
+                entity.location,
+                {rotation: { x: 0, y: 0 }}
+            )
+            // console.warn(`summoned indicator for hiding spot`)
+        }
     })
     mc.world.getDimension(`overworld`).getEntities({type: `hp4_paint:artist_villager_painting_spot`}).forEach((entity)=>{
         const es = entity.getDynamicProperty(`hp4_paint:easel_stand`)
@@ -247,7 +273,7 @@ mc.system.runInterval(()=>{
         }
     })
     
-    mc.world.getDimension(`overworld`).getEntities().filter(e=>e.typeId == `hp4_paint:artist_villager_sleeping_spot` || e.typeId == `hp4_paint:artist_villager_hiding_spot_loc`).forEach(e=>{
+    mc.world.getDimension(`overworld`).getEntities().filter(e=>e.typeId == `hp4_paint:artist_villager_spot_indicator`).forEach(e=>{
         // e.setRotation({x: 0, y: 0})
         const cPlayers = e.dimension.getPlayers({maxDistance: 5, location: e.location}).filter(p=>p.getGameMode() == `creative`)
         if(cPlayers.length > 0) {

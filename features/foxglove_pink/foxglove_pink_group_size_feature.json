@@ -1,0 +1,26 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "hp4_paint:foxglove_pink_group_size_feature"
+    },
+    "features": [
+      [
+        "hp4_paint:foxglove_pink1_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_pink2_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_pink3_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_pink4_feature",
+        1
+      ]
+    ]
+  }
+}

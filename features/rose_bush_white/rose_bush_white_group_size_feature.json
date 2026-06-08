@@ -1,0 +1,22 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "hp4_paint:rose_bush_white_group_size_feature"
+    },
+    "features": [
+      [
+        "hp4_paint:rose_bush_white1_feature",
+        1
+      ],
+      [
+        "hp4_paint:rose_bush_white2_feature",
+        1
+      ],
+      [
+        "hp4_paint:rose_bush_white3_feature",
+        1
+      ]
+    ]
+  }
+}

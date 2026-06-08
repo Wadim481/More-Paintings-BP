@@ -1,0 +1,26 @@
+{
+  "format_version": "1.13.0",
+  "minecraft:weighted_random_feature": {
+    "description": {
+      "identifier": "hp4_paint:foxglove_purple_group_size_feature"
+    },
+    "features": [
+      [
+        "hp4_paint:foxglove_purple1_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_purple2_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_purple3_feature",
+        1
+      ],
+      [
+        "hp4_paint:foxglove_purple4_feature",
+        1
+      ]
+    ]
+  }
+}
