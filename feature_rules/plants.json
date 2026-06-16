@@ -20,7 +20,7 @@
       ]
     },
     "distribution": {
-      "iterations": "v.h0 = query.heightmap(v.originx, v.originz);v.h1 = query.heightmap(v.originx+8, v.originz);v.h2 = query.heightmap(v.originx-8, v.originz);v.h3 = query.heightmap(v.originx, v.originz+8);v.h4 = query.heightmap(v.originx, v.originz-8);v.minH = math.min(math.min(math.min(math.min(v.h0, v.h1), v.h2), v.h3), v.h4);v.maxH = math.max(math.max(math.max(math.max(v.h0, v.h1), v.h2), v.h3), v.h4);v.flat = (v.maxH - v.minH) <= 2;v.aboveSea = v.h0 >= 65;return (v.flat && v.aboveSea) ? 1 : 0;",
+      "iterations": "v.h0 = query.heightmap(v.originx, v.originz);v.h1 = query.heightmap(v.originx+20, v.originz);v.h2 = query.heightmap(v.originx-20, v.originz);v.h3 = query.heightmap(v.originx, v.originz+20);v.h4 = query.heightmap(v.originx, v.originz-20);v.minH = math.min(math.min(math.min(math.min(v.h0, v.h1), v.h2), v.h3), v.h4);v.maxH = math.max(math.max(math.max(math.max(v.h0, v.h1), v.h2), v.h3), v.h4);v.flat = (v.maxH - v.minH) <= 2;v.aboveSea = v.h0 >= 65;return (v.flat && v.aboveSea) ? 1 : 0;",
       "x": 0,
       "y": "v.t=query.heightmap((v.originx??0), (v.originz??0)); return v.t<65?-999:v.t;",
       "z": 0

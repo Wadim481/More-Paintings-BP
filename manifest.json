@@ -8,6 +8,7 @@
 		"description": "pack.description",
 		"min_engine_version": [1, 21, 0],
 		"uuid": "e0842488-86c1-47fa-be07-bf13d1f715b8",
+		"pack_scope": "world",
 		"version": [1, 0, 0]
 	},
 	"modules": [

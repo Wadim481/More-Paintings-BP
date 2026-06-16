@@ -2,7 +2,7 @@
   "format_version": "1.21.80",
   "minecraft:block": {
     "description": {
-      "identifier": "hp4_paint:rose_bush1_red",
+      "identifier": "hp4_paint:rose_bush1_pink",
       "menu_category": {
         "category": "none"
       },
@@ -16,9 +16,9 @@
     },
     "components": {
       "minecraft:destruction_particles": {
-        "texture": "hp4_paint.p_rose_bush_red"
+        "texture": "hp4_paint.p_rose_bush_pink"
       },
-      "minecraft:loot": "loot_tables/hp/mp/plants2/rose_bush1_red.json",
+      "minecraft:loot": "loot_tables/hp/mp/plants2/rose_bush1_pink.json",
       "minecraft:placement_filter": {
         "conditions": [
           {
@@ -65,7 +65,7 @@
       "minecraft:geometry": "geometry.hp4_paint.rose_bush1",
       "minecraft:material_instances": {
         "*": {
-          "texture": "hp4_paint.rose_bush_red",
+          "texture": "hp4_paint.rose_bush_pink",
           "render_method": "alpha_test",
           "face_dimming": false,
           "ambient_occlusion": false

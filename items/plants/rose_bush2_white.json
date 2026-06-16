@@ -15,7 +15,7 @@
         "block": "hp4_paint:rose_bush2_white",
         "use_on": [
           "dirt",
-          "grass",
+          "grass_block",
           "moss_block",
           "podzol"
         ]

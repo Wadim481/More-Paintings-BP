@@ -305,8 +305,8 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                                 }
                             })
                         }
-                        //contol.warn(jenis)
-                        //contol.warn('interact dengan painting')
+                        //console.warn(jenis)
+                        //console.warn('interact dengan painting')
                         let buttonList = []
                         {
                             const gambar = {
@@ -429,8 +429,8 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         }
                     })
                 }
-                //contol.warn(jenis)
-                //contol.warn('interact dengan painting')
+                //console.warn(jenis)
+                //console.warn('interact dengan painting')
                 let buttonList = []
                 {
                     const gambar = {
@@ -2257,7 +2257,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
                 player.getGameMode() != 'creative' ? entity.runCommand(`give @s ${entity.typeId}`) : null;
             })
             entity.remove()
-        //contol.warn(`not enough space for the display!`)
+        //console.warn(`not enough space for the display!`)
     } else {
         entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
             main.playSound(player, `dig.wood`)

@@ -7,7 +7,7 @@ const dyeColorMap = {
     'minecraft:light_gray_dye': { concrete: 'minecraft:light_gray_concrete_powder', concreteBlock: 'minecraft:light_gray_concrete', wool: 'minecraft:light_gray_wool', sheepColor: 8,  item: 'hp4_paint:spray_can_light_gray', icon: 'textures/hp/mp/items/spray_can_lightgray', displayName: '§7Light Gray' },
     'minecraft:gray_dye':       { concrete: 'minecraft:gray_concrete_powder',       concreteBlock: 'minecraft:gray_concrete',       wool: 'minecraft:gray_wool',       sheepColor: 7,  item: 'hp4_paint:spray_can_gray',       icon: 'textures/hp/mp/items/spray_can_gray',      displayName: '§8Gray' },
     'minecraft:black_dye':      { concrete: 'minecraft:black_concrete_powder',      concreteBlock: 'minecraft:black_concrete',      wool: 'minecraft:black_wool',      sheepColor: 15, item: 'hp4_paint:spray_can_black',      icon: 'textures/hp/mp/items/spray_can_black',     displayName: '§0Black' },
-    'minecraft:brown_dye':      { concrete: 'minecraft:brown_concrete_powder',      concreteBlock: 'minecraft:brown_concrete',      wool: 'minecraft:brown_wool',      sheepColor: 12, item: 'hp4_paint:spray_can_brown',      icon: 'textures/hp/mp/items/spray_can_brown',     displayName: '§6Brown' },
+    'minecraft:brown_dye':      { concrete: 'minecraft:brown_concrete_powder',      concreteBlock: 'minecraft:brown_concrete',      wool: 'minecraft:brown_wool',      sheepColor: 12, item: 'hp4_paint:spray_can_brown',      icon: 'textures/hp/mp/items/spray_can_brown',     displayName: '§jBrown' },
     'minecraft:red_dye':        { concrete: 'minecraft:red_concrete_powder',        concreteBlock: 'minecraft:red_concrete',        wool: 'minecraft:red_wool',        sheepColor: 14, item: 'hp4_paint:spray_can_red',        icon: 'textures/hp/mp/items/spray_can_red',       displayName: '§cRed' },
     'minecraft:orange_dye':     { concrete: 'minecraft:orange_concrete_powder',     concreteBlock: 'minecraft:orange_concrete',     wool: 'minecraft:orange_wool',     sheepColor: 1,  item: 'hp4_paint:spray_can_orange',     icon: 'textures/hp/mp/items/spray_can_orange',    displayName: '§6Orange' },
     'minecraft:yellow_dye':     { concrete: 'minecraft:yellow_concrete_powder',     concreteBlock: 'minecraft:yellow_concrete',     wool: 'minecraft:yellow_wool',     sheepColor: 4,  item: 'hp4_paint:spray_can_yellow',     icon: 'textures/hp/mp/items/spray_can_yellow',    displayName: '§eYellow' },
@@ -840,9 +840,9 @@ function openColorPageUI(player, sprayCanSlot) {
     // Brightness: tampilkan di creative selalu, di survival hanya jika punya glowstone
     if (isCreative || hasGlowDust) {
         const dustLabel = isCreative ? '∞' : `${dustCount}x`;
-        colorForm.button(`§e§lBrighten§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_white');
+        colorForm.button(`§e§lBrighten§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_brightness');
         entries.push({ type: 'brightness', direction: 'brighter' });
-        colorForm.button(`§8§lDarken§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_black');
+        colorForm.button(`§8§lDarken§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_darken');
         entries.push({ type: 'brightness', direction: 'darker' });
     }
 
@@ -966,8 +966,7 @@ function openSpraySettingsUI(player) {
     const triggerOptions = [
         'Right-click Spray Table',
         'Right-click Crafting Table',
-        'Sneak + Right-click',
-        'Left-click',
+        'Sneak + Right-click'
     ];
     const triggerKeys  = ['spray_table', 'crafting_table', 'sneak_use', 'left_click'];
     const triggerIndex = Math.max(0, triggerKeys.indexOf(currentTrigger));
@@ -978,10 +977,10 @@ function openSpraySettingsUI(player) {
         .toggle('§7Particles', settings.particles_enabled)
         .toggle('§7Sound Effect', settings.sound_enabled)
         .toggle('§7Spray to Sheep', settings.spray_to_sheep)
-        .toggle('§7SpraySand', blockFilter.sand)
-        .toggle('§7SprayConcrete Powder', blockFilter.concrete_powder)
-        .toggle('§7SprayConcrete Block', blockFilter.concrete_block)
-        .toggle('§7SprayWool', blockFilter.wool)
+        .toggle('§7Spray Sand', blockFilter.sand)
+        .toggle('§7Spray Concrete Powder', blockFilter.concrete_powder)
+        .toggle('§7Spray Concrete Block', blockFilter.concrete_block)
+        .toggle('§7Spray Wool', blockFilter.wool)
         .dropdown('§7Open UI with:', triggerOptions, triggerIndex);
 
     form.show(player).then(response => {
@@ -1101,8 +1100,7 @@ function openTriggerSettingsUI(player) {
     const options  = [
         'Right-click Spray Table',
         'Right-click Crafting Table',
-        'Sneak + Right-click',
-        'Left-click',
+        'Sneak + Right-click'
     ];
     const keys     = ['spray_table', 'crafting_table', 'sneak_use', 'left_click'];
     const curIndex = Math.max(0, keys.indexOf(current));
@@ -1110,8 +1108,7 @@ function openTriggerSettingsUI(player) {
     const descriptions = [
         '§7Open the UI by right-clicking the Spray Table entity while holding a spray can.',
         '§7Open the UI by right-clicking a Crafting Table while holding a spray can.',
-        '§7Open the UI by Sneaking + right-clicking while holding a spray can.',
-        '§7Open the UI by left-clicking (attack) a block while holding a spray can.',
+        '§7Open the UI by Sneaking + right-clicking while holding a spray can.'
     ];
 
     new ui.ModalFormData()

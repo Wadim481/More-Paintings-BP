@@ -438,7 +438,7 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
             const randomHouse = houses[Math.floor(Math.random() * houses.length)]
             const randomDirection = direction[Math.floor(Math.random() * direction.length)]
 
-            entity.runCommand(`structure load "mystructure:hp/more_paintings/${randomHouse}" ~-13~-3~-13 ${randomDirection}`)
+            entity.runCommand(`structure load "mystructure:hp_games/more_paintings/${randomHouse}" ~-13~-3~-13 ${randomDirection}`)
             mc.system.runTimeout(()=>{
                 const avLoc = entity.dimension.getEntities({type:`hp4_paint:artist_villager_sleeping_spot`, location:entity.location, closest:1})[0].location
                 entity.dimension.spawnEntity(`hp4_paint:artist_villager`, avLoc)

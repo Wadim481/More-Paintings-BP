@@ -15,7 +15,7 @@
         "block": "hp4_paint:foxglove_plant3_white",
         "use_on": [
           "dirt",
-          "grass",
+          "grass_block",
           "moss_block",
           "podzol"
         ]
