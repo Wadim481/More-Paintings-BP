@@ -78,6 +78,7 @@ mc.system.runInterval(()=>{
                         entity.setDynamicProperty(`hp4_paint:is_painting`, true)
                         //entity.playAnimation(`animation.hp4_paint.artist_villager.painting`)
                         entity.setDynamicProperty(`hp4_paint:lookingForSpot`, false)
+                        entity.runCommand(`playsound hp4_paint:art_v.sing @a ~~~`)
 
                     } else if(entity.getDynamicProperty(`hp4_paint:is_painting`) && entity.getDynamicProperty(`hp4_paint:paintingTimer`) <= 0 && !entity.getDynamicProperty(`hp4_paint:lookingForSpot`)){
                         //console.warn('looking for spot2')
@@ -123,6 +124,7 @@ mc.system.runInterval(()=>{
                 if(paintingSpot.length == 0 && (entity.getProperty(`hp4_paint:is_painting`)||entity.getDynamicProperty(`hp4_paint:is_painting`))){
                     entity.setProperty(`hp4_paint:is_painting`, false)
                     entity.setDynamicProperty(`hp4_paint:is_painting`, false)
+                    entity.runCommand(`stopsound @a[r=10] hp4_paint:art_v.sing`)
 
                     if(!entity.getDynamicProperty(`hp4_paint:night`) && !entity.getDynamicProperty(`hp4_paint:isHiding`)) {
                         entity.triggerEvent(`go_painting`)
