@@ -41,7 +41,7 @@
                 ],
                 "interact_text": "Sit",
                 "seats": {
-                    "position": [ 0.0, 1.1, -0.2 ]
+                    "position": [0, 0.4, 0]
                 }
             },
             "minecraft:type_family": {
@@ -57,11 +57,38 @@
                                         "test": "is_family",
                                         "subject": "other",
                                         "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "subject": "other",
+                                        "domain": "hand",
+                                        "value": "hp4_paint:special_tool"
                                     }
                                 ]
                             }
                         },
                         "interact_text": "Change model",
+                        "hurt_item": 1
+                    },
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "subject": "other",
+                                        "domain": "hand",
+                                        "value": "hp4_paint:brush"
+                                    }
+                                ]
+                            }
+                        },
+                        "interact_text": "Change color",
                         "hurt_item": 1
                     }
                 ]

@@ -552,7 +552,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(arg=>{
                         if(entity.getProperty(`hp4_paint:paint_materials`)) {
                             entity.setProperty(`hp4_paint:paint_materials`, false);
                             main.playSound(player, `mob.sheep.shear`)
-                            player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${frontTarget.x} ${frontTarget.y} ${frontTarget.z} loot "heropixels/more_paintings/glow_ink_sac"`) : null;
+                            player.getGameMode() != 'creative' ? entity.runCommand(`loot spawn ${frontTarget.x} ${frontTarget.y} ${frontTarget.z} loot "hp/mp/glow_ink_sac"`) : null;
                         }
                     }
                 })
@@ -1376,7 +1376,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                             gamemode != 'creative' ? (paint.runCommand(`give @p ${paint.typeId}`), paint.remove()) : paint.remove();
                             entity.setProperty(`hp4_paint:paint_installed`, false)
                         } else {
-                            player.getGameMode() != 'creative' ? paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/frames/${paint.getProperty('hp4_paint:frame_type')}"`) : null;
+                            player.getGameMode() != 'creative' ? paint.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "hp/mp/frames/${paint.getProperty('hp4_paint:frame_type')}"`) : null;
                             paint.setProperty('hp4_paint:frame_type', 'none')
                         }
                     }
@@ -1384,7 +1384,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
             })
             console.warn(cancelRemove)
             if(!cancelRemove) {
-                gamemode != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
+                gamemode != 'creative' ? player.runCommand(`give @s ${entity.typeId}`) : null;
                 resetCollision(entity, true, false, false)
                 system.runTimeout(()=>{
                     entity.remove()
@@ -1394,7 +1394,7 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
         if(entity.typeId.includes(`planter`) || entity.typeId.includes(`vase`)){
             if(slot0 == undefined && slot1 == undefined && slot2 == undefined && slot3 == undefined && slot4 == undefined)  {
                 try {
-                    player.getGameMode() != 'creative' ? entity.runCommand(`give @p ${entity.typeId}`) : null;
+                    player.getGameMode() != 'creative' ? player.runCommand(`give @s ${entity.typeId}`) : null;
                     resetCollision(entity, true, false, false)
                     entity.triggerEvent(`death`)
                     system.runTimeout(()=>{
@@ -1410,11 +1410,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     //slot0
                     if(plant.getDynamicProperty(`hp4_paint:id`) == slot0) {
                         if (plant.typeId == 'hp4_paint:plants_holder') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         } else if (plant.typeId == 'hp4_paint:plants_holder_mp') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/custom_flower/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants2/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
                         }
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot0`, undefined)
@@ -1425,11 +1425,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     //slot1
                     if(plant.getDynamicProperty(`hp4_paint:id`) == slot1) {
                         if (plant.typeId == 'hp4_paint:plants_holder') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         } else if (plant.typeId == 'hp4_paint:plants_holder_mp') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/custom_flower/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants2/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
                         }
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot1`, undefined)
@@ -1440,11 +1440,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     //slot2
                     if(plant.getDynamicProperty(`hp4_paint:id`) == slot2) {
                         if (plant.typeId == 'hp4_paint:plants_holder') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         } else if (plant.typeId == 'hp4_paint:plants_holder_mp') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/custom_flower/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants2/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
                         }
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot2`, undefined)
@@ -1455,11 +1455,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     //slot3
                     if(plant.getDynamicProperty(`hp4_paint:id`) == slot3) {
                         if (plant.typeId == 'hp4_paint:plants_holder') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         } else if (plant.typeId == 'hp4_paint:plants_holder_mp') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/custom_flower/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants2/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
                         }
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot3`, undefined)
@@ -1470,11 +1470,11 @@ world.afterEvents.entityHitEntity.subscribe((arg)=>{
                     //slot4
                     if(plant.getDynamicProperty(`hp4_paint:id`) == slot4) {
                         if (plant.typeId == 'hp4_paint:plants_holder') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
-                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "heropixels/more_paintings/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? flowers[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${flowers[plant.getProperty('hp4_paint:flower')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:double_plant') >= 0 ? doublePlants[plant.getProperty('hp4_paint:double_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${doublePlants[plant.getProperty('hp4_paint:double_plant')]}"`) : null : null : null
+                            plant.getProperty('hp4_paint:custom_plant') >= 0 ? customPlants[plant.getProperty('hp4_paint:custom_plant')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y + 1} ${targetFront.z}  loot "hp/mp/plants/${customPlants[plant.getProperty('hp4_paint:custom_plant')]}"`) : null : null : null
                         } else if (plant.typeId == 'hp4_paint:plants_holder_mp') {
-                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "heropixels/more_paintings/plants/custom_flower/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
+                            plant.getProperty('hp4_paint:flower') >= 0 ? mpPlants[plant.getProperty('hp4_paint:flower')] ? player.getGameMode() != 'creative' ? plant.runCommand(`loot spawn ${targetFront.x} ${targetFront.y} ${targetFront.z}  loot "hp/mp/plants2/${mpPlants[plant.getProperty('hp4_paint:flower')]}${plant.getProperty(`hp4_paint:variant`)+1}${getColor(plant.getProperty('hp4_paint:flower'), plant.getProperty('hp4_paint:color'))}"`) : null : null : null
                         }
                         plant.remove()
                         entity.setDynamicProperty(`hp4_paint:slot4`, undefined)
@@ -2254,7 +2254,7 @@ function blockDetect(entity, rot, requiredSpace, isRound) {
             entity.dimension.getPlayers({closest:1,location:entity.location}).forEach(player=>{
                 main.playSound(player, `note.bass`)
                 player.runCommand(`title @s actionbar §cNot enough space!`)
-                player.getGameMode() != 'creative' ? entity.runCommand(`give @s ${entity.typeId}`) : null;
+                player.getGameMode() != 'creative' ? player.runCommand(`give @s ${entity.typeId}`) : null;
             })
             entity.remove()
         //console.warn(`not enough space for the display!`)

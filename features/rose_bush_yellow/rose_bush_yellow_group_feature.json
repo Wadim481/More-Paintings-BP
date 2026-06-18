@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hp4_paint:rose_bush_yellow_group_feature"
     },
-    "iterations": 1,
+    "iterations": 6,
     "x": {
       "distribution": "triangle",
       "extent": [ -6, 6 ]
