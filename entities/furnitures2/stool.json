@@ -41,7 +41,7 @@
                 ],
                 "interact_text": "Sit",
                 "seats": {
-                    "position": [0, 0.4, -0.3]
+                    "position": [0, 0.4, 0]
                 }
             },
             "minecraft:type_family": {

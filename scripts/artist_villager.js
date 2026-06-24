@@ -93,6 +93,8 @@ mc.system.runInterval(()=>{
                 if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: monsterRadius}).length > 0){
                     if(!entity.getDynamicProperty(`hp4_paint:isCamouflage`)) {
                         entity.playAnimation(`spin`)
+                        entity.addEffect(`slowness`, 6*20, {amplifier:255, showParticles: false})
+                        entity.addEffect(`resistance`, 6*20, {amplifier:255, showParticles: false})
                         mc.system.runTimeout(()=>{
                             //console.warn('camouflage on')
                             entity.setProperty(`hp4_paint:camouflage`, true)
@@ -107,10 +109,11 @@ mc.system.runInterval(()=>{
                             if(entity.dimension.getEntities({families:[`monster`], location: entity.location, maxDistance: monsterRadius}).length > 0 || !entity.getDynamicProperty(`hp4_paint:isCamouflage`)) return
                             entity.playAnimation(`spin`)
                             entity.addEffect(`slowness`, 6*20, {amplifier:255, showParticles: false})
+                            entity.addEffect(`resistance`, 6*20, {amplifier:255, showParticles: false})
                             mc.system.runTimeout(()=>{
                                 //console.warn('camouflage off')
                                 entity.setProperty(`hp4_paint:camouflage`, false)
-                                entity.triggerEvent(`go_painting`)
+                                !entity.getDynamicProperty(`hp4_paint:isHiding`) ? entity.triggerEvent(`go_painting`) : null
                             },3*20)
                             entity.setDynamicProperty(`hp4_paint:isCamouflage`, false)
                         },5*20)
@@ -442,7 +445,7 @@ mc.world.afterEvents.entitySpawn.subscribe(arg=>{
 
             entity.runCommand(`structure load "mystructure:hp_games/more_paintings/${randomHouse}" ~-13~-3~-13 ${randomDirection}`)
             mc.system.runTimeout(()=>{
-                const avLoc = entity.dimension.getEntities({type:`hp4_paint:artist_villager_sleeping_spot`, location:entity.location, closest:1})[0].location
+                const avLoc = entity.dimension.getEntities({type:`hp4_paint:artist_villager_sleeping_spot`, location:entity.location, closest:1, maxDistance: 100})[0].location
                 entity.dimension.spawnEntity(`hp4_paint:artist_villager`, avLoc)
 
             },2*20)

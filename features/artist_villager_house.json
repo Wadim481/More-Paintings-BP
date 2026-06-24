@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hp4_paint:artist_villager_house"
     },
-    "iterations": 6,
+    "iterations": 20,
     "places_feature": "hp4_paint:artist_villager_house_feature",
     "x": 0,
     "z": 0,

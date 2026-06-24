@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hp4_paint:grass_plant_scatter_feature"
     },
-    "iterations": 6,
+    "iterations": 20,
     "x": {
       "distribution": "triangle",
       "extent": [ -6, 6 ]

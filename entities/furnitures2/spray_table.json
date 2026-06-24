@@ -37,38 +37,11 @@
                                         "test": "is_family",
                                         "subject": "other",
                                         "value": "player"
-                                    },
-                                    {
-                                        "test": "has_equipment",
-                                        "subject": "other",
-                                        "domain": "hand",
-                                        "value": "hp4_paint:special_tool"
                                     }
                                 ]
                             }
                         },
-                        "interact_text": "Change model",
-                        "hurt_item": 1
-                    },
-                    {
-                        "on_interact": {
-                            "filters": {
-                                "all_of": [
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "player"
-                                    },
-                                    {
-                                        "test": "has_equipment",
-                                        "subject": "other",
-                                        "domain": "hand",
-                                        "value": "hp4_paint:brush"
-                                    }
-                                ]
-                            }
-                        },
-                        "interact_text": "Change color",
+                        "interact_text": "Open Setting",
                         "hurt_item": 1
                     }
                 ]

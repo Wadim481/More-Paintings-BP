@@ -10,7 +10,7 @@
     "may_attach_to": {
       "auto_rotate": false,
       "min_sides_must_attach": 1,
-      "south": [
+      "bottom": [
         "minecraft:grass",
         "minecraft:dirt"
       ]

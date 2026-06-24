@@ -118,12 +118,23 @@
         },
         "minecraft:body_rotation_blocked": {},
         "minecraft:damage_sensor": {
-            "triggers": [
-                {
-                    "cause": "all",
-                    "deals_damage": false
+          "triggers": [
+            {
+              "cause": "entity_attack",
+              "deals_damage": false,
+              "on_damage": {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "damager",
+                  "value": "player"
                 }
-            ]
+              }
+            },
+            {
+              "cause": "all",
+              "deals_damage": true
+            }
+          ]
         }
       },
       "despawn": {

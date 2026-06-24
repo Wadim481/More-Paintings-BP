@@ -840,9 +840,9 @@ function openColorPageUI(player, sprayCanSlot) {
     // Brightness: tampilkan di creative selalu, di survival hanya jika punya glowstone
     if (isCreative || hasGlowDust) {
         const dustLabel = isCreative ? '∞' : `${dustCount}x`;
-        colorForm.button(`§e§lBrighten§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_brightness');
+        colorForm.button(`§e§lBrighten§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_white');
         entries.push({ type: 'brightness', direction: 'brighter' });
-        colorForm.button(`§8§lDarken§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_darken');
+        colorForm.button(`§8§lDarken§r §0§o(${dustLabel})`, 'textures/hp/mp/items/spray_can_black');
         entries.push({ type: 'brightness', direction: 'darker' });
     }
 
@@ -968,7 +968,7 @@ function openSpraySettingsUI(player) {
         'Right-click Crafting Table',
         'Sneak + Right-click'
     ];
-    const triggerKeys  = ['spray_table', 'crafting_table', 'sneak_use', 'left_click'];
+    const triggerKeys  = ['spray_table', 'crafting_table', 'sneak_use'];
     const triggerIndex = Math.max(0, triggerKeys.indexOf(currentTrigger));
 
     const form = new ui.ModalFormData()
@@ -1463,6 +1463,7 @@ mc.world.afterEvents.playerInteractWithEntity.subscribe(arg => {
 
     if (target.typeId !== 'hp4_paint:spray_table') return;
 
+    console.warn('masuk')
     const inv = player.getComponent('minecraft:inventory').container;
     const selectedSlot = player.selectedSlotIndex;
     const item = inv.getItem(selectedSlot);

@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hp4_paint:foxglove_orange_group_feature"
     },
-    "iterations": 6,
+    "iterations": 20,
     "x": {
       "distribution": "triangle",
       "extent": [ -6, 6 ]
